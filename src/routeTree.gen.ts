@@ -9,8 +9,68 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SurveyRecruitmentRouteImport } from './routes/survey-recruitment'
+import { Route as RequestHelpRouteImport } from './routes/request-help'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as BecomeHelperRouteImport } from './routes/become-helper'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AcademicIntegrityRouteImport } from './routes/academic-integrity'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SurveyRecruitmentRoute = SurveyRecruitmentRouteImport.update({
+  id: '/survey-recruitment',
+  path: '/survey-recruitment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestHelpRoute = RequestHelpRouteImport.update({
+  id: '/request-help',
+  path: '/request-help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BecomeHelperRoute = BecomeHelperRouteImport.update({
+  id: '/become-helper',
+  path: '/become-helper',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademicIntegrityRoute = AcademicIntegrityRouteImport.update({
+  id: '/academic-integrity',
+  path: '/academic-integrity',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +79,172 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/academic-integrity': typeof AcademicIntegrityRoute
+  '/admin': typeof AdminRoute
+  '/become-helper': typeof BecomeHelperRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
+  '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
+  '/request-help': typeof RequestHelpRoute
+  '/survey-recruitment': typeof SurveyRecruitmentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/academic-integrity': typeof AcademicIntegrityRoute
+  '/admin': typeof AdminRoute
+  '/become-helper': typeof BecomeHelperRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
+  '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
+  '/request-help': typeof RequestHelpRoute
+  '/survey-recruitment': typeof SurveyRecruitmentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/academic-integrity': typeof AcademicIntegrityRoute
+  '/admin': typeof AdminRoute
+  '/become-helper': typeof BecomeHelperRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
+  '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
+  '/request-help': typeof RequestHelpRoute
+  '/survey-recruitment': typeof SurveyRecruitmentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/academic-integrity'
+    | '/admin'
+    | '/become-helper'
+    | '/dashboard'
+    | '/login'
+    | '/messages'
+    | '/pricing'
+    | '/register'
+    | '/request-help'
+    | '/survey-recruitment'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/academic-integrity'
+    | '/admin'
+    | '/become-helper'
+    | '/dashboard'
+    | '/login'
+    | '/messages'
+    | '/pricing'
+    | '/register'
+    | '/request-help'
+    | '/survey-recruitment'
+  id:
+    | '__root__'
+    | '/'
+    | '/academic-integrity'
+    | '/admin'
+    | '/become-helper'
+    | '/dashboard'
+    | '/login'
+    | '/messages'
+    | '/pricing'
+    | '/register'
+    | '/request-help'
+    | '/survey-recruitment'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcademicIntegrityRoute: typeof AcademicIntegrityRoute
+  AdminRoute: typeof AdminRoute
+  BecomeHelperRoute: typeof BecomeHelperRoute
+  DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
+  MessagesRoute: typeof MessagesRoute
+  PricingRoute: typeof PricingRoute
+  RegisterRoute: typeof RegisterRoute
+  RequestHelpRoute: typeof RequestHelpRoute
+  SurveyRecruitmentRoute: typeof SurveyRecruitmentRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/survey-recruitment': {
+      id: '/survey-recruitment'
+      path: '/survey-recruitment'
+      fullPath: '/survey-recruitment'
+      preLoaderRoute: typeof SurveyRecruitmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-help': {
+      id: '/request-help'
+      path: '/request-help'
+      fullPath: '/request-help'
+      preLoaderRoute: typeof RequestHelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/become-helper': {
+      id: '/become-helper'
+      path: '/become-helper'
+      fullPath: '/become-helper'
+      preLoaderRoute: typeof BecomeHelperRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academic-integrity': {
+      id: '/academic-integrity'
+      path: '/academic-integrity'
+      fullPath: '/academic-integrity'
+      preLoaderRoute: typeof AcademicIntegrityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +257,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcademicIntegrityRoute: AcademicIntegrityRoute,
+  AdminRoute: AdminRoute,
+  BecomeHelperRoute: BecomeHelperRoute,
+  DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
+  MessagesRoute: MessagesRoute,
+  PricingRoute: PricingRoute,
+  RegisterRoute: RegisterRoute,
+  RequestHelpRoute: RequestHelpRoute,
+  SurveyRecruitmentRoute: SurveyRecruitmentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
