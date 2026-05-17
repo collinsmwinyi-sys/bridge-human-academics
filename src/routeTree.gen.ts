@@ -17,6 +17,7 @@ import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BecomeHelperRouteImport } from './routes/become-helper'
+import { Route as AiWritingCheckRouteImport } from './routes/ai-writing-check'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AcademicIntegrityRouteImport } from './routes/academic-integrity'
 import { Route as IndexRouteImport } from './routes/index'
@@ -61,6 +62,11 @@ const BecomeHelperRoute = BecomeHelperRouteImport.update({
   path: '/become-helper',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiWritingCheckRoute = AiWritingCheckRouteImport.update({
+  id: '/ai-writing-check',
+  path: '/ai-writing-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/academic-integrity': typeof AcademicIntegrityRoute
   '/admin': typeof AdminRoute
+  '/ai-writing-check': typeof AiWritingCheckRoute
   '/become-helper': typeof BecomeHelperRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/academic-integrity': typeof AcademicIntegrityRoute
   '/admin': typeof AdminRoute
+  '/ai-writing-check': typeof AiWritingCheckRoute
   '/become-helper': typeof BecomeHelperRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/academic-integrity': typeof AcademicIntegrityRoute
   '/admin': typeof AdminRoute
+  '/ai-writing-check': typeof AiWritingCheckRoute
   '/become-helper': typeof BecomeHelperRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/'
     | '/academic-integrity'
     | '/admin'
+    | '/ai-writing-check'
     | '/become-helper'
     | '/dashboard'
     | '/login'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/'
     | '/academic-integrity'
     | '/admin'
+    | '/ai-writing-check'
     | '/become-helper'
     | '/dashboard'
     | '/login'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/'
     | '/academic-integrity'
     | '/admin'
+    | '/ai-writing-check'
     | '/become-helper'
     | '/dashboard'
     | '/login'
@@ -163,6 +175,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcademicIntegrityRoute: typeof AcademicIntegrityRoute
   AdminRoute: typeof AdminRoute
+  AiWritingCheckRoute: typeof AiWritingCheckRoute
   BecomeHelperRoute: typeof BecomeHelperRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BecomeHelperRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-writing-check': {
+      id: '/ai-writing-check'
+      path: '/ai-writing-check'
+      fullPath: '/ai-writing-check'
+      preLoaderRoute: typeof AiWritingCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -259,6 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcademicIntegrityRoute: AcademicIntegrityRoute,
   AdminRoute: AdminRoute,
+  AiWritingCheckRoute: AiWritingCheckRoute,
   BecomeHelperRoute: BecomeHelperRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
@@ -271,3 +292,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
