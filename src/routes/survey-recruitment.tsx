@@ -20,7 +20,7 @@ function Page() {
   const [consent, setConsent] = useState(false);
   return (
     <PageShell>
-      <PageHeader eyebrow="Survey participants" title="Recruit real participants for academic research" description="StudyHuman helps researchers connect with willing participants for academic surveys while promoting informed consent, privacy, and ethical research practices." />
+      <PageHeader eyebrow="Survey participants" title="Find Survey Participants" description="Need participants for your academic survey? StudyHuman helps students and researchers connect with real human participants for ethical, consent-based survey research. All survey participation must be voluntary, privacy-respecting, and based on clear informed consent." />
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <div className="mb-6 flex items-start gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-sm">
           <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
