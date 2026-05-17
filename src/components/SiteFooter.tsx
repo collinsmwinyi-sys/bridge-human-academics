@@ -18,6 +18,7 @@ export function SiteFooter() {
         { to: "/register", label: "Create account" },
         { to: "/request-help", label: "Request academic help" },
         { to: "/survey-recruitment", label: "Find survey participants" },
+        { to: "/ai-writing-check", label: "AI Writing Check" },
         { to: "/messages", label: "Messages" },
       ],
     },
