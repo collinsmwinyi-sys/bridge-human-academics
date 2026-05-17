@@ -4,7 +4,7 @@ import { ShieldCheck, X, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/academic-integrity")({
-  head: () => ({ meta: [{ title: "Academic Integrity Policy — ScholarBridge" }, { name: "description", content: "Our strict ethical framework for academic support." }]}),
+  head: () => ({ meta: [{ title: "Academic Integrity Policy — StudyHuman" }, { name: "description", content: "Our strict ethical framework for academic support." }]}),
   component: Page,
 });
 
@@ -25,12 +25,12 @@ function Page() {
   ];
   return (
     <PageShell>
-      <PageHeader eyebrow="Academic integrity" title="Our policy is simple: we help students learn — we never replace them" description="ScholarBridge exists to strengthen learning. The framework below applies to every student, helper, and project on our platform." />
+      <PageHeader eyebrow="Academic integrity" title="Our policy is simple: we help students learn — we never replace them" description="StudyHuman exists to strengthen learning. The framework below applies to every student, helper, and project on our platform." />
       <section className="mx-auto max-w-4xl space-y-8 px-4 py-12 sm:px-6">
         <div className="flex items-start gap-4 rounded-3xl border border-primary/20 bg-primary/5 p-6">
           <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-primary" />
           <p className="text-base">
-            ScholarBridge does not provide cheating services. Helpers provide tutoring, feedback, review, editing, coaching, and research support. Students remain fully responsible for the work they submit to their institutions.
+            StudyHuman does not provide cheating services. Helpers provide tutoring, feedback, review, editing, coaching, and research support. Students remain fully responsible for the work they submit to their institutions.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
@@ -49,7 +49,7 @@ function Page() {
         </div>
         <div className="rounded-3xl border border-border bg-card p-8 shadow-card">
           <h2 className="text-2xl">Student responsibilities</h2>
-          <p className="mt-3 text-muted-foreground">By using ScholarBridge, you agree to use guidance as a learning tool. Plagiarism, impersonation, and exam cheating are strictly prohibited and may result in immediate account termination.</p>
+          <p className="mt-3 text-muted-foreground">By using StudyHuman, you agree to use guidance as a learning tool. Plagiarism, impersonation, and exam cheating are strictly prohibited and may result in immediate account termination.</p>
           <Button asChild className="mt-6 gradient-hero text-primary-foreground"><Link to="/register">Agree & create account</Link></Button>
         </div>
       </section>

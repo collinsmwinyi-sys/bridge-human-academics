@@ -20,7 +20,7 @@ export function SiteHeader() {
           <div className="grid h-9 w-9 place-items-center rounded-xl gradient-hero text-primary-foreground shadow-soft">
             <GraduationCap className="h-5 w-5" />
           </div>
-          <span className="text-lg font-semibold tracking-tight">ScholarBridge</span>
+          <span className="text-lg font-semibold tracking-tight">StudyHuman</span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex">
           {nav.map((n) => (

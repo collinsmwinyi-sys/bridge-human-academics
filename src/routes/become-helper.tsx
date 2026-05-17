@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 export const Route = createFileRoute("/become-helper")({
-  head: () => ({ meta: [{ title: "Become a helper — ScholarBridge" }, { name: "description", content: "Apply to join ScholarBridge as a verified academic helper." }]}),
+  head: () => ({ meta: [{ title: "Become a helper — StudyHuman" }, { name: "description", content: "Apply to join StudyHuman as a verified academic helper." }]}),
   component: Page,
 });
 
@@ -49,7 +49,7 @@ function Page() {
           </div>
           <label className="flex items-start gap-3 rounded-xl bg-primary/5 p-4 text-sm">
             <Checkbox checked={agree} onCheckedChange={(v) => setAgree(Boolean(v))} className="mt-0.5" />
-            <span>I agree to ScholarBridge's academic integrity and quality policy — I will provide guidance, feedback, and tutoring, never complete assignments on behalf of students.</span>
+            <span>I agree to StudyHuman's academic integrity and quality policy — I will provide guidance, feedback, and tutoring, never complete assignments on behalf of students.</span>
           </label>
           <Button type="submit" size="lg" className="w-full gradient-hero text-primary-foreground shadow-elegant">Submit application</Button>
         </form>

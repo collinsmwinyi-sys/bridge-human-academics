@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 export const Route = createFileRoute("/request-help")({
-  head: () => ({ meta: [{ title: "Request academic help — ScholarBridge" }]}),
+  head: () => ({ meta: [{ title: "Request academic help — StudyHuman" }]}),
   component: Page,
 });
 
@@ -48,7 +48,7 @@ function Page() {
           </div>
           <label className="flex items-start gap-3 rounded-xl bg-primary/5 p-4 text-sm">
             <Checkbox checked={ok} onCheckedChange={(v) => setOk(Boolean(v))} className="mt-0.5" />
-            <span>I understand that ScholarBridge provides learning support, tutoring, editing, and guidance only. I will not use this service for academic dishonesty.</span>
+            <span>I understand that StudyHuman provides learning support, tutoring, editing, and guidance only. I will not use this service for academic dishonesty.</span>
           </label>
           <Button type="submit" size="lg" className="w-full gradient-hero text-primary-foreground shadow-elegant">Submit request</Button>
         </form>

@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 export const Route = createFileRoute("/survey-recruitment")({
-  head: () => ({ meta: [{ title: "Survey participant recruitment — ScholarBridge" }, { name: "description", content: "Ethically recruit real participants for academic surveys worldwide." }]}),
+  head: () => ({ meta: [{ title: "Survey participant recruitment — StudyHuman" }, { name: "description", content: "Ethically recruit real participants for academic surveys worldwide." }]}),
   component: Page,
 });
 
@@ -20,7 +20,7 @@ function Page() {
   const [consent, setConsent] = useState(false);
   return (
     <PageShell>
-      <PageHeader eyebrow="Survey participants" title="Recruit real participants for academic research" description="ScholarBridge helps researchers connect with willing participants for academic surveys while promoting informed consent, privacy, and ethical research practices." />
+      <PageHeader eyebrow="Survey participants" title="Recruit real participants for academic research" description="StudyHuman helps researchers connect with willing participants for academic surveys while promoting informed consent, privacy, and ethical research practices." />
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
         <div className="mb-6 flex items-start gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-5 text-sm">
           <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />

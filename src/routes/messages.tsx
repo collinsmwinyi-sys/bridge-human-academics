@@ -6,7 +6,7 @@ import { Send } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/messages")({
-  head: () => ({ meta: [{ title: "Messages — ScholarBridge" }]}),
+  head: () => ({ meta: [{ title: "Messages — StudyHuman" }]}),
   component: Page,
 });
 
