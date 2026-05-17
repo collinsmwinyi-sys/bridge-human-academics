@@ -7,7 +7,7 @@ import { GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Log in — ScholarBridge" }, { name: "description", content: "Secure login for ScholarBridge students and helpers." }]}),
+  head: () => ({ meta: [{ title: "Log in — StudyHuman" }, { name: "description", content: "Secure login for StudyHuman students and helpers." }]}),
   component: Login,
 });
 
@@ -19,7 +19,7 @@ function Login() {
           <GraduationCap className="h-6 w-6" />
         </div>
         <h1 className="text-3xl">Welcome back</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Log in to your ScholarBridge account.</p>
+        <p className="mt-2 text-sm text-muted-foreground">Log in to your StudyHuman account.</p>
         <form
           onSubmit={(e) => { e.preventDefault(); toast.success("Signed in (demo)."); }}
           className="mt-8 w-full space-y-4 rounded-3xl border border-border bg-card p-8 shadow-card"

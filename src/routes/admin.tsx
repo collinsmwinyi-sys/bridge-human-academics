@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Users, FileText, ClipboardList, CreditCard, AlertTriangle, CheckCircle2, Settings, TrendingUp } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Admin dashboard — ScholarBridge" }]}),
+  head: () => ({ meta: [{ title: "Admin dashboard — StudyHuman" }]}),
   component: Admin,
 });
 

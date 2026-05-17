@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { MessageSquare, Plus, Users, Settings, CreditCard, BookOpen } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — ScholarBridge" }]}),
+  head: () => ({ meta: [{ title: "Dashboard — StudyHuman" }]}),
   component: Dashboard,
 });
 

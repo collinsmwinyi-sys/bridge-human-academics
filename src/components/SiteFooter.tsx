@@ -6,7 +6,7 @@ export function SiteFooter() {
     {
       title: "Platform",
       links: [
-        { to: "/", label: "About ScholarBridge" },
+        { to: "/", label: "About StudyHuman" },
         { to: "/academic-integrity", label: "Academic Integrity" },
         { to: "/pricing", label: "Pricing" },
         { to: "/become-helper", label: "Become a Helper" },
@@ -41,7 +41,7 @@ export function SiteFooter() {
               <div className="grid h-9 w-9 place-items-center rounded-xl gradient-hero text-primary-foreground">
                 <GraduationCap className="h-5 w-5" />
               </div>
-              <span className="text-lg font-semibold">ScholarBridge</span>
+              <span className="text-lg font-semibold">StudyHuman</span>
             </Link>
             <p className="mt-4 max-w-sm text-sm text-muted-foreground">
               Ethical, human academic support for students worldwide — from high school to PhD.
@@ -67,7 +67,7 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} ScholarBridge. All rights reserved.</p>
+          <p>© 2026 StudyHuman. All rights reserved.</p>
           <p>Made for learners worldwide.</p>
         </div>
       </div>

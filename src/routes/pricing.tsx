@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/pricing")({
-  head: () => ({ meta: [{ title: "Pricing — ScholarBridge" }, { name: "description", content: "Fair, transparent pricing for tutoring, editing, research guidance, and survey recruitment." }]}),
+  head: () => ({ meta: [{ title: "Pricing — StudyHuman" }, { name: "description", content: "Fair, transparent pricing for tutoring, editing, research guidance, and survey recruitment." }]}),
   component: Pricing,
 });
 
