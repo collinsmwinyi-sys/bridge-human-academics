@@ -48,18 +48,21 @@ function Hero() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            Ethical academic support — never AI-written work
+            Real people. Real guidance. No AI-written shortcuts.
           </div>
           <h1 className="mt-5 text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
-            Human Academic Support<br />
-            <span className="italic text-primary">You Can Trust</span>
+            Get Real Human Help<br />
+            <span className="italic text-primary">With Your School Work</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            Connect with real academic experts for tutoring, editing, research guidance, survey recruitment, and study support — from high school to PhD level.
+            StudyHuman connects students from high school to PhD level with verified human academic helpers for tutoring, editing, proofreading, research guidance, study coaching, data analysis guidance, presentation support, and survey participant recruitment.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="gradient-hero text-primary-foreground shadow-elegant">
-              <Link to="/request-help">Request Help <ChevronRight className="ml-1 h-4 w-4" /></Link>
+              <Link to="/request-help">Request Human Help <ChevronRight className="ml-1 h-4 w-4" /></Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link to="/survey-recruitment">Find Survey Participants</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/become-helper">Become a Helper</Link>
@@ -381,16 +384,19 @@ function FinalCTA() {
   return (
     <Section>
       <div className="rounded-3xl border border-border bg-card p-10 text-center shadow-card sm:p-14">
-        <h2 className="text-4xl sm:text-5xl">Ready to learn with a real expert?</h2>
+        <h2 className="text-4xl sm:text-5xl">Ready to learn with a real human expert?</h2>
         <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-          Create your free account and submit your first request in minutes.
+          Create your free account and submit your first request in minutes. Real people. Real academic support.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg" className="gradient-hero text-primary-foreground shadow-elegant">
-            <Link to="/register">Get Academic Support</Link>
+            <Link to="/request-help">Request Human Help</Link>
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/survey-recruitment">Find Survey Participants</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/become-helper">Become a Helper</Link>
           </Button>
         </div>
       </div>
