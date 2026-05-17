@@ -67,7 +67,7 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} StudyHuman. All rights reserved.</p>
+          <p>© 2026 StudyHuman. All rights reserved.</p>
           <p>Made for learners worldwide.</p>
         </div>
       </div>
