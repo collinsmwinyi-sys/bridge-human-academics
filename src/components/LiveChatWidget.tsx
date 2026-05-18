@@ -12,6 +12,7 @@ type ChatState = {
   startedAt: number;
   status: "active" | "waiting" | "resolved" | "closed";
   messages: Msg[];
+  agentTypingAt?: number;
 };
 
 const STORAGE_KEY = "studyhuman_live_chat_v1";
@@ -39,16 +40,62 @@ export function LiveChatWidget() {
   const [chat, setChat] = useState<ChatState | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
   const [text, setText] = useState("");
-  const [typing, setTyping] = useState(false);
   const [unread, setUnread] = useState(0);
   const online = isAgentOnline();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const prevMsgCount = useRef(0);
+
+  // Derive typing state from a recent agentTypingAt timestamp written by admin.
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const i = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(i);
+  }, []);
+  const typing = !!chat?.agentTypingAt && now - chat.agentTypingAt < 2500;
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setChat(JSON.parse(raw));
     } catch {}
+    // Sync from other tabs (admin) in real time.
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== ADMIN_KEY || !e.newValue) return;
+      try {
+        const list: ChatState[] = JSON.parse(e.newValue);
+        setChat((prev) => {
+          if (!prev) return prev;
+          const match = list.find((c) => c.email === prev.email && c.startedAt === prev.startedAt);
+          return match ?? prev;
+        });
+      } catch {}
+    };
+    window.addEventListener("storage", onStorage);
+    // Also poll same-tab updates (storage event doesn't fire in the writer tab).
+    const poll = setInterval(() => {
+      try {
+        const raw = localStorage.getItem(ADMIN_KEY);
+        if (!raw) return;
+        const list: ChatState[] = JSON.parse(raw);
+        setChat((prev) => {
+          if (!prev) return prev;
+          const match = list.find((c) => c.email === prev.email && c.startedAt === prev.startedAt);
+          if (!match) return prev;
+          if (
+            match.messages.length !== prev.messages.length ||
+            match.agentTypingAt !== prev.agentTypingAt ||
+            match.status !== prev.status
+          ) {
+            return match;
+          }
+          return prev;
+        });
+      } catch {}
+    }, 1000);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      clearInterval(poll);
+    };
   }, []);
 
   useEffect(() => {
@@ -61,6 +108,20 @@ export function LiveChatWidget() {
   useEffect(() => {
     if (open) setUnread(0);
   }, [open]);
+
+  // Track unread agent replies arriving while widget is closed.
+  useEffect(() => {
+    if (!chat) {
+      prevMsgCount.current = 0;
+      return;
+    }
+    const delta = chat.messages.length - prevMsgCount.current;
+    if (delta > 0 && prevMsgCount.current > 0 && !open) {
+      const newAgent = chat.messages.slice(-delta).filter((m) => m.from === "agent").length;
+      if (newAgent) setUnread((u) => u + newAgent);
+    }
+    prevMsgCount.current = chat.messages.length;
+  }, [chat, open]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -94,23 +155,6 @@ export function LiveChatWidget() {
     const next: ChatState = { ...chat, messages: [...chat.messages, userMsg] };
     setChat(next);
     setText("");
-    if (online) {
-      setTyping(true);
-      setTimeout(() => {
-        setTyping(false);
-        const reply: Msg = {
-          id: crypto.randomUUID(),
-          from: "agent",
-          at: Date.now(),
-          text: "Thanks — a human agent is reviewing your message and will reply shortly here.",
-        };
-        setChat((c) => {
-          const updated = c ? { ...c, messages: [...c.messages, reply] } : c;
-          if (!open && updated) setUnread((u) => u + 1);
-          return updated;
-        });
-      }, 1800);
-    }
   };
 
   const endChat = () => {
