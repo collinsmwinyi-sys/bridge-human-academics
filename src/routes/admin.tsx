@@ -19,6 +19,7 @@ type ChatState = {
   startedAt: number;
   status: "active" | "waiting" | "resolved" | "closed";
   messages: Msg[];
+  agentTypingAt?: number;
 };
 const ADMIN_KEY = "studyhuman_live_chats_admin_v1";
 
@@ -74,9 +75,33 @@ function Admin() {
     e.preventDefault();
     if (!active || !reply.trim()) return;
     const m: Msg = { id: crypto.randomUUID(), from: "agent", at: Date.now(), text: reply.trim() };
-    update({ ...active, messages: [...active.messages, m], status: "active" });
+    update({ ...active, messages: [...active.messages, m], status: "active", agentTypingAt: undefined });
     setReply("");
   };
+
+  // Broadcast "agent is typing" while the human is composing.
+  useEffect(() => {
+    if (!active) return;
+    if (!reply) {
+      if (active.agentTypingAt) update({ ...active, agentTypingAt: undefined });
+      return;
+    }
+    update({ ...active, agentTypingAt: Date.now() });
+    const t = setInterval(() => {
+      // Heartbeat so the user widget keeps the indicator visible while typing.
+      setChats((curr) => {
+        const all = [...curr];
+        const idx = all.findIndex((c) => c.email === active.email && c.startedAt === active.startedAt);
+        if (idx >= 0) {
+          all[idx] = { ...all[idx], agentTypingAt: Date.now() };
+          localStorage.setItem(ADMIN_KEY, JSON.stringify(all));
+        }
+        return all;
+      });
+    }, 1200);
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reply, active?.email, active?.startedAt]);
 
   const statusVariant = (s: ChatState["status"]) =>
     s === "active" ? "bg-success/10 text-success" : s === "waiting" ? "bg-warning/10 text-warning" : s === "resolved" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground";
