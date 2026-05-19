@@ -7,7 +7,6 @@ export function SiteFooter() {
       title: "Platform",
       links: [
         { to: "/", label: "About StudyHuman" },
-        { to: "/academic-integrity", label: "Academic Integrity" },
         { to: "/pricing", label: "Pricing" },
         { to: "/become-helper", label: "Become a Helper" },
       ],
@@ -15,17 +14,15 @@ export function SiteFooter() {
     {
       title: "For Students",
       links: [
-        { to: "/register", label: "Create account" },
-        { to: "/request-help", label: "Request academic help" },
+        { to: "/request-help", label: "Services" },
         { to: "/survey-recruitment", label: "Find survey participants" },
         { to: "/ai-writing-check", label: "AI Writing Check" },
-        { to: "/messages", label: "Messages" },
       ],
     },
     {
       title: "Support",
       links: [
-        { to: "/", label: "Help Center" },
+        { to: "/", label: "Human Support" },
         { to: "/", label: "Contact" },
         { to: "/", label: "Privacy Policy" },
         { to: "/", label: "Terms of Service" },
