@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/PageShell";
 import { Button } from "@/components/ui/button";
 import { Check, Zap } from "lucide-react";
+import { PriceCalculator } from "@/components/PriceCalculator";
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({ meta: [{ title: "Pricing — StudyHuman" }, { name: "description", content: "Fair, transparent pricing for tutoring, editing, research guidance, and survey recruitment." }]}),
@@ -40,6 +41,7 @@ function Pricing() {
         </div>
         <p className="mt-10 text-center text-sm text-muted-foreground">Need a custom quote? <Link to="/request-help" className="font-medium text-primary">Submit a request</Link> and we'll respond within hours.</p>
       </section>
+      <PriceCalculator />
     </PageShell>
   );
 }

@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { PriceCalculator } from "@/components/PriceCalculator";
 
 export const Route = createFileRoute("/survey-recruitment")({
   head: () => ({ meta: [{ title: "Survey participant recruitment — StudyHuman" }, { name: "description", content: "Ethically recruit real participants for academic surveys worldwide." }]}),
@@ -55,6 +56,7 @@ function Page() {
           <Button type="submit" size="lg" className="w-full gradient-hero text-primary-foreground shadow-elegant">Launch recruitment</Button>
         </form>
       </section>
+      <PriceCalculator mode="survey" defaultService="Survey Participant Recruitment" />
     </PageShell>
   );
 }

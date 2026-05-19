@@ -109,6 +109,12 @@ export function LiveChatWidget() {
     if (open) setUnread(0);
   }, [open]);
 
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener("studyhuman:open-chat", handler);
+    return () => window.removeEventListener("studyhuman:open-chat", handler);
+  }, []);
+
   // Track unread agent replies arriving while widget is closed.
   useEffect(() => {
     if (!chat) {
