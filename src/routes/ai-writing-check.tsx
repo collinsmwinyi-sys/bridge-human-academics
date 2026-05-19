@@ -13,6 +13,7 @@ import {
   UserCheck, FlaskConical, PenLine, Users,
 } from "lucide-react";
 import { toast } from "sonner";
+import { PriceCalculator } from "@/components/PriceCalculator";
 
 export const Route = createFileRoute("/ai-writing-check")({
   head: () => ({
@@ -38,6 +39,7 @@ function Page() {
       <Disclaimer />
       <WhoCanUse />
       <PricingPreview />
+      <PriceCalculator defaultService="AI Writing Check" />
       <IntegrityNote />
     </PageShell>
   );

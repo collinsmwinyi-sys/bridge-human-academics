@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { PriceCalculator } from "@/components/PriceCalculator";
 
 export const Route = createFileRoute("/request-help")({
   head: () => ({ meta: [{ title: "Request academic help — StudyHuman" }]}),
@@ -53,6 +54,7 @@ function Page() {
           <Button type="submit" size="lg" className="w-full gradient-hero text-primary-foreground shadow-elegant">Submit request</Button>
         </form>
       </section>
+      <PriceCalculator />
     </PageShell>
   );
 }
