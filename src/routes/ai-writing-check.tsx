@@ -64,7 +64,7 @@ function Hero() {
             <a href="#submit">Submit Writing for Review <ChevronRight className="ml-1 h-4 w-4" /></a>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link to="/academic-integrity">Our integrity policy</Link>
+            <Link to="/">Ethical human academic support</Link>
           </Button>
         </div>
       </div>
