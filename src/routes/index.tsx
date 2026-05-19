@@ -251,7 +251,7 @@ function SurveyCTA() {
                 <Link to="/survey-recruitment">Find Survey Participants</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10">
-                <Link to="/academic-integrity">Our research ethics</Link>
+                <Link to="/">Ethical human academic support</Link>
               </Button>
             </div>
           </div>
@@ -304,13 +304,13 @@ function Integrity() {
       <div className="rounded-3xl border border-border bg-card p-8 shadow-card sm:p-12">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Academic Integrity</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Ethical human academic support</p>
             <h2 className="mt-3 text-3xl sm:text-4xl">We coach learners. We never replace them.</h2>
             <p className="mt-4 text-muted-foreground">
-              StudyHuman is built on a strict integrity framework. Helpers offer tutoring, feedback, editing, and research support — students remain fully responsible for the work they submit.
+              StudyHuman provides ethical human support for tutoring, feedback, editing, research guidance, and survey recruitment. Students remain responsible for their own final submissions.
             </p>
             <Button asChild variant="link" className="mt-3 px-0">
-              <Link to="/academic-integrity">Read our integrity policy <ChevronRight className="h-4 w-4" /></Link>
+              <Link to="/request-help">Learn How StudyHuman Works <ChevronRight className="h-4 w-4" /></Link>
             </Button>
           </div>
           <ul className="grid gap-3 sm:grid-cols-2">
