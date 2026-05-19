@@ -19,7 +19,6 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BecomeHelperRouteImport } from './routes/become-helper'
 import { Route as AiWritingCheckRouteImport } from './routes/ai-writing-check'
 import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AcademicIntegrityRouteImport } from './routes/academic-integrity'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SurveyRecruitmentRoute = SurveyRecruitmentRouteImport.update({
@@ -72,11 +71,6 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AcademicIntegrityRoute = AcademicIntegrityRouteImport.update({
-  id: '/academic-integrity',
-  path: '/academic-integrity',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -85,7 +79,6 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/academic-integrity': typeof AcademicIntegrityRoute
   '/admin': typeof AdminRoute
   '/ai-writing-check': typeof AiWritingCheckRoute
   '/become-helper': typeof BecomeHelperRoute
@@ -99,7 +92,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/academic-integrity': typeof AcademicIntegrityRoute
   '/admin': typeof AdminRoute
   '/ai-writing-check': typeof AiWritingCheckRoute
   '/become-helper': typeof BecomeHelperRoute
@@ -114,7 +106,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/academic-integrity': typeof AcademicIntegrityRoute
   '/admin': typeof AdminRoute
   '/ai-writing-check': typeof AiWritingCheckRoute
   '/become-helper': typeof BecomeHelperRoute
@@ -130,7 +121,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/academic-integrity'
     | '/admin'
     | '/ai-writing-check'
     | '/become-helper'
@@ -144,7 +134,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/academic-integrity'
     | '/admin'
     | '/ai-writing-check'
     | '/become-helper'
@@ -158,7 +147,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/academic-integrity'
     | '/admin'
     | '/ai-writing-check'
     | '/become-helper'
@@ -173,7 +161,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AcademicIntegrityRoute: typeof AcademicIntegrityRoute
   AdminRoute: typeof AdminRoute
   AiWritingCheckRoute: typeof AiWritingCheckRoute
   BecomeHelperRoute: typeof BecomeHelperRoute
@@ -258,13 +245,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/academic-integrity': {
-      id: '/academic-integrity'
-      path: '/academic-integrity'
-      fullPath: '/academic-integrity'
-      preLoaderRoute: typeof AcademicIntegrityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -277,7 +257,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AcademicIntegrityRoute: AcademicIntegrityRoute,
   AdminRoute: AdminRoute,
   AiWritingCheckRoute: AiWritingCheckRoute,
   BecomeHelperRoute: BecomeHelperRoute,
