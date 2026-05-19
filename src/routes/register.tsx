@@ -46,7 +46,7 @@ function Register() {
           <Field label="Type of help needed"><Textarea placeholder="Briefly describe what you're looking for" /></Field>
           <label className="flex items-start gap-3 rounded-xl bg-muted/60 p-4 text-sm">
             <Checkbox checked={agree} onCheckedChange={(v) => setAgree(Boolean(v))} className="mt-0.5" />
-            <span>I agree to the <Link to="/academic-integrity" className="font-medium text-primary underline-offset-2 hover:underline">Academic Integrity Policy</Link> — StudyHuman provides guidance and feedback, not completed assignments.</span>
+            <span>I agree that StudyHuman provides ethical human academic support — guidance, tutoring, and feedback only, not completed assignments. I remain responsible for my own final submissions.</span>
           </label>
           <Button type="submit" size="lg" className="w-full gradient-hero text-primary-foreground shadow-elegant">Create account</Button>
           <p className="text-center text-sm text-muted-foreground">Already have an account? <Link to="/login" className="font-medium text-primary">Log in</Link></p>
