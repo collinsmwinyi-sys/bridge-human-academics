@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, MessageCircle, ShieldCheck } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Calculator, ChevronDown, MessageCircle, ShieldCheck } from "lucide-react";
 
 type Mode = "standard" | "survey";
 
@@ -51,7 +52,11 @@ const EXTRAS: { label: string; cost: number }[] = [
   { label: "Data interpretation guidance", cost: 15 },
 ];
 
-export function PriceCalculator({ defaultService, mode = "standard" }: { defaultService?: string; mode?: Mode }) {
+export function PriceCalculator({
+  defaultService,
+  mode = "standard",
+  compact = false,
+}: { defaultService?: string; mode?: Mode; compact?: boolean }) {
   const initial = defaultService ?? (mode === "survey" ? "Survey Participant Recruitment" : "Editing and Proofreading");
   const [service, setService] = useState<string>(initial);
   const [level, setLevel] = useState<string>("Undergraduate");
@@ -62,6 +67,7 @@ export function PriceCalculator({ defaultService, mode = "standard" }: { default
   const [incentive, setIncentive] = useState<number>(0);
   const [region, setRegion] = useState<string>("");
   const [completionTime, setCompletionTime] = useState<string>("");
+  const [extrasOpen, setExtrasOpen] = useState<boolean>(false);
 
   const svc = SERVICES.find((s) => s.label === service) ?? SERVICES[1];
   const isSurvey = svc.unit === "participant";
@@ -96,6 +102,110 @@ export function PriceCalculator({ defaultService, mode = "standard" }: { default
   }, [svc, quantity, level, deadline, quality, extrasTotal, isSurvey, incentive]);
 
   const selectedExtras = EXTRAS.filter((e) => extras[e.label]).map((e) => e.label);
+
+  if (compact) {
+    return (
+      <div className="rounded-3xl border border-primary/30 bg-card p-5 shadow-elegant sm:p-6">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">Price calculator</p>
+            <h2 className="mt-1 font-display text-2xl">Estimate Your Support Cost</h2>
+          </div>
+          <Calculator className="h-5 w-5 text-primary" />
+        </div>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Get an instant estimate based on service type, academic level, length, deadline, and support level.
+        </p>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <Field label="Service Type">
+            <Select value={service} onValueChange={setService}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {SERVICES.map((s) => <SelectItem key={s.label} value={s.label}>{s.label}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </Field>
+          {!isSurvey && (
+            <Field label="Academic Level">
+              <Select value={level} onValueChange={setLevel}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.keys(LEVELS).map((l) => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </Field>
+          )}
+          <Field label={unitLabel}>
+            <Input type="number" min={1} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+          </Field>
+          <Field label="Deadline">
+            <Select value={deadline} onValueChange={setDeadline}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {Object.keys(DEADLINES).map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </Field>
+          {!isSurvey && (
+            <Field label="Support Level">
+              <Select value={quality} onValueChange={setQuality}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.keys(QUALITY).map((q) => <SelectItem key={q} value={q}>{q}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </Field>
+          )}
+          {isSurvey && (
+            <Field label="Incentive / participant (USD)">
+              <Input type="number" min={0} value={incentive} onChange={(e) => setIncentive(Number(e.target.value))} />
+            </Field>
+          )}
+        </div>
+
+        {!isSurvey && (
+          <Collapsible open={extrasOpen} onOpenChange={setExtrasOpen} className="mt-4">
+            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-3 py-2 text-sm font-medium hover:bg-muted/60">
+              <span>Add Extras{selectedExtras.length > 0 ? ` (${selectedExtras.length})` : ""}</span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${extrasOpen ? "rotate-180" : ""}`} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2 grid gap-2 sm:grid-cols-2">
+              {EXTRAS.map((e) => (
+                <label key={e.label} className="flex items-start gap-2 rounded-lg border border-border bg-background p-2 text-xs">
+                  <Checkbox
+                    checked={!!extras[e.label]}
+                    onCheckedChange={(v) => setExtras((prev) => ({ ...prev, [e.label]: Boolean(v) }))}
+                    className="mt-0.5"
+                  />
+                  <span className="flex-1">{e.label} <span className="text-muted-foreground">(+${e.cost})</span></span>
+                </label>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
+        )}
+
+        <div className="mt-5 flex items-end justify-between rounded-2xl bg-muted/60 p-4">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estimated Cost</p>
+            <p className="font-display text-4xl text-primary">${estimate.toFixed(2)}</p>
+          </div>
+          <p className="max-w-[12rem] text-right text-[11px] text-muted-foreground">
+            This is an estimate. Final pricing may vary after human review.
+          </p>
+        </div>
+
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <Button asChild className="gradient-hero text-primary-foreground shadow-elegant">
+            <Link to="/request-help">Request Human Help</Link>
+          </Button>
+          <Button variant="outline" type="button" onClick={() => window.dispatchEvent(new CustomEvent("studyhuman:open-chat"))}>
+            <MessageCircle className="h-4 w-4" /> Live Human Chat
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
