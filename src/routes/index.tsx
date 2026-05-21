@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/PageShell";
+import { PriceCalculator } from "@/components/PriceCalculator";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -74,8 +75,16 @@ function Hero() {
             <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-accent" /> 24/7 support</div>
           </div>
         </div>
-        <HeroCard />
+        <div id="estimate-calculator" className="scroll-mt-24">
+          <PriceCalculator compact />
+        </div>
       </div>
+      <a
+        href="#estimate-calculator"
+        className="fixed bottom-24 right-5 z-30 inline-flex items-center gap-2 rounded-full gradient-hero px-4 py-2 text-sm font-medium text-primary-foreground shadow-elegant lg:hidden"
+      >
+        Estimate Price
+      </a>
     </section>
   );
 }
