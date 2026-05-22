@@ -52,8 +52,8 @@ function Hero() {
             Real people. Real guidance. No AI-written shortcuts.
           </div>
           <h1 className="mt-5 text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
-            Get Real Human Help<br />
-            <span className="italic text-primary">With Your School Work</span>
+            Get Real Human<br />
+            <span className="italic text-primary">Academic Support</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
             StudyHuman connects students from high school to PhD level with verified human academic helpers for tutoring, editing, proofreading, research guidance, study coaching, data analysis guidance, presentation support, and survey participant recruitment.

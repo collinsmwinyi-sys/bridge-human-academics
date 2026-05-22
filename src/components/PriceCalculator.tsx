@@ -114,7 +114,7 @@ export function PriceCalculator({
           <Calculator className="h-5 w-5 text-primary" />
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
-          Get an instant estimate based on service type, academic level, length, deadline, and support level.
+          No payment required. Get a quick estimate first.
         </p>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -187,7 +187,7 @@ export function PriceCalculator({
 
         <div className="mt-5 flex items-end justify-between rounded-2xl bg-muted/60 p-4">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estimated Cost</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estimated Support Cost</p>
             <p className="font-display text-4xl text-primary">${estimate.toFixed(2)}</p>
           </div>
           <p className="max-w-[12rem] text-right text-[11px] text-muted-foreground">
