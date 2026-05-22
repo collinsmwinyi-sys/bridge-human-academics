@@ -114,7 +114,7 @@ export function PriceCalculator({
           <Calculator className="h-5 w-5 text-primary" />
         </div>
         <p className="mt-1 text-xs text-muted-foreground">
-          Get an instant estimate based on service type, academic level, length, deadline, and support level.
+          No payment required. Get a quick estimate first.
         </p>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
