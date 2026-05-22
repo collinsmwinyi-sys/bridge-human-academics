@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   GraduationCap, BookOpen, PenLine, FlaskConical, Sigma, Presentation, Users,
   ShieldCheck, Sparkles, Globe2, Clock, CheckCircle2, Star, ChevronRight,
-  MessageSquare, FileText, ClipboardList, BadgeCheck,
+  MessageSquare, FileText, ClipboardList, BadgeCheck, Gift,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/PageShell";
