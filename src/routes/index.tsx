@@ -74,7 +74,55 @@ function Hero() {
             <div className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-primary" /> 80+ countries</div>
             <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-accent" /> 24/7 support</div>
           </div>
+          <ReferralCard />
         </div>
+        <div id="estimate-calculator" className="scroll-mt-24">
+          <PriceCalculator compact />
+        </div>
+      </div>
+      <a
+        href="#estimate-calculator"
+        className="fixed bottom-24 right-5 z-30 inline-flex items-center gap-2 rounded-full gradient-hero px-4 py-2 text-sm font-medium text-primary-foreground shadow-elegant"
+      >
+        Estimate Price
+      </a>
+    </section>
+  );
+}
+
+function ReferralCard() {
+  return (
+    <div className="mt-8 rounded-2xl border border-border bg-card/80 p-5 shadow-card backdrop-blur sm:p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start gap-4">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+            <Gift className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="inline-block rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground">
+              Referral Bonus
+            </span>
+            <p className="mt-2 font-display text-lg leading-snug">
+              Invite Friends. Earn Study Credits.
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Share StudyHuman with classmates or researchers. Earn up to{" "}
+              <span className="font-medium text-foreground">$10 in credits</span> per successful referral.
+            </p>
+          </div>
+        </div>
+        <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
+          <Button asChild size="sm" className="gradient-hero text-primary-foreground shadow-elegant">
+            <Link to="/register">Invite a Friend</Link>
+          </Button>
+          <Link to="/register" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+            How referrals work
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
         <div id="estimate-calculator" className="scroll-mt-24">
           <PriceCalculator compact />
         </div>
