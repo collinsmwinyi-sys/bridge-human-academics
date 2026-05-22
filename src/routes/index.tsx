@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   GraduationCap, BookOpen, PenLine, FlaskConical, Sigma, Presentation, Users,
   ShieldCheck, Sparkles, Globe2, Clock, CheckCircle2, Star, ChevronRight,
-  MessageSquare, FileText, ClipboardList, BadgeCheck, Gift,
+  MessageSquare, FileText, ClipboardList, BadgeCheck, Gift, ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/PageShell";
@@ -23,6 +23,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <PageShell>
+      <ReferralBanner />
       <Hero />
       <TrustBar />
       <HowItWorks />
@@ -45,7 +46,7 @@ function Hero() {
       <div className="absolute inset-0 -z-10 gradient-soft" />
       <div className="absolute -top-32 right-0 -z-10 h-[480px] w-[480px] rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute -bottom-32 -left-20 -z-10 h-[420px] w-[420px] rounded-full bg-accent/15 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-20 pt-8 sm:px-6 sm:pt-10 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:pb-24 lg:pt-12">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-20 pt-6 sm:px-6 sm:pt-8 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:pb-24 lg:pt-10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -74,7 +75,6 @@ function Hero() {
             <div className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-primary" /> 80+ countries</div>
             <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-accent" /> 24/7 support</div>
           </div>
-          <ReferralCard />
         </div>
         <div id="estimate-calculator" className="scroll-mt-24">
           <PriceCalculator compact />
@@ -90,34 +90,31 @@ function Hero() {
   );
 }
 
-function ReferralCard() {
+function ReferralBanner() {
   return (
-    <div className="mt-8 rounded-2xl border border-border bg-card/80 p-5 shadow-card backdrop-blur sm:p-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-4">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-            <Gift className="h-5 w-5" />
+    <div className="border-b border-border bg-card/60 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+        <div className="flex items-start gap-3">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+            <Gift className="h-4 w-4" />
           </div>
-          <div>
-            <span className="inline-block rounded-full bg-accent/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground">
+          <div className="text-sm">
+            <span className="mr-2 inline-block rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
               Referral Bonus
             </span>
-            <p className="mt-2 font-display text-lg leading-snug">
-              Invite Friends. Earn Study Credits.
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Share StudyHuman with classmates or researchers. Earn up to{" "}
-              <span className="font-medium text-foreground">$10 in credits</span> per successful referral.
-            </p>
+            <span className="font-medium">Invite Friends. Earn Study Credits.</span>
+            <span className="ml-2 hidden text-muted-foreground sm:inline">
+              Share StudyHuman and earn up to <span className="font-medium text-foreground">$10 in credits</span> per successful referral.
+            </span>
           </div>
         </div>
-        <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
-          <Button asChild size="sm" className="gradient-hero text-primary-foreground shadow-elegant">
-            <Link to="/register">Invite a Friend</Link>
-          </Button>
-          <Link to="/register" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+        <div className="flex shrink-0 items-center gap-3">
+          <Link to="/referrals" className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
             How referrals work
           </Link>
+          <Button asChild size="sm" className="gradient-hero text-primary-foreground shadow-elegant">
+            <Link to="/referrals">Get My Referral Link <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link>
+          </Button>
         </div>
       </div>
     </div>
