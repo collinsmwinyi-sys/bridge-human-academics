@@ -123,19 +123,6 @@ function ReferralCard() {
     </div>
   );
 }
-        <div id="estimate-calculator" className="scroll-mt-24">
-          <PriceCalculator compact />
-        </div>
-      </div>
-      <a
-        href="#estimate-calculator"
-        className="fixed bottom-24 right-5 z-30 inline-flex items-center gap-2 rounded-full gradient-hero px-4 py-2 text-sm font-medium text-primary-foreground shadow-elegant"
-      >
-        Estimate Price
-      </a>
-    </section>
-  );
-}
 
 function HeroCard() {
   return (
