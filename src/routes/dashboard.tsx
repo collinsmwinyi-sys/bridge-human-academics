@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/PageShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Plus, Users, Settings, CreditCard, BookOpen } from "lucide-react";
+import { MessageSquare, Plus, Users, Settings, CreditCard, BookOpen, Gift } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — StudyHuman" }]}),
@@ -39,6 +39,7 @@ function Dashboard() {
           <div className="flex flex-wrap gap-2">
             <Button asChild className="gradient-hero text-primary-foreground"><Link to="/request-help"><Plus className="mr-1 h-4 w-4" />Request help</Link></Button>
             <Button asChild variant="outline"><Link to="/survey-recruitment"><Users className="mr-1 h-4 w-4" />Survey participants</Link></Button>
+            <Button asChild variant="outline"><Link to="/referrals"><Gift className="mr-1 h-4 w-4" />Referrals</Link></Button>
           </div>
         </div>
 
