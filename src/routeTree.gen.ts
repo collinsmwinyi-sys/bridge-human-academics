@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SurveyRecruitmentRouteImport } from './routes/survey-recruitment'
 import { Route as RequestHelpRouteImport } from './routes/request-help'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ReferralsRouteImport } from './routes/referrals'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as LoginRouteImport } from './routes/login'
@@ -34,6 +35,11 @@ const RequestHelpRoute = RequestHelpRouteImport.update({
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralsRoute = ReferralsRouteImport.update({
+  id: '/referrals',
+  path: '/referrals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/messages': typeof MessagesRoute
   '/pricing': typeof PricingRoute
+  '/referrals': typeof ReferralsRoute
   '/register': typeof RegisterRoute
   '/request-help': typeof RequestHelpRoute
   '/survey-recruitment': typeof SurveyRecruitmentRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/messages': typeof MessagesRoute
   '/pricing': typeof PricingRoute
+  '/referrals': typeof ReferralsRoute
   '/register': typeof RegisterRoute
   '/request-help': typeof RequestHelpRoute
   '/survey-recruitment': typeof SurveyRecruitmentRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/messages': typeof MessagesRoute
   '/pricing': typeof PricingRoute
+  '/referrals': typeof ReferralsRoute
   '/register': typeof RegisterRoute
   '/request-help': typeof RequestHelpRoute
   '/survey-recruitment': typeof SurveyRecruitmentRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/messages'
     | '/pricing'
+    | '/referrals'
     | '/register'
     | '/request-help'
     | '/survey-recruitment'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/messages'
     | '/pricing'
+    | '/referrals'
     | '/register'
     | '/request-help'
     | '/survey-recruitment'
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/messages'
     | '/pricing'
+    | '/referrals'
     | '/register'
     | '/request-help'
     | '/survey-recruitment'
@@ -168,6 +180,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MessagesRoute: typeof MessagesRoute
   PricingRoute: typeof PricingRoute
+  ReferralsRoute: typeof ReferralsRoute
   RegisterRoute: typeof RegisterRoute
   RequestHelpRoute: typeof RequestHelpRoute
   SurveyRecruitmentRoute: typeof SurveyRecruitmentRoute
@@ -194,6 +207,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referrals': {
+      id: '/referrals'
+      path: '/referrals'
+      fullPath: '/referrals'
+      preLoaderRoute: typeof ReferralsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -264,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MessagesRoute: MessagesRoute,
   PricingRoute: PricingRoute,
+  ReferralsRoute: ReferralsRoute,
   RegisterRoute: RegisterRoute,
   RequestHelpRoute: RequestHelpRoute,
   SurveyRecruitmentRoute: SurveyRecruitmentRoute,
@@ -271,3 +292,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
