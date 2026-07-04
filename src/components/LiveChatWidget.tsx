@@ -175,11 +175,12 @@ export function LiveChatWidget() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full gradient-hero px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-105"
+          className="fixed bottom-4 right-4 z-50 flex items-center gap-1.5 rounded-full gradient-hero px-3 py-2 text-xs font-semibold text-primary-foreground shadow-soft transition-transform hover:scale-105 sm:bottom-5 sm:right-5 sm:gap-2 sm:px-5 sm:py-3 sm:text-sm"
           aria-label="Open live human chat"
         >
-          <MessageCircle className="h-5 w-5" />
-          Live Human Chat
+          <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="hidden sm:inline">Live Human Chat</span>
+          <span className="sm:hidden">Chat</span>
           {unread > 0 && (
             <span className="ml-1 grid h-5 min-w-5 place-items-center rounded-full bg-destructive px-1.5 text-xs text-destructive-foreground">
               {unread}

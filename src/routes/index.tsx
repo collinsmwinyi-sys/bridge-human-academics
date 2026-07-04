@@ -28,16 +28,12 @@ function Home() {
       <Hero />
       <TrustBar />
       <LiveStats />
-      <HowItWorks />
-      <Levels />
       <Services />
       <HelperSpotlight />
-      <WhyHuman />
-      <CompareVsAI />
+      <HowMatchingWorks />
       <SurveyCTA />
       <PricingOverview />
       <Integrity />
-      <Testimonials />
       <FAQ />
       <FinalCTA />
     </PageShell>
@@ -50,7 +46,7 @@ function Hero() {
       <div className="absolute inset-0 -z-10 gradient-soft" />
       <div className="absolute -top-32 right-0 -z-10 h-[480px] w-[480px] rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute -bottom-32 -left-20 -z-10 h-[420px] w-[420px] rounded-full bg-accent/15 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-20 pt-6 sm:px-6 sm:pt-8 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:pb-24 lg:pt-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-16 pt-6 sm:px-6 sm:pt-8 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:pb-20 lg:pt-10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -65,7 +61,14 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="gradient-hero text-primary-foreground shadow-elegant">
-              <Link to="/request-help">Request Human Help <ChevronRight className="ml-1 h-4 w-4" /></Link>
+              <a href="#estimate-calculator">Estimate Price <ChevronRight className="ml-1 h-4 w-4" /></a>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => window.dispatchEvent(new Event("studyhuman:open-chat"))}
+            >
+              <MessageSquare className="mr-1 h-4 w-4" /> Chat With a Human
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/survey-recruitment">Find Survey Participants</Link>
@@ -74,22 +77,20 @@ function Hero() {
               <Link to="/become-helper">Become a Helper</Link>
             </Button>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-success" /> Verified experts</div>
+          <div className="mt-5 grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
+            <div className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 text-accent" /> Human support available 24/7</div>
+            <div className="flex items-center gap-2"><BadgeCheck className="h-3.5 w-3.5 text-success" /> Verified helpers</div>
+            <div className="flex items-center gap-2"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Secure payment after scope confirmation</div>
+            <div className="flex items-center gap-2"><Bot className="h-3.5 w-3.5 text-primary" /> No AI-written work</div>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-primary" /> 80+ countries</div>
-            <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-accent" /> 24/7 support</div>
           </div>
         </div>
         <div id="estimate-calculator" className="scroll-mt-24">
           <PriceCalculator compact />
         </div>
       </div>
-      <a
-        href="#estimate-calculator"
-        className="fixed bottom-24 right-5 z-30 inline-flex items-center gap-2 rounded-full gradient-hero px-4 py-2 text-sm font-medium text-primary-foreground shadow-elegant"
-      >
-        Estimate Price
-      </a>
     </section>
   );
 }
@@ -337,7 +338,12 @@ function PricingOverview() {
         ))}
       </div>
       <div className="mt-6 text-center">
-        <Button asChild variant="outline"><Link to="/pricing">See full pricing</Link></Button>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Button asChild className="gradient-hero text-primary-foreground shadow-soft">
+            <a href="#estimate-calculator">Estimate Price</a>
+          </Button>
+          <Button asChild variant="outline"><Link to="/pricing">See full pricing</Link></Button>
+        </div>
       </div>
     </Section>
   );
@@ -435,7 +441,14 @@ function FinalCTA() {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg" className="gradient-hero text-primary-foreground shadow-elegant">
-            <Link to="/request-help">Request Human Help</Link>
+            <a href="#estimate-calculator">Estimate Price</a>
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => window.dispatchEvent(new Event("studyhuman:open-chat"))}
+          >
+            <MessageSquare className="mr-1 h-4 w-4" /> Chat With a Human
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/survey-recruitment">Find Survey Participants</Link>
@@ -443,6 +456,12 @@ function FinalCTA() {
           <Button asChild size="lg" variant="outline">
             <Link to="/become-helper">Become a Helper</Link>
           </Button>
+        </div>
+        <div className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-accent" /> Human support 24/7</span>
+          <span className="flex items-center gap-1.5"><BadgeCheck className="h-3.5 w-3.5 text-success" /> Verified helpers</span>
+          <span className="flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Secure payment after scope</span>
+          <span className="flex items-center gap-1.5"><Bot className="h-3.5 w-3.5 text-primary" /> No AI-written work</span>
         </div>
       </div>
     </Section>
@@ -453,9 +472,9 @@ function Section({
   eyebrow, title, children,
 }: { eyebrow?: string; title?: string; children: React.ReactNode }) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
       {(eyebrow || title) && (
-        <div className="mb-10 max-w-2xl">
+        <div className="mb-8 max-w-2xl">
           {eyebrow && <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>}
           {title && <h2 className="mt-3 text-3xl sm:text-4xl">{title}</h2>}
         </div>
@@ -504,16 +523,16 @@ function HelperSpotlight() {
     <Section eyebrow="Meet the helpers" title="Verified humans, not chatbots">
       <div className="grid gap-5 md:grid-cols-3">
         {helpers.map((h) => (
-          <div key={h.name} className="rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-elegant">
+          <div key={h.name} className="group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-elegant">
             <div className="flex items-center gap-3">
               <div className="grid h-12 w-12 place-items-center rounded-full gradient-hero text-primary-foreground">
                 <GraduationCap className="h-5 w-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-semibold">{h.name}</p>
                 <p className="text-xs text-muted-foreground">{h.role}</p>
               </div>
-              <span className="ml-auto flex items-center gap-1 rounded-full bg-success/15 px-2 py-1 text-xs font-medium text-success">
+              <span className="ml-auto flex shrink-0 items-center gap-1 rounded-full bg-success/15 px-2 py-1 text-xs font-medium text-success">
                 <span className="h-1.5 w-1.5 rounded-full bg-success" /> Online
               </span>
             </div>
@@ -527,11 +546,47 @@ function HelperSpotlight() {
               <span className="text-muted-foreground">{h.sessions}+ sessions</span>
               <Award className="h-4 w-4 text-primary" />
             </div>
+            <div className="mt-5 flex flex-col gap-2">
+              <Button asChild size="sm" className="w-full gradient-hero text-primary-foreground shadow-soft">
+                <Link to="/request-help">Request this helper</Link>
+              </Button>
+              <Link
+                to="/request-help"
+                className="text-center text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              >
+                View profile
+              </Link>
+            </div>
           </div>
         ))}
       </div>
       <div className="mt-6 text-center">
         <Button asChild variant="outline"><Link to="/request-help">Browse verified helpers</Link></Button>
+      </div>
+    </Section>
+  );
+}
+
+function HowMatchingWorks() {
+  const steps = [
+    { n: "01", t: "Tell us what you need", d: "Share your subject, level, deadline, and the type of support.", icon: ClipboardList },
+    { n: "02", t: "See an instant estimate", d: "Get a transparent price before you commit.", icon: Sigma },
+    { n: "03", t: "Match with a verified human helper", d: "We connect you to a real expert who fits your topic.", icon: UserCheck },
+    { n: "04", t: "Confirm scope, deadline, and payment", d: "Approve the plan, then pay securely once scope is set.", icon: ShieldCheck },
+  ];
+  return (
+    <Section eyebrow="How matching works" title="From request to real human help in minutes">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s) => (
+          <div key={s.n} className="relative rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft">
+            <div className="flex items-center justify-between">
+              <span className="font-serif text-2xl text-primary/40">{s.n}</span>
+              <s.icon className="h-5 w-5 text-primary" />
+            </div>
+            <h3 className="mt-3 font-display text-lg">{s.t}</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
+          </div>
+        ))}
       </div>
     </Section>
   );
