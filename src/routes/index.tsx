@@ -28,16 +28,12 @@ function Home() {
       <Hero />
       <TrustBar />
       <LiveStats />
-      <HowItWorks />
-      <Levels />
       <Services />
       <HelperSpotlight />
-      <WhyHuman />
-      <CompareVsAI />
+      <HowMatchingWorks />
       <SurveyCTA />
       <PricingOverview />
       <Integrity />
-      <Testimonials />
       <FAQ />
       <FinalCTA />
     </PageShell>
@@ -50,7 +46,7 @@ function Hero() {
       <div className="absolute inset-0 -z-10 gradient-soft" />
       <div className="absolute -top-32 right-0 -z-10 h-[480px] w-[480px] rounded-full bg-primary/10 blur-3xl" />
       <div className="absolute -bottom-32 -left-20 -z-10 h-[420px] w-[420px] rounded-full bg-accent/15 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-20 pt-6 sm:px-6 sm:pt-8 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:pb-24 lg:pt-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-16 pt-6 sm:px-6 sm:pt-8 lg:grid-cols-[1.1fr_1fr] lg:px-8 lg:pb-20 lg:pt-10">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -65,7 +61,14 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="gradient-hero text-primary-foreground shadow-elegant">
-              <Link to="/request-help">Request Human Help <ChevronRight className="ml-1 h-4 w-4" /></Link>
+              <a href="#estimate-calculator">Estimate Price <ChevronRight className="ml-1 h-4 w-4" /></a>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => window.dispatchEvent(new Event("studyhuman:open-chat"))}
+            >
+              <MessageSquare className="mr-1 h-4 w-4" /> Chat With a Human
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/survey-recruitment">Find Survey Participants</Link>
@@ -74,22 +77,20 @@ function Hero() {
               <Link to="/become-helper">Become a Helper</Link>
             </Button>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 text-success" /> Verified experts</div>
+          <div className="mt-5 grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
+            <div className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 text-accent" /> Human support available 24/7</div>
+            <div className="flex items-center gap-2"><BadgeCheck className="h-3.5 w-3.5 text-success" /> Verified helpers</div>
+            <div className="flex items-center gap-2"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Secure payment after scope confirmation</div>
+            <div className="flex items-center gap-2"><Bot className="h-3.5 w-3.5 text-primary" /> No AI-written work</div>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2"><Globe2 className="h-4 w-4 text-primary" /> 80+ countries</div>
-            <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-accent" /> 24/7 support</div>
           </div>
         </div>
         <div id="estimate-calculator" className="scroll-mt-24">
           <PriceCalculator compact />
         </div>
       </div>
-      <a
-        href="#estimate-calculator"
-        className="fixed bottom-24 right-5 z-30 inline-flex items-center gap-2 rounded-full gradient-hero px-4 py-2 text-sm font-medium text-primary-foreground shadow-elegant"
-      >
-        Estimate Price
-      </a>
     </section>
   );
 }
