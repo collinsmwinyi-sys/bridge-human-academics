@@ -436,7 +436,14 @@ function FinalCTA() {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg" className="gradient-hero text-primary-foreground shadow-elegant">
-            <Link to="/request-help">Request Human Help</Link>
+            <a href="#estimate-calculator">Estimate Price</a>
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => window.dispatchEvent(new Event("studyhuman:open-chat"))}
+          >
+            <MessageSquare className="mr-1 h-4 w-4" /> Chat With a Human
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/survey-recruitment">Find Survey Participants</Link>
@@ -444,6 +451,12 @@ function FinalCTA() {
           <Button asChild size="lg" variant="outline">
             <Link to="/become-helper">Become a Helper</Link>
           </Button>
+        </div>
+        <div className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-accent" /> Human support 24/7</span>
+          <span className="flex items-center gap-1.5"><BadgeCheck className="h-3.5 w-3.5 text-success" /> Verified helpers</span>
+          <span className="flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-primary" /> Secure payment after scope</span>
+          <span className="flex items-center gap-1.5"><Bot className="h-3.5 w-3.5 text-primary" /> No AI-written work</span>
         </div>
       </div>
     </Section>
