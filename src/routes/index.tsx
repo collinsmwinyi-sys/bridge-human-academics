@@ -505,16 +505,16 @@ function HelperSpotlight() {
     <Section eyebrow="Meet the helpers" title="Verified humans, not chatbots">
       <div className="grid gap-5 md:grid-cols-3">
         {helpers.map((h) => (
-          <div key={h.name} className="rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-elegant">
+          <div key={h.name} className="group flex flex-col rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-elegant">
             <div className="flex items-center gap-3">
               <div className="grid h-12 w-12 place-items-center rounded-full gradient-hero text-primary-foreground">
                 <GraduationCap className="h-5 w-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-semibold">{h.name}</p>
                 <p className="text-xs text-muted-foreground">{h.role}</p>
               </div>
-              <span className="ml-auto flex items-center gap-1 rounded-full bg-success/15 px-2 py-1 text-xs font-medium text-success">
+              <span className="ml-auto flex shrink-0 items-center gap-1 rounded-full bg-success/15 px-2 py-1 text-xs font-medium text-success">
                 <span className="h-1.5 w-1.5 rounded-full bg-success" /> Online
               </span>
             </div>
@@ -528,11 +528,47 @@ function HelperSpotlight() {
               <span className="text-muted-foreground">{h.sessions}+ sessions</span>
               <Award className="h-4 w-4 text-primary" />
             </div>
+            <div className="mt-5 flex flex-col gap-2">
+              <Button asChild size="sm" className="w-full gradient-hero text-primary-foreground shadow-soft">
+                <Link to="/request-help">Request this helper</Link>
+              </Button>
+              <Link
+                to="/request-help"
+                className="text-center text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+              >
+                View profile
+              </Link>
+            </div>
           </div>
         ))}
       </div>
       <div className="mt-6 text-center">
         <Button asChild variant="outline"><Link to="/request-help">Browse verified helpers</Link></Button>
+      </div>
+    </Section>
+  );
+}
+
+function HowMatchingWorks() {
+  const steps = [
+    { n: "01", t: "Tell us what you need", d: "Share your subject, level, deadline, and the type of support.", icon: ClipboardList },
+    { n: "02", t: "See an instant estimate", d: "Get a transparent price before you commit.", icon: Sigma },
+    { n: "03", t: "Match with a verified human helper", d: "We connect you to a real expert who fits your topic.", icon: UserCheck },
+    { n: "04", t: "Confirm scope, deadline, and payment", d: "Approve the plan, then pay securely once scope is set.", icon: ShieldCheck },
+  ];
+  return (
+    <Section eyebrow="How matching works" title="From request to real human help in minutes">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s) => (
+          <div key={s.n} className="relative rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-soft">
+            <div className="flex items-center justify-between">
+              <span className="font-serif text-2xl text-primary/40">{s.n}</span>
+              <s.icon className="h-5 w-5 text-primary" />
+            </div>
+            <h3 className="mt-3 font-display text-lg">{s.t}</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
+          </div>
+        ))}
       </div>
     </Section>
   );
