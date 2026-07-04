@@ -338,7 +338,12 @@ function PricingOverview() {
         ))}
       </div>
       <div className="mt-6 text-center">
-        <Button asChild variant="outline"><Link to="/pricing">See full pricing</Link></Button>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Button asChild className="gradient-hero text-primary-foreground shadow-soft">
+            <a href="#estimate-calculator">Estimate Price</a>
+          </Button>
+          <Button asChild variant="outline"><Link to="/pricing">See full pricing</Link></Button>
+        </div>
       </div>
     </Section>
   );
