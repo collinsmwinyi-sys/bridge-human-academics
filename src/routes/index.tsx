@@ -454,9 +454,9 @@ function Section({
   eyebrow, title, children,
 }: { eyebrow?: string; title?: string; children: React.ReactNode }) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
       {(eyebrow || title) && (
-        <div className="mb-10 max-w-2xl">
+        <div className="mb-8 max-w-2xl">
           {eyebrow && <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>}
           {title && <h2 className="mt-3 text-3xl sm:text-4xl">{title}</h2>}
         </div>
