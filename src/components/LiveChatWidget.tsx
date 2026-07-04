@@ -179,8 +179,8 @@ export function LiveChatWidget() {
           aria-label="Open live human chat"
         >
           <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="hidden xs:inline sm:inline">Live Human Chat</span>
-          <span className="xs:hidden sm:hidden">Chat</span>
+          <span className="hidden sm:inline">Live Human Chat</span>
+          <span className="sm:hidden">Chat</span>
           {unread > 0 && (
             <span className="ml-1 grid h-5 min-w-5 place-items-center rounded-full bg-destructive px-1.5 text-xs text-destructive-foreground">
               {unread}
