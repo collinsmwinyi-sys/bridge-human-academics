@@ -3,6 +3,7 @@ import {
   GraduationCap, BookOpen, PenLine, FlaskConical, Sigma, Presentation, Users,
   ShieldCheck, Sparkles, Globe2, Clock, CheckCircle2, Star, ChevronRight,
   MessageSquare, FileText, ClipboardList, BadgeCheck, Gift, ArrowRight,
+  Bot, UserCheck, X, TrendingUp, Award,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/PageShell";
@@ -26,10 +27,13 @@ function Home() {
       <ReferralBanner />
       <Hero />
       <TrustBar />
+      <LiveStats />
       <HowItWorks />
       <Levels />
       <Services />
+      <HelperSpotlight />
       <WhyHuman />
+      <CompareVsAI />
       <SurveyCTA />
       <PricingOverview />
       <Integrity />
@@ -463,3 +467,104 @@ function Section({
 
 // ensure MessageSquare import isn't dead-stripped warnings; not used directly above but kept for header.
 void MessageSquare;
+
+function LiveStats() {
+  const stats = [
+    { icon: Users, k: "Active learners this week", v: "2,480+" },
+    { icon: UserCheck, k: "Verified human helpers online", v: "312" },
+    { icon: Clock, k: "Avg. match time", v: "< 4 min" },
+    { icon: Star, k: "Average helper rating", v: "4.9 / 5" },
+  ];
+  return (
+    <section className="border-b border-border bg-card/40">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:px-8">
+        {stats.map((s) => (
+          <div key={s.k} className="flex items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-card">
+            <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
+              <s.icon className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="font-display text-2xl leading-none">{s.v}</p>
+              <p className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">{s.k}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function HelperSpotlight() {
+  const helpers = [
+    { name: "Dr. Amara Okafor", role: "PhD · Research Methods", tags: ["Literature Reviews", "APA", "Qualitative"], rating: 4.9, sessions: 320 },
+    { name: "Marcus Chen", role: "MSc · Statistics & Data", tags: ["SPSS", "R", "Regression"], rating: 5.0, sessions: 210 },
+    { name: "Priya Sharma", role: "MA · Academic Writing", tags: ["Editing", "Structure", "Clarity"], rating: 4.9, sessions: 480 },
+  ];
+  return (
+    <Section eyebrow="Meet the helpers" title="Verified humans, not chatbots">
+      <div className="grid gap-5 md:grid-cols-3">
+        {helpers.map((h) => (
+          <div key={h.name} className="rounded-2xl border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-elegant">
+            <div className="flex items-center gap-3">
+              <div className="grid h-12 w-12 place-items-center rounded-full gradient-hero text-primary-foreground">
+                <GraduationCap className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="font-semibold">{h.name}</p>
+                <p className="text-xs text-muted-foreground">{h.role}</p>
+              </div>
+              <span className="ml-auto flex items-center gap-1 rounded-full bg-success/15 px-2 py-1 text-xs font-medium text-success">
+                <span className="h-1.5 w-1.5 rounded-full bg-success" /> Online
+              </span>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {h.tags.map((t) => (
+                <span key={t} className="rounded-full border border-border bg-background px-2.5 py-1 text-xs text-muted-foreground">{t}</span>
+              ))}
+            </div>
+            <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-sm">
+              <span className="flex items-center gap-1 text-accent"><Star className="h-4 w-4 fill-current" /> {h.rating}</span>
+              <span className="text-muted-foreground">{h.sessions}+ sessions</span>
+              <Award className="h-4 w-4 text-primary" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 text-center">
+        <Button asChild variant="outline"><Link to="/request-help">Browse verified helpers</Link></Button>
+      </div>
+    </Section>
+  );
+}
+
+function CompareVsAI() {
+  const rows = [
+    { k: "Understands your professor's rubric", ai: false, sh: true },
+    { k: "Explains reasoning in your own words", ai: false, sh: true },
+    { k: "Real subject expertise you can verify", ai: false, sh: true },
+    { k: "Ethical, integrity-first guidance", ai: false, sh: true },
+    { k: "Original work stays yours", ai: false, sh: true },
+    { k: "Available 24/7", ai: true, sh: true },
+  ];
+  return (
+    <Section eyebrow="Human vs. AI" title="Why students still choose real people">
+      <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+        <div className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border bg-muted/40 px-6 py-4 text-sm font-medium">
+          <span className="text-muted-foreground">What you actually need</span>
+          <span className="flex items-center gap-2"><Bot className="h-4 w-4 text-muted-foreground" /> Generic AI tool</span>
+          <span className="flex items-center gap-2"><UserCheck className="h-4 w-4 text-primary" /> StudyHuman</span>
+        </div>
+        {rows.map((r) => (
+          <div key={r.k} className="grid grid-cols-[1.5fr_1fr_1fr] items-center gap-4 border-b border-border px-6 py-4 text-sm last:border-0">
+            <span>{r.k}</span>
+            <span>{r.ai ? <CheckCircle2 className="h-5 w-5 text-success" /> : <X className="h-5 w-5 text-muted-foreground" />}</span>
+            <span>{r.sh ? <CheckCircle2 className="h-5 w-5 text-success" /> : <X className="h-5 w-5 text-muted-foreground" />}</span>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+        <TrendingUp className="h-3.5 w-3.5" /> 92% of returning students say human guidance improved their next grade.
+      </p>
+    </Section>
+  );
+}
