@@ -3,6 +3,7 @@ import {
   GraduationCap, BookOpen, PenLine, FlaskConical, Sigma, Presentation, Users,
   ShieldCheck, Sparkles, Globe2, Clock, CheckCircle2, Star, ChevronRight,
   MessageSquare, FileText, ClipboardList, BadgeCheck, Gift, ArrowRight,
+  Bot, UserCheck, X, TrendingUp, Award,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/PageShell";
@@ -26,10 +27,13 @@ function Home() {
       <ReferralBanner />
       <Hero />
       <TrustBar />
+      <LiveStats />
       <HowItWorks />
       <Levels />
       <Services />
+      <HelperSpotlight />
       <WhyHuman />
+      <CompareVsAI />
       <SurveyCTA />
       <PricingOverview />
       <Integrity />
