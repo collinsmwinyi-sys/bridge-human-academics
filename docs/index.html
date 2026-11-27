@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHuman — Human Academic Support for Every Level of Learning</title>
+<meta name="description" content="Connect with real academic experts for tutoring, editing, research guidance, and ethical survey recruitment — from high school to PhD.">
+<!--
+  StudyHuman — static edition for GitHub Pages.
+  Converted from the StudyHuman web app (collinsmwinyi-sys/bridge-human-academics).
+
+  HOW TO EDIT THIS SITE (no build step, no backend needed):
+  Every piece of changeable content — services, prices, calculator rates, add-ons,
+  helpers, FAQs, testimonials, stats and the announcement banner — lives in ONE
+  object called CONFIG at the top of the <script> at the bottom of this file.
+  Edit CONFIG in GitHub and the whole site updates. That is the "control panel"
+  for this static version.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fcfcfd; --fg:#1b2334; --card:#ffffff; --muted:#eef0f5; --muted-fg:#525c70;
+  --primary:#2b4acb; --primary-2:#3d63d8; --primary-3:#5b8def; --primary-fg:#ffffff;
+  --accent:#c07f13; --accent-bg:#fdf3e0; --success:#1e7a46; --success-bg:#e5f4ec;
+  --border:#e2e5ee; --ring:#4a7dd4; --radius:14px;
+  --grad-hero:linear-gradient(135deg,#2b4acb 0%,#3a5bd9 55%,#5b8def 100%);
+  --grad-soft:linear-gradient(180deg,#f7f8fc 0%,#eceff7 100%);
+  --shadow-card:0 1px 3px rgba(27,35,52,.06),0 8px 24px -8px rgba(27,35,52,.10);
+  --shadow-big:0 10px 40px -12px rgba(43,74,203,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-.02em;line-height:1.12}
+a{color:var(--primary)}
+img{max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+section{padding:56px 0;scroll-margin-top:84px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--primary)}
+.sec-head{max-width:640px;margin-bottom:32px}
+.sec-head h2{font-size:34px;margin-top:10px}
+.sec-head p{color:var(--muted-fg);margin-top:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid transparent;border-radius:10px;padding:12px 22px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;min-height:48px;transition:transform .15s,box-shadow .15s}
+.btn:active{transform:scale(.98)}
+.btn-grad{background:var(--grad-hero);color:#fff;box-shadow:var(--shadow-big)}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--fg)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-light{background:#fff;color:var(--fg)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-card);padding:24px}
+.grid{display:grid;gap:20px}
+.tag{display:inline-block;border:1px solid var(--border);background:var(--bg);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--muted-fg)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:rgba(252,252,253,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.header-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--fg);font-weight:600;font-size:18px}
+.logo-badge{width:36px;height:36px;border-radius:11px;background:var(--grad-hero);display:grid;place-items:center;color:#fff;font-size:19px;flex:none}
+nav.main{display:flex;gap:26px}
+nav.main a{color:var(--muted-fg);text-decoration:none;font-size:14px;font-weight:500}
+nav.main a:hover{color:var(--fg)}
+.header-cta{display:flex;gap:8px;align-items:center}
+.header-cta .btn{min-height:40px;padding:8px 16px;font-size:14px}
+#navToggle{display:none;background:none;border:1px solid var(--border);border-radius:9px;width:44px;height:44px;font-size:20px;cursor:pointer;color:var(--fg)}
+#mobileNav{display:none;border-top:1px solid var(--border);padding:10px 16px 16px;background:var(--bg)}
+#mobileNav a{display:block;padding:11px 10px;border-radius:9px;color:var(--fg);text-decoration:none;font-weight:500;font-size:15px}
+#mobileNav a:hover{background:var(--muted)}
+/* banner */
+.banner{border-bottom:1px solid var(--border);background:var(--card)}
+.banner-in{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:10px;padding-bottom:10px;font-size:14px}
+/* hero */
+.hero{background:var(--grad-soft);padding:48px 0 64px}
+.hero-grid{display:grid;gap:40px;align-items:start}
+.hero h1{font-size:46px}
+.hero h1 em{color:var(--primary)}
+.hero .lede{margin-top:18px;font-size:18px;color:var(--muted-fg);max-width:560px}
+.hero-points{display:grid;gap:8px;margin-top:20px;font-size:13px;color:var(--muted-fg)}
+.hero-points span::before{content:"✓ ";color:var(--success);font-weight:700}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.trustbar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 0;background:#fff}
+.trustbar .wrap{display:flex;flex-wrap:wrap;gap:10px 36px;justify-content:center;align-items:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-fg)}
+.trustbar b{color:rgba(27,35,52,.72);font-weight:600}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow-card)}
+.stat .v{font-family:'Instrument Serif',Georgia,serif;font-size:26px;line-height:1}
+.stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg);margin-top:4px}
+/* cards */
+.svc-ic{width:44px;height:44px;border-radius:12px;background:rgba(43,74,203,.10);display:grid;place-items:center;font-size:21px;margin-bottom:14px}
+.svc h3,.price-card h3{font-size:21px}
+.svc p,.price-card .d{color:var(--muted-fg);font-size:14px;margin-top:8px}
+.price-card .p{font-family:'Instrument Serif',Georgia,serif;font-size:29px;color:var(--primary);margin-top:16px}
+.price-card ul{list-style:none;margin-top:14px;font-size:14px;display:grid;gap:8px}
+.price-card ul li::before{content:"✓ ";color:var(--success);font-weight:700}
+.featured{border-color:rgba(43,74,203,.45);box-shadow:0 0 0 1px rgba(43,74,203,.25),var(--shadow-card)}
+.stepnum{font-family:'Instrument Serif',Georgia,serif;font-size:30px;color:rgba(43,74,203,.4)}
+.helper .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.helper .meta{display:flex;justify-content:space-between;border-top:1px solid var(--border);margin-top:18px;padding-top:14px;font-size:14px}
+.online{background:var(--success-bg);color:var(--success)}
+/* forms */
+label.flabel{display:block;font-size:14px;font-weight:500;margin-bottom:7px}
+input,select,textarea{width:100%;font:inherit;font-size:15px;color:var(--fg);background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 12px;min-height:48px}
+textarea{min-height:0;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ring);outline-offset:1px;border-color:var(--ring)}
+.fgrid{display:grid;gap:18px}
+.hint{font-size:12px;color:var(--muted-fg);margin-top:5px}
+.check{display:flex;gap:10px;align-items:flex-start;background:rgba(43,74,203,.05);border-radius:12px;padding:14px;font-size:14px}
+.check input{width:20px;height:20px;min-height:0;flex:none;margin-top:2px;accent-color:var(--primary)}
+.extra{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:12px;padding:12px;font-size:14px;background:#fff;cursor:pointer}
+.extra input{width:20px;height:20px;min-height:0;flex:none;margin-top:2px;accent-color:var(--primary)}
+.est-box{background:var(--muted);border-radius:16px;padding:18px;margin-top:20px}
+.est-box .amount{font-family:'Instrument Serif',Georgia,serif;font-size:42px;color:var(--primary);line-height:1.05}
+.est-lines{font-size:14px;display:grid;gap:6px;margin-top:12px}
+.est-lines div{display:flex;justify-content:space-between;gap:14px}
+.est-lines dt{color:var(--muted-fg)} .est-lines dd{font-weight:500;text-align:right}
+.note{font-size:12px;color:var(--muted-fg)}
+.err{display:none;background:#fdecec;border:1px solid #f3b8b8;color:#8c1d1d;border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:16px}
+.err.show{display:block}
+/* wizard */
+.wiz-steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.wiz-steps span{font-size:12px;font-weight:600;border:1px solid var(--border);border-radius:999px;padding:6px 12px;color:var(--muted-fg);background:#fff}
+.wiz-steps span.on{background:var(--grad-hero);color:#fff;border-color:transparent}
+.wiz-nav{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.wiz-panel{display:none}.wiz-panel.on{display:block}
+pre.enquiry{white-space:pre-wrap;word-break:break-word;background:var(--muted);border-radius:12px;padding:16px;font:inherit;font-size:14px;text-align:left}
+/* faq */
+details.faq{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow-card)}
+details.faq summary{cursor:pointer;font-family:'Instrument Serif',Georgia,serif;font-size:19px;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq p{margin-top:10px;color:var(--muted-fg);font-size:14px}
+.faq-list{display:grid;gap:12px;max-width:800px;margin:0 auto}
+/* cta band */
+.band{background:var(--grad-hero);color:#fff;border-radius:24px;padding:36px 28px;box-shadow:var(--shadow-big)}
+.band h2{color:#fff;font-size:32px}
+.band p{color:rgba(255,255,255,.85);margin-top:10px}
+.band .statrow{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.18);padding:11px 0;font-size:14px}
+.band .statrow b{font-family:'Instrument Serif',Georgia,serif;font-size:20px;font-weight:400}
+.warn{background:var(--accent-bg);border:1px solid rgba(192,127,19,.35);border-radius:20px;padding:26px}
+/* footer */
+footer.site{border-top:1px solid var(--border);background:#f4f5f9;padding:52px 0 0;margin-top:0}
+.foot-grid{display:grid;gap:34px}
+footer.site h4{font-size:14px;margin-bottom:14px}
+footer.site ul{list-style:none;display:grid;gap:10px;font-size:14px}
+footer.site ul a{color:var(--muted-fg);text-decoration:none}
+footer.site ul a:hover{color:var(--fg)}
+.foot-blurb{color:var(--muted-fg);font-size:14px;margin-top:14px;max-width:340px}
+.foot-base{border-top:1px solid var(--border);margin-top:40px;padding:20px 0;font-size:12px;color:var(--muted-fg);display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+@media (min-width:640px){
+  .fgrid{grid-template-columns:1fr 1fr}
+  .grid-2{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:58px}
+}
+@media (min-width:900px){
+  .hero-grid{grid-template-columns:1.1fr 1fr}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  .foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
+  section{padding:72px 0}
+  .sec-head h2{font-size:40px}
+}
+@media (max-width:819px){
+  nav.main,.header-cta{display:none}
+  #navToggle{display:block}
+  #mobileNav.open{display:block}
+  .hero h1{font-size:40px}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap header-in">
+    <a class="logo" href="#home"><span class="logo-badge" aria-hidden="true">🎓</span>StudyHuman</a>
+    <nav class="main" aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#services">Services</a><a href="#pricing">Pricing</a>
+      <a href="#helpers">Helpers</a><a href="#writing-check">Writing Check</a>
+      <a href="#survey">Survey Participants</a><a href="#become-helper">Become a Helper</a>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn-grad" href="#request">Request Help</a>
+    </div>
+    <button id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav">☰</button>
+  </div>
+  <nav id="mobileNav" aria-label="Mobile navigation">
+    <a href="#home">Home</a><a href="#services">Services</a><a href="#pricing">Pricing</a>
+    <a href="#calculator">Price Calculator</a><a href="#helpers">Helpers</a>
+    <a href="#writing-check">Writing Check</a><a href="#survey">Survey Participants</a>
+    <a href="#faq">FAQ</a><a href="#become-helper">Become a Helper</a><a href="#request">Request Help</a>
+  </nav>
+</header>
+
+<div class="banner"><div class="wrap banner-in">
+  <div>🎁 <span class="pill" style="background:var(--accent-bg);color:var(--accent)">Referral Bonus</span>
+  <strong>Invite Friends. Earn Study Credits.</strong>
+  <span style="color:var(--muted-fg)" id="bannerText"></span></div>
+  <a href="#request" style="font-weight:600;text-decoration:none">Get started →</a>
+</div></div>
+
+<main id="home">
+  <!-- HERO -->
+  <div class="hero"><div class="wrap hero-grid">
+    <div>
+      <span class="pill" style="background:#fff;border:1px solid var(--border);color:var(--muted-fg)">🛡 Real people. Real guidance. No AI-written shortcuts.</span>
+      <h1 style="margin-top:18px">Get Real Human<br><em>Academic Support</em></h1>
+      <p class="lede">StudyHuman connects students from high school to PhD level with verified human academic helpers for tutoring, editing, proofreading, research guidance, study coaching, data analysis guidance, presentation support, and survey participant recruitment.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-grad" href="#calculator">Estimate Price →</a>
+        <a class="btn btn-outline" href="#request">Request Human Help</a>
+        <a class="btn btn-outline" href="#survey">Find Survey Participants</a>
+        <a class="btn btn-outline" href="#become-helper">Become a Helper</a>
+      </div>
+      <div class="hero-points">
+        <span>Human support available 24/7</span>
+        <span>Verified helpers</span>
+        <span>Secure payment after scope confirmation</span>
+        <span>No AI-written work</span>
+        <span>80+ countries</span>
+      </div>
+    </div>
+    <div id="calculator">
+      <div class="card" style="border-color:rgba(43,74,203,.35)">
+        <p class="eyebrow">Price calculator</p>
+        <h2 style="font-size:27px;margin-top:6px">Estimate Your Support Cost</h2>
+        <p class="note" style="margin-top:4px">No payment required. Get a quick estimate first.</p>
+        <form id="calcForm" style="margin-top:16px">
+          <div class="fgrid">
+            <div><label class="flabel" for="c-service">Service Type</label><select id="c-service"></select></div>
+            <div class="c-nonSurvey"><label class="flabel" for="c-level">Academic Level</label><select id="c-level"></select></div>
+            <div><label class="flabel" for="c-qty" id="c-qtyLabel">Quantity</label><input id="c-qty" type="number" min="1" value="1"><p class="hint" id="c-qtyHint"></p></div>
+            <div><label class="flabel" for="c-deadline">Deadline</label><select id="c-deadline"></select></div>
+            <div class="c-nonSurvey"><label class="flabel" for="c-support">Support Level</label><select id="c-support"></select></div>
+            <div class="c-survey" hidden><label class="flabel" for="c-incentive">Incentive / participant (USD)</label><input id="c-incentive" type="number" min="0" value="0"></div>
+            <div class="c-survey" hidden><label class="flabel" for="c-region">Target Country or Region</label><input id="c-region" type="text" placeholder="e.g. Global, EU, East Africa"></div>
+          </div>
+          <div class="c-nonSurvey" style="margin-top:16px">
+            <p class="flabel">Extra Services</p>
+            <div class="fgrid" id="c-extras"></div>
+          </div>
+          <div class="est-box">
+            <p class="eyebrow" style="color:var(--muted-fg)">Estimated Support Cost</p>
+            <p class="amount" id="c-amount">$0 – $0</p>
+            <dl class="est-lines" id="c-lines"></dl>
+            <p class="note" style="margin-top:10px" id="c-note"></p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+            <a class="btn btn-grad" href="#request" style="flex:1">Request Human Help</a>
+            <a class="btn btn-outline" id="c-mail" href="#" style="flex:1">Email This Estimate</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="trustbar"><div class="wrap"><span>Trusted by learners at</span><b>Oxford</b><b>Stanford</b><b>Nairobi</b><b>Toronto</b><b>Delhi</b><b>Sydney</b></div></div>
+
+  <section aria-label="StudyHuman in numbers"><div class="wrap">
+    <div class="stats" id="statsGrid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))"></div>
+  </div></section>
+
+  <!-- HOW MATCHING WORKS -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">How matching works</p><h2>From request to real human help in minutes</h2></div>
+    <div class="grid grid-4" id="matchSteps"></div>
+  </div></section>
+
+  <!-- SERVICES -->
+  <section id="services" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Services</p><h2>Everything you need — ethically delivered</h2></div>
+    <div class="grid grid-4" id="svcGrid"></div>
+  </div></section>
+
+  <!-- HELPERS -->
+  <section id="helpers" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Meet the helpers</p><h2>Verified humans, not chatbots</h2></div>
+    <div class="grid grid-3" id="helperGrid"></div>
+    <p style="text-align:center;margin-top:26px"><a class="btn btn-outline" href="#request">Browse verified helpers</a></p>
+  </div></section>
+
+  <!-- WHY HUMAN + LEVELS -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Why human support</p><h2>Because learning still happens between people</h2></div>
+    <div class="grid grid-2" id="whyGrid"></div>
+    <div class="sec-head" style="margin-top:52px"><p class="eyebrow">Academic Levels</p><h2>Support for every stage of learning</h2></div>
+    <div class="grid" id="levelGrid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))"></div>
+  </div></section>
+
+  <!-- SURVEY BAND -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="band"><div class="grid grid-2" style="align-items:center">
+      <div>
+        <p style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8)">Survey Participant Recruitment</p>
+        <h2 style="margin-top:10px">Find real participants for your academic research</h2>
+        <p>Ethically recruit students and adults across countries — with informed consent, privacy protection, and clear incentives.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+          <a class="btn btn-light" href="#survey">Find Survey Participants</a>
+          <a class="btn" href="#request" style="border-color:rgba(255,255,255,.5);color:#fff">Ethical human academic support</a>
+        </div>
+      </div>
+      <div id="surveyStats"></div>
+    </div></div>
+  </div></section>
+
+  <!-- PRICING -->
+  <section id="pricing" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Transparent pricing, scoped to your needs</h2>
+    <p>We never sell finished assignments. You pay for human guidance, feedback, and expert time.</p></div>
+    <div class="grid grid-3" id="tierGrid"></div>
+    <p style="text-align:center;margin-top:28px;color:var(--muted-fg);font-size:14px">Need a custom quote? <a href="#request" style="font-weight:600">Submit a request</a> and we'll respond within hours.</p>
+  </div></section>
+
+  <!-- INTEGRITY -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="card" style="padding:34px"><div class="grid grid-2">
+      <div>
+        <p class="eyebrow">Ethical human academic support</p>
+        <h2 style="font-size:32px;margin-top:10px">We coach learners. We never replace them.</h2>
+        <p style="color:var(--muted-fg);margin-top:14px">StudyHuman provides ethical human support for tutoring, feedback, editing, research guidance, and survey recruitment. Students remain responsible for their own final submissions.</p>
+        <p style="margin-top:14px"><a href="#request" style="font-weight:600;text-decoration:none">Learn How StudyHuman Works →</a></p>
+      </div>
+      <ul style="list-style:none;display:grid;gap:10px" id="integrityList"></ul>
+    </div></div>
+  </div></section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Testimonials</p><h2>What students and researchers say</h2></div>
+    <div class="grid grid-3" id="quoteGrid"></div>
+  </div></section>
+
+  <!-- WRITING CHECK -->
+  <section id="writing-check" style="padding-top:0"><div class="wrap">
+    <span class="pill" style="background:#fff;border:1px solid var(--border);color:var(--muted-fg)">🛡 Human review, not blind AI detector results.</span>
+    <div class="sec-head" style="margin-top:16px"><p class="eyebrow">Writing Check</p>
+    <h2>Check If Your Work <em style="color:var(--primary)">Sounds AI-Written</em></h2>
+    <p>Get a human review of your writing to identify AI-like patterns, weak originality, unclear arguments, citation issues, and areas that need stronger human voice.</p></div>
+    <div class="grid grid-4" id="wcSteps"></div>
+    <div class="sec-head" style="margin-top:52px"><p class="eyebrow">What we check</p><h2>Eight angles, reviewed by a real person</h2></div>
+    <div class="grid grid-4" id="wcGrid"></div>
+    <div class="warn" style="margin-top:36px">
+      <h3 style="font-size:25px">⚠ AI Detection Is Not Always Accurate</h3>
+      <p style="color:var(--muted-fg);margin-top:10px">AI detection tools can produce false positives and false negatives. StudyHuman does not claim to prove whether a text was written by AI. Instead, our reviewers provide careful human feedback on whether the writing sounds overly generic, robotic, unsupported, poorly cited, or inconsistent with academic expectations.</p>
+    </div>
+    <div class="sec-head" style="margin-top:52px"><p class="eyebrow">Pricing preview</p><h2>Transparent, scoped to your review</h2></div>
+    <div class="grid grid-4" id="wcTiers"></div>
+    <p class="note" style="margin-top:14px">Pricing depends on document length, academic level, deadline, and review depth.</p>
+
+    <div class="card" style="max-width:820px;margin:44px auto 0">
+      <h3 style="font-size:25px">Submit writing for review</h3>
+      <p class="note" style="margin:6px 0 18px">This static site can't receive uploads — submitting opens your email app with the review request pre-written. Paste or attach your document there.</p>
+      <div class="err" id="wc-err" role="alert"></div>
+      <form id="wcForm" novalidate>
+        <div class="fgrid">
+          <div><label class="flabel" for="wc-name">Full name</label><input id="wc-name" required autocomplete="name"></div>
+          <div><label class="flabel" for="wc-email">Email address</label><input id="wc-email" type="email" required autocomplete="email"></div>
+          <div><label class="flabel" for="wc-level">Academic level</label><select id="wc-level"></select></div>
+          <div><label class="flabel" for="wc-subject">Subject area</label><input id="wc-subject" placeholder="e.g. Psychology"></div>
+          <div><label class="flabel" for="wc-type">Review type</label><select id="wc-type"></select></div>
+          <div><label class="flabel" for="wc-deadline">Deadline</label><input id="wc-deadline" type="date"></div>
+          <div><label class="flabel" for="wc-budget">Budget (USD)</label><input id="wc-budget" type="number" min="0" placeholder="e.g. 25"></div>
+        </div>
+        <div style="margin-top:18px"><label class="flabel" for="wc-text">Paste text</label><textarea id="wc-text" rows="7" placeholder="Paste the writing you'd like reviewed..."></textarea></div>
+        <div style="margin-top:18px"><label class="flabel" for="wc-notes">Additional instructions</label><textarea id="wc-notes" rows="3" placeholder="Anything specific you want the reviewer to focus on?"></textarea></div>
+        <label class="check" style="margin-top:18px"><input type="checkbox" id="wc-ok"><span>I understand that StudyHuman does not guarantee 100% AI detection accuracy. This service provides human feedback on writing style, originality concerns, citation quality, structure, and academic integrity.</span></label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button class="btn btn-grad" type="submit" style="flex:1">Submit for Human Review (opens email)</button>
+          <button class="btn btn-outline" type="button" id="wc-copy" style="flex:1">Copy request text</button>
+        </div>
+        <p class="note" id="wc-done" style="margin-top:10px" aria-live="polite"></p>
+      </form>
+    </div>
+  </div></section>
+
+  <!-- SURVEY -->
+  <section id="survey" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Survey participants</p><h2>Find Survey Participants</h2>
+    <p>Need participants for your academic survey? StudyHuman helps students and researchers connect with real human participants for ethical, consent-based survey research. All survey participation must be voluntary, privacy-respecting, and based on clear informed consent.</p></div>
+    <div class="card" style="max-width:820px;margin:0 auto">
+      <div class="check" style="margin-bottom:20px"><span aria-hidden="true">🛡</span><span>All recruitment campaigns follow informed-consent and data-privacy standards. Participants opt in voluntarily and may withdraw at any time.</span></div>
+      <div class="err" id="sv-err" role="alert"></div>
+      <form id="svForm" novalidate>
+        <div><label class="flabel" for="sv-title">Research title</label><input id="sv-title" placeholder="e.g. Mental health and remote learning"></div>
+        <div class="fgrid" style="margin-top:18px">
+          <div><label class="flabel" for="sv-level">Academic level</label><select id="sv-level"></select></div>
+          <div><label class="flabel" for="sv-inst">Institution</label><input id="sv-inst" placeholder="University / organization"></div>
+          <div><label class="flabel" for="sv-target">Target participants</label><input id="sv-target" placeholder="e.g. university students 18–25"></div>
+          <div><label class="flabel" for="sv-region">Country / region</label><input id="sv-region" placeholder="e.g. Global, East Africa, EU"></div>
+          <div><label class="flabel" for="sv-count">Participants needed</label><input id="sv-count" type="number" min="1" placeholder="e.g. 200"></div>
+          <div><label class="flabel" for="sv-time">Estimated completion time</label><input id="sv-time" placeholder="e.g. 8 minutes"></div>
+          <div><label class="flabel" for="sv-incentive">Incentive / payment per participant</label><input id="sv-incentive" placeholder="e.g. $2"></div>
+          <div><label class="flabel" for="sv-deadline">Deadline</label><input id="sv-deadline" type="date"></div>
+        </div>
+        <div style="margin-top:18px"><label class="flabel" for="sv-link">Survey link</label><input id="sv-link" type="url" placeholder="https://..."></div>
+        <div style="margin-top:18px"><label class="flabel" for="sv-notes">Additional notes</label><textarea id="sv-notes" rows="4" placeholder="Eligibility criteria, exclusions, screening questions, etc."></textarea></div>
+        <label class="check" style="margin-top:18px"><input type="checkbox" id="sv-ethics"><span>My research has ethics approval (or does not require one).</span></label>
+        <label class="check" style="margin-top:12px"><input type="checkbox" id="sv-consent"><span>I will provide participants with informed consent, allow withdrawal at any time, and protect their privacy.</span></label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button class="btn btn-grad" type="submit" style="flex:1">Launch recruitment (opens email)</button>
+          <button class="btn btn-outline" type="button" id="sv-copy" style="flex:1">Copy request text</button>
+        </div>
+        <p class="note" id="sv-done" style="margin-top:10px" aria-live="polite"></p>
+      </form>
+    </div>
+  </div></section>
+
+  <!-- FAQ -->
+  <section id="faq" style="padding-top:0"><div class="wrap">
+    <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center"><p class="eyebrow">FAQ</p><h2>Answers to common questions</h2></div>
+    <div class="faq-list" id="faqList"></div>
+  </div></section>
+
+  <!-- REQUEST HELP WIZARD -->
+  <section id="request" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Request academic help</p><h2>Tell us what you need — we'll match you with a real expert</h2>
+    <p>Tutoring, editing, research guidance, formatting, data analysis support, and more.</p></div>
+    <div class="card" style="max-width:820px;margin:0 auto">
+      <div class="wiz-steps" id="wizSteps" aria-hidden="true"></div>
+      <div class="err" id="rq-err" role="alert"></div>
+
+      <div class="wiz-panel" data-panel="1">
+        <div class="fgrid">
+          <div><label class="flabel" for="rq-service">Choose a service</label><select id="rq-service"></select></div>
+          <div><label class="flabel" for="rq-helper">Preferred helper (optional)</label><select id="rq-helper"></select></div>
+        </div>
+      </div>
+
+      <div class="wiz-panel" data-panel="2">
+        <div class="fgrid">
+          <div><label class="flabel" for="rq-level">Academic level</label><select id="rq-level"></select></div>
+          <div><label class="flabel" for="rq-subject">Subject</label><input id="rq-subject" placeholder="e.g. Sociology"></div>
+          <div><label class="flabel" for="rq-qty" id="rq-qtyLabel">Quantity</label><input id="rq-qty" type="number" min="1" value="1"></div>
+          <div><label class="flabel" for="rq-deadline">Deadline</label><select id="rq-deadline"></select></div>
+          <div><label class="flabel" for="rq-support">Support level</label><select id="rq-support"></select></div>
+          <div><label class="flabel" for="rq-date">Target date (optional)</label><input id="rq-date" type="date"></div>
+        </div>
+        <div style="margin-top:18px"><label class="flabel" for="rq-notes">Instructions</label><textarea id="rq-notes" rows="5" placeholder="Describe what you need help with. Share context, requirements, and goals."></textarea></div>
+        <div style="margin-top:18px"><label class="flabel" for="rq-budget">Budget (USD, optional)</label><input id="rq-budget" type="number" min="0" placeholder="e.g. 50"></div>
+        <p class="hint">Have a file to share? You can attach it in your email app at the final step — this static site can't receive uploads.</p>
+      </div>
+
+      <div class="wiz-panel" data-panel="3">
+        <h3 style="font-size:23px">Review your estimate</h3>
+        <div class="est-box">
+          <p class="eyebrow" style="color:var(--muted-fg)">Estimated Support Cost</p>
+          <p class="amount" id="rq-amount">$0 – $0</p>
+          <dl class="est-lines" id="rq-lines"></dl>
+          <p class="note" style="margin-top:10px" id="rq-note"></p>
+        </div>
+      </div>
+
+      <div class="wiz-panel" data-panel="4">
+        <div class="fgrid">
+          <div><label class="flabel" for="rq-name">Your name</label><input id="rq-name" autocomplete="name"></div>
+          <div><label class="flabel" for="rq-email">Your email</label><input id="rq-email" type="email" autocomplete="email"></div>
+        </div>
+        <label class="check" style="margin-top:18px"><input type="checkbox" id="rq-ok"><span>I understand that StudyHuman provides learning support, tutoring, editing, and guidance only. I will not use this service for academic dishonesty.</span></label>
+      </div>
+
+      <div class="wiz-panel" data-panel="5">
+        <h3 style="font-size:23px">✅ Your request is ready to send</h3>
+        <p style="color:var(--muted-fg);margin:8px 0 14px;font-size:14px">A static website has no inbox of its own, so your request travels by email — the same way the original site prepared enquiries. Open your email app with everything pre-written, or copy the text and send it yourself.</p>
+        <pre class="enquiry" id="rq-text"></pre>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+          <a class="btn btn-grad" id="rq-mail" href="#" style="flex:1">Open email app &amp; send</a>
+          <button class="btn btn-outline" type="button" id="rq-copy" style="flex:1">Copy enquiry text</button>
+        </div>
+        <p class="note" id="rq-done" style="margin-top:10px" aria-live="polite"></p>
+      </div>
+
+      <div class="wiz-nav">
+        <button class="btn btn-outline" type="button" id="rq-back">← Back</button>
+        <button class="btn btn-grad" type="button" id="rq-next" style="flex:1">Continue →</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- BECOME A HELPER -->
+  <section id="become-helper" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Apply as a helper</p><h2>Share your expertise. Help students learn ethically.</h2>
+    <p>Tutors, editors, researchers, and academic mentors — join our verified global community.</p></div>
+    <div class="card" style="max-width:820px;margin:0 auto">
+      <div class="err" id="hp-err" role="alert"></div>
+      <form id="hpForm" novalidate>
+        <div class="fgrid">
+          <div><label class="flabel" for="hp-name">Full name</label><input id="hp-name" required autocomplete="name"></div>
+          <div><label class="flabel" for="hp-email">Email</label><input id="hp-email" type="email" required autocomplete="email"></div>
+          <div><label class="flabel" for="hp-country">Country</label><input id="hp-country" required autocomplete="country-name"></div>
+          <div><label class="flabel" for="hp-edu">Highest education level</label><select id="hp-edu"></select></div>
+          <div><label class="flabel" for="hp-hourly">Hourly rate (USD)</label><input id="hp-hourly" type="number" min="0" placeholder="e.g. 25"></div>
+          <div><label class="flabel" for="hp-project">Project rate (optional)</label><input id="hp-project" type="number" min="0" placeholder="e.g. 150"></div>
+        </div>
+        <div style="margin-top:18px"><label class="flabel" for="hp-areas">Areas of expertise</label><input id="hp-areas" placeholder="e.g. Statistics, English Literature, Public Health"></div>
+        <div style="margin-top:18px"><label class="flabel" for="hp-exp">Experience</label><textarea id="hp-exp" rows="4" placeholder="Briefly describe your teaching, tutoring, editing, or research experience."></textarea></div>
+        <div style="margin-top:18px"><label class="flabel" for="hp-services">Preferred services</label><input id="hp-services" placeholder="e.g. Tutoring, Editing, Research Guidance"></div>
+        <p class="hint" style="margin-top:14px">CV / resume: attach it in your email app when the application opens there — this static site can't receive uploads.</p>
+        <label class="check" style="margin-top:14px"><input type="checkbox" id="hp-ok"><span>I agree to StudyHuman's academic integrity and quality policy — I will provide guidance, feedback, and tutoring, never complete assignments on behalf of students.</span></label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button class="btn btn-grad" type="submit" style="flex:1">Submit application (opens email)</button>
+          <button class="btn btn-outline" type="button" id="hp-copy" style="flex:1">Copy application text</button>
+        </div>
+        <p class="note" id="hp-done" style="margin-top:10px" aria-live="polite"></p>
+      </form>
+    </div>
+  </div></section>
+
+  <!-- FINAL CTA -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="card" style="text-align:center;padding:44px 28px">
+      <h2 style="font-size:36px">Ready to learn with a real human expert?</h2>
+      <p style="color:var(--muted-fg);margin:12px auto 0;max-width:540px">Submit your first request in minutes. Real people. Real academic support.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px">
+        <a class="btn btn-grad" href="#calculator">Estimate Price</a>
+        <a class="btn btn-outline" href="#request">Request Human Help</a>
+        <a class="btn btn-outline" href="#survey">Find Survey Participants</a>
+        <a class="btn btn-outline" href="#become-helper">Become a Helper</a>
+      </div>
+      <p class="note" style="margin-top:18px">Human support 24/7 · Verified helpers · Secure payment after scope · No AI-written work</p>
+    </div>
+  </div></section>
+</main>
+
+<footer class="site"><div class="wrap">
+  <div class="foot-grid">
+    <div>
+      <a class="logo" href="#home"><span class="logo-badge" aria-hidden="true">🎓</span>StudyHuman</a>
+      <p class="foot-blurb">Ethical, human academic support for students worldwide — from high school to PhD.</p>
+    </div>
+    <div><h4>Platform</h4><ul>
+      <li><a href="#home">About StudyHuman</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#become-helper">Become a Helper</a></li>
+    </ul></div>
+    <div><h4>For Students</h4><ul>
+      <li><a href="#services">Services</a></li><li><a href="#survey">Find survey participants</a></li><li><a href="#writing-check">Writing Check</a></li>
+    </ul></div>
+    <div><h4>Support</h4><ul>
+      <li><a id="foot-mail" href="#">Human Support — email us</a></li><li><a href="#faq">FAQ</a></li><li><a href="#request">Contact via request form</a></li>
+    </ul></div>
+  </div>
+  <div class="foot-base"><span>© 2026 StudyHuman. All rights reserved.</span><span>Made for learners worldwide.</span></div>
+</div></footer>
+
+<script>
+/* =====================================================================
+   CONFIG — the single control panel for this static site.
+   Edit these values (in GitHub) and every section of the page updates:
+   services, prices, calculator rates, add-ons, helpers, FAQs, stats,
+   testimonials and banner text all render from here.
+   ===================================================================== */
+var CONFIG = {
+  /* Every enquiry button on the site sends to this address.
+     Change it here and the whole site follows. */
+  contactEmail: "cleanwriter@gmail.com",
+
+  bannerText: "Share StudyHuman and earn up to $10 in credits per successful referral.",
+
+  /* Price calculator rules — taken from the original app's src/lib/pricing.ts
+     (calculateSupportEstimate) and src/components/PriceCalculator.tsx (extras). */
+  calc: {
+    services: [
+      { name: "Tutoring support",               base: 10,   unit: "hours" },
+      { name: "Editing and Proofreading",       base: 6,    unit: "pages" },
+      { name: "Research Guidance",              base: 12,   unit: "pages" },
+      { name: "Data Analysis Guidance",         base: 15,   unit: "hours" },
+      { name: "Formatting and Citations",       base: 5,    unit: "pages" },
+      { name: "Presentation Support",           base: 8,    unit: "slides" },
+      { name: "Survey Participant Recruitment", base: 0.75, unit: "participants", survey: true },
+      { name: "Writing Check",                  base: 6,    unit: "pages" }
+    ],
+    levels:    { "High School": 0.8, "Diploma": 0.9, "Undergraduate": 1, "Master's": 1.25, "PhD": 1.5 },
+    deadlines: { "7+ Days": 1, "3-6 Days": 1.2, "24-48 Hours": 1.5, "Under 24 Hours": 2 },
+    support:   { "Standard": 1, "Advanced": 1.25, "Urgent Review": 1.5 },
+    extras: [
+      { label: "Plagiarism and originality review", cost: 5 },
+      { label: "Citation review", cost: 5 },
+      { label: "Formatting support", cost: 5 },
+      { label: "Detailed feedback report", cost: 10 },
+      { label: "Presentation notes", cost: 10 },
+      { label: "Data interpretation guidance", cost: 15 }
+    ],
+    minFloor: 5,          /* estimates never go below $5 (pricing.ts) */
+    rangeFactor: 1.35,    /* top of range = min x 1.35 (pricing.ts) */
+    note: "This is an estimate. Final pricing is confirmed by a human helper after review."
+  },
+
+  services: [
+    { icon: "📖", t: "Tutoring & Study Coaching", d: "1:1 sessions with subject experts to deepen understanding." },
+    { icon: "✒️", t: "Editing & Proofreading", d: "Polish grammar, clarity, structure, and academic tone." },
+    { icon: "🔬", t: "Research Guidance", d: "Proposals, methodology, literature reviews, frameworks." },
+    { icon: "📊", t: "Data Analysis Guidance", d: "SPSS, R, Stata, Python — interpret your own results." },
+    { icon: "📄", t: "Formatting & Citations", d: "APA, MLA, Chicago, Harvard — done right, every time." },
+    { icon: "🖥️", t: "Presentation Support", d: "Slides, narrative, and delivery feedback." },
+    { icon: "👥", t: "Survey Participant Recruitment", d: "Connect with willing, ethical participants worldwide." },
+    { icon: "🛡️", t: "Integrity-First Feedback", d: "Constructive critique — never written-for-you work." }
+  ],
+
+  matchSteps: [
+    { n: "01", t: "Tell us what you need", d: "Share your subject, level, deadline, and the type of support." },
+    { n: "02", t: "See an instant estimate", d: "Get a transparent price before you commit." },
+    { n: "03", t: "Match with a verified human helper", d: "We connect you to a real expert who fits your topic." },
+    { n: "04", t: "Confirm scope, deadline, and payment", d: "Approve the plan, then pay securely once scope is set." }
+  ],
+
+  stats: [
+    { v: "2,480+", k: "Active learners this week" },
+    { v: "312", k: "Verified human helpers online" },
+    { v: "< 4 min", k: "Avg. match time" },
+    { v: "4.9 / 5", k: "Average helper rating" }
+  ],
+
+  helpers: [
+    { name: "Dr. Amara Okafor", role: "PhD · Research Methods", tags: ["Literature Reviews", "APA", "Qualitative"], rating: 4.9, sessions: 320 },
+    { name: "Marcus Chen", role: "MSc · Statistics & Data", tags: ["SPSS", "R", "Regression"], rating: 5.0, sessions: 210 },
+    { name: "Priya Sharma", role: "MA · Academic Writing", tags: ["Editing", "Structure", "Clarity"], rating: 4.9, sessions: 480 }
+  ],
+
+  whyHuman: [
+    { t: "Real expertise", d: "Helpers are verified academics, tutors, and researchers — not chatbots." },
+    { t: "Personalized guidance", d: "Feedback shaped to your level, topic, and goals." },
+    { t: "Ethical by design", d: "We coach learning. We do not write or submit work for you." },
+    { t: "Accountability", d: "Track conversations, deliverables, and milestones transparently." }
+  ],
+
+  levelsInfo: [
+    { t: "High School", d: "Core subjects, exam prep, study skills." },
+    { t: "Diploma", d: "Coursework guidance, technical concepts, projects." },
+    { t: "Undergraduate", d: "Essays, lab reports, citations, research methods." },
+    { t: "Master's", d: "Thesis structure, literature reviews, data analysis." },
+    { t: "PhD", d: "Dissertation coaching, methodology, publication support." }
+  ],
+
+  surveyStats: [
+    { k: "Avg. recruitment time", v: "48 hrs" },
+    { k: "Active participant pool", v: "12,400+" },
+    { k: "Countries reached", v: "80+" }
+  ],
+
+  tiers: [
+    { t: "Tutoring Support", p: "Starting from $10/hr", d: "Live, 1:1 subject coaching across all academic levels.", f: ["Verified subject experts", "Flexible scheduling", "Session recordings on request"] },
+    { t: "Editing & Proofreading", p: "Custom quote", d: "Polish grammar, clarity, structure, and academic tone.", f: ["Track-changes feedback", "Style guide compliance", "Two revision rounds"] },
+    { t: "Research Guidance", p: "Custom quote", d: "Methodology, literature, and framing support.", f: ["Topic refinement", "Source curation", "Outline & structure"], featured: true, badge: "Most popular" },
+    { t: "Data Analysis Guidance", p: "Custom quote", d: "Walkthroughs in SPSS, R, Stata, Python.", f: ["Test selection guidance", "Interpretation coaching", "Visualization advice"] },
+    { t: "Survey Participant Recruitment", p: "Starting from $50", d: "Ethical recruitment across regions.", f: ["Informed consent flow", "Targeted demographics", "Quality screening"] },
+    { t: "Premium Urgent Support", p: "Custom quote based on level, deadline, and complexity", d: "Fast-tracked matching for tight deadlines.", f: ["Priority queue", "24/7 helper availability", "Senior reviewer"] }
+  ],
+
+  integrity: ["No ghost-written assignments", "No exam impersonation", "No guaranteed grades", "No plagiarized content", "Constructive feedback only", "Clear scope on every request"],
+
+  testimonials: [
+    { q: "My tutor walked me through statistical analysis step by step. I actually understood it.", a: "Priya, Master's, India" },
+    { q: "The editor's feedback transformed my dissertation chapter. Clearer arguments, better flow.", a: "Marcus, PhD, UK" },
+    { q: "We recruited 200 participants across 4 countries within a week. Smooth experience.", a: "Dr. Lin, Researcher" }
+  ],
+
+  writingCheck: {
+    steps: [
+      { n: "01", t: "Upload or paste your writing", d: "Share the text you'd like reviewed — paste it directly or upload a document." },
+      { n: "02", t: "Choose your academic level and review type", d: "Tell us your level and what kind of human review you want." },
+      { n: "03", t: "A verified human reviewer checks the work", d: "A real academic reviewer reads the writing carefully — no blind AI detector." },
+      { n: "04", t: "Receive structured feedback", d: "Get notes on originality, tone, structure, citations, and improvement areas." }
+    ],
+    checks: [
+      { icon: "🤖", t: "AI-like writing patterns", d: "Sentence rhythms and phrasing that often signal generated text." },
+      { icon: "🔁", t: "Repetitive or generic phrasing", d: "Overused stock phrases and recycled structures." },
+      { icon: "💬", t: "Weak personal voice", d: "Writing that lacks a clear authorial perspective." },
+      { icon: "🧭", t: "Unclear argument flow", d: "Logic gaps, weak transitions, and unfocused paragraphs." },
+      { icon: "❝", t: "Citation and referencing issues", d: "Missing, inconsistent, or incorrectly formatted sources." },
+      { icon: "✨", t: "Overly polished or robotic tone", d: "Text that reads unnaturally smooth or detached." },
+      { icon: "❓", t: "Missing evidence", d: "Claims that aren't backed by data, examples, or sources." },
+      { icon: "🛡️", t: "Academic integrity risks", d: "Patterns that may concern instructors or reviewers." }
+    ],
+    reviewTypes: ["Quick AI Writing Check", "Detailed Human Originality Review", "Citation and Source Review", "Academic Tone Improvement", "Full Writing Feedback"],
+    tiers: [
+      { t: "Quick AI Writing Check", p: "Starting from $10" },
+      { t: "Detailed Human Originality Review", p: "Custom Quote" },
+      { t: "Citation and Source Review", p: "Starting from $15" },
+      { t: "Full Writing Feedback", p: "Custom Quote" }
+    ]
+  },
+
+  surveyLevels: ["Undergraduate", "Master's", "PhD", "Independent Researcher"],
+  helperLevels: ["Bachelor's", "Master's", "PhD", "Postdoc", "Professional"],
+  wcLevels: ["High School", "Diploma or Certificate", "Undergraduate", "Master's", "PhD"],
+
+  faqs: [
+    { q: "Will you write my essay for me?", a: "No. StudyHuman provides guidance, tutoring, editing, and feedback. Students are responsible for their own submissions." },
+    { q: "Are helpers real people?", a: "Yes. Every helper is verified through credentials and an experience review." },
+    { q: "How do payments work?", a: "Funds are held securely and released to your helper after the session or deliverable is completed." },
+    { q: "Can I get survey participants ethically?", a: "Yes. Our recruitment workflow includes informed consent, privacy controls, and optional ethics approval verification." }
+  ]
+};
+
+/* ---------------- helpers ---------------- */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function money(n){ return "$" + n.toLocaleString("en-US"); }
+function fillSelect(el, names, firstBlank){
+  el.innerHTML = (firstBlank ? '<option value="">Select…</option>' : "") +
+    names.map(function(n){ return '<option value="' + esc(n) + '">' + esc(n) + "</option>"; }).join("");
+}
+function svcByName(name){ for (var i=0;i<CONFIG.calc.services.length;i++) if (CONFIG.calc.services[i].name===name) return CONFIG.calc.services[i]; return CONFIG.calc.services[0]; }
+function unitLabel(svc){ return { pages:"Number of Pages", hours:"Number of Hours / Sessions", slides:"Number of Slides", participants:"Number of Participants" }[svc.unit] || "Quantity"; }
+
+/* The original app's estimate formula (src/lib/pricing.ts), plus the flat
+   add-on extras from PriceCalculator.tsx added on top of the range. */
+function calcEstimate(inp){
+  var svc = svcByName(inp.service);
+  var qty = Math.max(1, Number(inp.quantity) || 1);
+  var raw = svc.base * qty *
+    (CONFIG.calc.levels[inp.level] || 1) *
+    (CONFIG.calc.deadlines[inp.deadline] || 1) *
+    (CONFIG.calc.support[inp.support] || 1);
+  var extrasTotal = (inp.extras || []).reduce(function(sum, label){
+    for (var i=0;i<CONFIG.calc.extras.length;i++) if (CONFIG.calc.extras[i].label===label) return sum + CONFIG.calc.extras[i].cost;
+    return sum;
+  }, 0);
+  var incentiveTotal = svc.survey ? (Number(inp.incentive) || 0) * qty : 0;
+  var min = Math.max(CONFIG.calc.minFloor, Math.round(raw)) + extrasTotal + Math.round(incentiveTotal);
+  var max = Math.round((Math.max(CONFIG.calc.minFloor, Math.round(raw))) * CONFIG.calc.rangeFactor) + extrasTotal + Math.round(incentiveTotal);
+  return { min: min, max: max, extrasTotal: extrasTotal, qty: qty, svc: svc };
+}
+function enquiryMailto(subject, body){
+  return "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+}
+function copyText(text, doneEl){
+  function ok(){ if (doneEl) doneEl.textContent = "Copied — paste it into an email to " + CONFIG.contactEmail + "."; }
+  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok, function(){ fallback(); }); } else fallback();
+  function fallback(){
+    var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta);
+    ta.select(); try { document.execCommand("copy"); ok(); } catch(e){ if (doneEl) doneEl.textContent = "Copy failed — select the text manually instead."; }
+    document.body.removeChild(ta);
+  }
+}
+function showErr(id, msg){ var e = $(id); e.textContent = msg; e.classList.add("show"); e.scrollIntoView({behavior:"smooth", block:"center"}); }
+function hideErr(id){ $(id).classList.remove("show"); }
+function validEmail(v){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v || ""); }
+
+/* ---------------- static renders from CONFIG ---------------- */
+$("bannerText").textContent = CONFIG.bannerText;
+$("statsGrid").innerHTML = CONFIG.stats.map(function(s){
+  return '<div class="stat"><div><p class="v">' + esc(s.v) + '</p><p class="k">' + esc(s.k) + "</p></div></div>";
+}).join("");
+$("matchSteps").innerHTML = CONFIG.matchSteps.map(function(s){
+  return '<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="stepnum">' + s.n + '</span></div><h3 style="font-size:20px;margin-top:10px">' + esc(s.t) + '</h3><p style="color:var(--muted-fg);font-size:14px;margin-top:6px">' + esc(s.d) + "</p></div>";
+}).join("");
+$("svcGrid").innerHTML = CONFIG.services.map(function(s){
+  return '<div class="card svc"><div class="svc-ic" aria-hidden="true">' + s.icon + '</div><h3>' + esc(s.t) + "</h3><p>" + esc(s.d) + "</p></div>";
+}).join("");
+$("helperGrid").innerHTML = CONFIG.helpers.map(function(h){
+  return '<div class="card helper"><div style="display:flex;gap:12px;align-items:center">' +
+    '<span class="logo-badge" style="width:48px;height:48px;border-radius:50%;font-size:22px" aria-hidden="true">🎓</span>' +
+    '<div><p style="font-weight:600">' + esc(h.name) + '</p><p style="font-size:12px;color:var(--muted-fg)">' + esc(h.role) + "</p></div>" +
+    '<span class="pill online" style="margin-left:auto">● Online</span></div>' +
+    '<div class="tags">' + h.tags.map(function(t){ return '<span class="tag">' + esc(t) + "</span>"; }).join("") + "</div>" +
+    '<div class="meta"><span>★ ' + h.rating + '</span><span style="color:var(--muted-fg)">' + h.sessions + '+ sessions</span></div>' +
+    '<a class="btn btn-grad btn-block" style="margin-top:16px" href="#request" data-helper="' + esc(h.name) + '">Request this helper</a></div>';
+}).join("");
+$("whyGrid").innerHTML = CONFIG.whyHuman.map(function(r){
+  return '<div class="card" style="display:flex;gap:14px"><span style="color:var(--success);font-weight:700" aria-hidden="true">✓</span><div><h3 style="font-size:21px">' + esc(r.t) + '</h3><p style="color:var(--muted-fg);font-size:14px;margin-top:4px">' + esc(r.d) + "</p></div></div>";
+}).join("");
+$("levelGrid").innerHTML = CONFIG.levelsInfo.map(function(l){
+  return '<div class="card"><h3 style="font-size:20px">' + esc(l.t) + '</h3><p style="color:var(--muted-fg);font-size:14px;margin-top:6px">' + esc(l.d) + "</p></div>";
+}).join("");
+$("surveyStats").innerHTML = CONFIG.surveyStats.map(function(s){
+  return '<div class="statrow"><span style="color:rgba(255,255,255,.85)">' + esc(s.k) + "</span><b>" + esc(s.v) + "</b></div>";
+}).join("");
+$("tierGrid").innerHTML = CONFIG.tiers.map(function(t){
+  return '<div class="card price-card' + (t.featured ? " featured" : "") + '">' +
+    (t.badge ? '<span class="pill" style="background:rgba(43,74,203,.10);color:var(--primary);margin-bottom:10px">⚡ ' + esc(t.badge) + "</span>" : "") +
+    "<h3>" + esc(t.t) + '</h3><p class="d">' + esc(t.d) + '</p><p class="p">' + esc(t.p) + "</p><ul>" +
+    t.f.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" +
+    '<a class="btn btn-grad btn-block" style="margin-top:18px" href="#request">Request this service</a></div>';
+}).join("");
+$("integrityList").innerHTML = CONFIG.integrity.map(function(x){
+  return '<li style="display:flex;gap:9px;align-items:center;border:1px solid var(--border);border-radius:12px;padding:12px;font-size:14px"><span aria-hidden="true">🛡️</span>' + esc(x) + "</li>";
+}).join("");
+$("quoteGrid").innerHTML = CONFIG.testimonials.map(function(t){
+  return '<div class="card"><p style="color:var(--accent)" aria-label="5 star rating">★★★★★</p><p style="font-family:\'Instrument Serif\',Georgia,serif;font-size:20px;margin-top:12px">“' + esc(t.q) + '”</p><p style="color:var(--muted-fg);font-size:14px;margin-top:14px">— ' + esc(t.a) + "</p></div>";
+}).join("");
+$("wcSteps").innerHTML = CONFIG.writingCheck.steps.map(function(s){
+  return '<div class="card"><span class="stepnum">' + s.n + '</span><h3 style="font-size:20px;margin-top:8px">' + esc(s.t) + '</h3><p style="color:var(--muted-fg);font-size:14px;margin-top:6px">' + esc(s.d) + "</p></div>";
+}).join("");
+$("wcGrid").innerHTML = CONFIG.writingCheck.checks.map(function(s){
+  return '<div class="card svc"><div class="svc-ic" aria-hidden="true">' + s.icon + '</div><h3 style="font-size:19px">' + esc(s.t) + "</h3><p>" + esc(s.d) + "</p></div>";
+}).join("");
+$("wcTiers").innerHTML = CONFIG.writingCheck.tiers.map(function(t){
+  return '<div class="card price-card"><h3 style="font-size:19px">' + esc(t.t) + '</h3><p class="p" style="font-size:24px">' + esc(t.p) + "</p></div>";
+}).join("");
+$("faqList").innerHTML = CONFIG.faqs.map(function(f){
+  return '<details class="faq"><summary>' + esc(f.q) + '<span aria-hidden="true">›</span></summary><p>' + esc(f.a) + "</p></details>";
+}).join("");
+$("foot-mail").href = "mailto:" + CONFIG.contactEmail;
+
+/* ---------------- nav ---------------- */
+var navToggle = $("navToggle"), mobileNav = $("mobileNav");
+navToggle.addEventListener("click", function(){
+  var open = mobileNav.classList.toggle("open");
+  navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  navToggle.textContent = open ? "✕" : "☰";
+});
+mobileNav.addEventListener("click", function(e){
+  if (e.target.tagName === "A") { mobileNav.classList.remove("open"); navToggle.setAttribute("aria-expanded", "false"); navToggle.textContent = "☰"; }
+});
+
+/* ---------------- price calculator ---------------- */
+var cService = $("c-service"), cLevel = $("c-level"), cQty = $("c-qty"), cDeadline = $("c-deadline"),
+    cSupport = $("c-support"), cIncentive = $("c-incentive"), cRegion = $("c-region");
+fillSelect(cService, CONFIG.calc.services.map(function(s){ return s.name; }));
+cService.value = "Editing and Proofreading";
+fillSelect(cLevel, Object.keys(CONFIG.calc.levels)); cLevel.value = "Undergraduate";
+fillSelect(cDeadline, Object.keys(CONFIG.calc.deadlines));
+fillSelect(cSupport, Object.keys(CONFIG.calc.support));
+$("c-extras").innerHTML = CONFIG.calc.extras.map(function(x, i){
+  return '<label class="extra"><input type="checkbox" class="c-extra" value="' + esc(x.label) + '"><span>' + esc(x.label) + ' <span style="color:var(--muted-fg)">(+$' + x.cost + ")</span></span></label>";
+}).join("");
+function calcState(){
+  return {
+    service: cService.value, level: cLevel.value, quantity: cQty.value, deadline: cDeadline.value,
+    support: cSupport.value, incentive: cIncentive.value,
+    extras: Array.prototype.map.call(document.querySelectorAll(".c-extra:checked"), function(b){ return b.value; })
+  };
+}
+function renderCalc(){
+  var st = calcState(), svc = svcByName(st.service), est = calcEstimate(st);
+  var isSurvey = !!svc.survey;
+  Array.prototype.forEach.call(document.querySelectorAll(".c-nonSurvey"), function(el){ el.hidden = isSurvey; });
+  Array.prototype.forEach.call(document.querySelectorAll(".c-survey"), function(el){ el.hidden = !isSurvey; });
+  $("c-qtyLabel").textContent = unitLabel(svc);
+  $("c-qtyHint").textContent = svc.unit === "pages" ? "Use 275 words as one page." : "";
+  $("c-amount").textContent = money(est.min) + " – " + money(est.max);
+  var lines = [["Service", st.service]];
+  if (!isSurvey) lines.push(["Academic Level", st.level]);
+  lines.push([unitLabel(svc).replace("Number of ", ""), String(est.qty)], ["Deadline", st.deadline]);
+  if (!isSurvey) lines.push(["Support Level", st.support]);
+  if (isSurvey && cRegion.value.trim()) lines.push(["Region", cRegion.value.trim()]);
+  if (isSurvey && Number(st.incentive) > 0) lines.push(["Incentive / participant", money(Number(st.incentive))]);
+  if (!isSurvey && st.extras.length) lines.push(["Extra Services", st.extras.join(", ")]);
+  $("c-lines").innerHTML = lines.map(function(l){ return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("");
+  $("c-note").textContent = CONFIG.calc.note;
+  var body = "StudyHuman price estimate\n\n" + lines.map(function(l){ return l[0] + ": " + l[1]; }).join("\n") +
+    "\nEstimated cost: " + money(est.min) + " – " + money(est.max) + " USD\n\n" + CONFIG.calc.note;
+  $("c-mail").href = enquiryMailto("StudyHuman — price estimate", body);
+}
+["change", "input"].forEach(function(ev){ $("calcForm").addEventListener(ev, renderCalc); });
+renderCalc();
+
+/* ---------------- request-help wizard (5 steps, as in the app) ---------------- */
+var WSTEPS = ["1 · Choose service", "2 · Add details", "3 · Review estimate", "4 · Your details", "5 · Confirmation"];
+var wizStep = 1;
+$("wizSteps").innerHTML = WSTEPS.map(function(s, i){ return '<span data-ws="' + (i + 1) + '">' + s + "</span>"; }).join("");
+var rqService = $("rq-service"), rqHelper = $("rq-helper"), rqLevel = $("rq-level"), rqDeadline = $("rq-deadline"), rqSupport = $("rq-support");
+fillSelect(rqService, CONFIG.calc.services.map(function(s){ return s.name; }));
+rqHelper.innerHTML = '<option value="">No preference</option>' + CONFIG.helpers.map(function(h){ return '<option value="' + esc(h.name) + '">' + esc(h.name) + " — " + esc(h.role) + "</option>"; }).join("");
+fillSelect(rqLevel, Object.keys(CONFIG.calc.levels)); rqLevel.value = "Undergraduate";
+fillSelect(rqDeadline, Object.keys(CONFIG.calc.deadlines));
+fillSelect(rqSupport, Object.keys(CONFIG.calc.support));
+document.addEventListener("click", function(e){
+  var a = e.target.closest ? e.target.closest("[data-helper]") : null;
+  if (a) rqHelper.value = a.getAttribute("data-helper");
+});
+function rqState(){
+  return { service: rqService.value, helper: rqHelper.value, level: rqLevel.value, subject: $("rq-subject").value.trim(),
+    quantity: $("rq-qty").value, deadline: rqDeadline.value, support: rqSupport.value, date: $("rq-date").value,
+    notes: $("rq-notes").value.trim(), budget: $("rq-budget").value, name: $("rq-name").value.trim(), email: $("rq-email").value.trim() };
+}
+function rqText(){
+  var st = rqState(), est = calcEstimate(st);
+  var L = ["StudyHuman — Request for academic help", ""];
+  L.push("Name: " + st.name, "Email: " + st.email, "", "Service: " + st.service);
+  if (st.helper) L.push("Preferred helper: " + st.helper);
+  L.push("Academic level: " + st.level, "Subject: " + (st.subject || "—"),
+    unitLabel(svcByName(st.service)) + ": " + est.qty, "Deadline: " + st.deadline, "Support level: " + st.support);
+  if (st.date) L.push("Target date: " + st.date);
+  if (st.budget) L.push("Budget (USD): " + st.budget);
+  L.push("", "Estimate: " + money(est.min) + " – " + money(est.max) + " USD (" + CONFIG.calc.note + ")", "", "Instructions:", st.notes || "—");
+  return L.join("\n");
+}
+function showStep(n){
+  wizStep = n;
+  Array.prototype.forEach.call(document.querySelectorAll(".wiz-panel"), function(p){ p.classList.toggle("on", Number(p.getAttribute("data-panel")) === n); });
+  Array.prototype.forEach.call(document.querySelectorAll("#wizSteps span"), function(s){ s.classList.toggle("on", Number(s.getAttribute("data-ws")) === n); });
+  $("rq-back").style.visibility = n === 1 ? "hidden" : "visible";
+  $("rq-next").style.display = n === 5 ? "none" : "";
+  $("rq-next").textContent = n === 4 ? "Review & prepare my request →" : "Continue →";
+  if (n === 3) {
+    var st = rqState(), est = calcEstimate(st);
+    $("rq-amount").textContent = money(est.min) + " – " + money(est.max);
+    $("rq-note").textContent = CONFIG.calc.note;
+    $("rq-lines").innerHTML = [["Service", st.service], ["Academic Level", st.level], [unitLabel(svcByName(st.service)).replace("Number of ", ""), String(est.qty)], ["Deadline", st.deadline], ["Support Level", st.support]]
+      .map(function(l){ return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("");
+  }
+  if (n === 5) {
+    $("rq-text").textContent = rqText();
+    $("rq-mail").href = enquiryMailto("StudyHuman — Request: " + rqState().service, rqText());
+  }
+  $("request").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+$("rq-service").addEventListener("change", function(){ $("rq-qtyLabel").textContent = unitLabel(svcByName(rqService.value)); });
+$("rq-back").addEventListener("click", function(){ hideErr("rq-err"); if (wizStep > 1) showStep(wizStep - 1); });
+$("rq-next").addEventListener("click", function(){
+  hideErr("rq-err");
+  if (wizStep === 2 && !$("rq-subject").value.trim() && !$("rq-notes").value.trim())
+    return showErr("rq-err", "Please add a subject or a few words about what you need help with.");
+  if (wizStep === 4) {
+    if (!$("rq-name").value.trim()) return showErr("rq-err", "Please add your name so a helper knows how to address you.");
+    if (!validEmail($("rq-email").value)) return showErr("rq-err", "Please add a valid email address — your helper replies there.");
+    if (!$("rq-ok").checked) return showErr("rq-err", "Please confirm the integrity statement.");
+  }
+  if (wizStep < 5) showStep(wizStep + 1);
+});
+$("rq-copy").addEventListener("click", function(){ copyText(rqText(), $("rq-done")); });
+showStep(1);
+
+/* ---------------- writing check form ---------------- */
+fillSelect($("wc-level"), CONFIG.wcLevels); $("wc-level").value = "Undergraduate";
+fillSelect($("wc-type"), CONFIG.writingCheck.reviewTypes, true);
+function wcText(){
+  var L = ["StudyHuman — Writing Check submission", "",
+    "Name: " + $("wc-name").value.trim(), "Email: " + $("wc-email").value.trim(),
+    "Academic level: " + $("wc-level").value, "Subject area: " + ($("wc-subject").value.trim() || "—"),
+    "Review type: " + ($("wc-type").value || "—"), "Deadline: " + ($("wc-deadline").value || "—"),
+    "Budget (USD): " + ($("wc-budget").value || "—"), "", "Writing to review:", $("wc-text").value.trim() || "—",
+    "", "Additional instructions:", $("wc-notes").value.trim() || "—"];
+  return L.join("\n");
+}
+$("wcForm").addEventListener("submit", function(e){
+  e.preventDefault(); hideErr("wc-err");
+  if (!$("wc-name").value.trim() || !validEmail($("wc-email").value)) return showErr("wc-err", "Please add your name and a valid email address.");
+  if (!$("wc-ok").checked) return showErr("wc-err", "Please confirm you understand the review scope.");
+  window.location.href = enquiryMailto("StudyHuman — Writing Check submission", wcText());
+  $("wc-done").textContent = "Your email app should now open with the submission pre-written — just press send there.";
+});
+$("wc-copy").addEventListener("click", function(){ copyText(wcText(), $("wc-done")); });
+
+/* ---------------- survey form ---------------- */
+fillSelect($("sv-level"), CONFIG.surveyLevels, true);
+function svText(){
+  var L = ["StudyHuman — Survey participant recruitment request", "",
+    "Research title: " + ($("sv-title").value.trim() || "—"), "Academic level: " + ($("sv-level").value || "—"),
+    "Institution: " + ($("sv-inst").value.trim() || "—"), "Target participants: " + ($("sv-target").value.trim() || "—"),
+    "Country / region: " + ($("sv-region").value.trim() || "—"), "Participants needed: " + ($("sv-count").value || "—"),
+    "Estimated completion time: " + ($("sv-time").value.trim() || "—"), "Incentive per participant: " + ($("sv-incentive").value.trim() || "—"),
+    "Deadline: " + ($("sv-deadline").value || "—"), "Survey link: " + ($("sv-link").value.trim() || "—"),
+    "", "Additional notes:", $("sv-notes").value.trim() || "—"];
+  return L.join("\n");
+}
+$("svForm").addEventListener("submit", function(e){
+  e.preventDefault(); hideErr("sv-err");
+  if (!$("sv-consent").checked) return showErr("sv-err", "Please confirm the consent statement.");
+  window.location.href = enquiryMailto("StudyHuman — Survey recruitment request", svText());
+  $("sv-done").textContent = "Your email app should now open with the request pre-written — just press send there.";
+});
+$("sv-copy").addEventListener("click", function(){ copyText(svText(), $("sv-done")); });
+
+/* ---------------- become-a-helper form ---------------- */
+fillSelect($("hp-edu"), CONFIG.helperLevels, true);
+function hpText(){
+  var L = ["StudyHuman — Helper application", "",
+    "Full name: " + $("hp-name").value.trim(), "Email: " + $("hp-email").value.trim(),
+    "Country: " + $("hp-country").value.trim(), "Highest education level: " + ($("hp-edu").value || "—"),
+    "Areas of expertise: " + ($("hp-areas").value.trim() || "—"), "Hourly rate (USD): " + ($("hp-hourly").value || "—"),
+    "Project rate (USD): " + ($("hp-project").value || "—"), "", "Experience:", $("hp-exp").value.trim() || "—",
+    "", "Preferred services: " + ($("hp-services").value.trim() || "—"), "", "(CV / resume attached in this email where possible.)"];
+  return L.join("\n");
+}
+$("hpForm").addEventListener("submit", function(e){
+  e.preventDefault(); hideErr("hp-err");
+  if (!$("hp-name").value.trim() || !validEmail($("hp-email").value) || !$("hp-country").value.trim())
+    return showErr("hp-err", "Please add your full name, a valid email, and your country.");
+  if (!$("hp-ok").checked) return showErr("hp-err", "Please accept the helper policy.");
+  window.location.href = enquiryMailto("StudyHuman — Helper application: " + $("hp-name").value.trim(), hpText());
+  $("hp-done").textContent = "Your email app should now open with the application pre-written — attach your CV there, then press send.";
+});
+$("hp-copy").addEventListener("click", function(){ copyText(hpText(), $("hp-done")); });
+</script>
+</body>
+</html>
