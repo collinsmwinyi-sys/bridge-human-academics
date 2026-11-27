@@ -8,8 +8,10 @@
 <!--
   StudyHuman CONTROL PANEL.
   This page edits content.json — the single file the website (index.html)
-  renders everything from. It cannot write to GitHub by itself (no token),
-  so publishing is: edit here → Download → paste into the repo file → Commit.
+  renders everything from. Publishing is either one-click (the Publish card:
+  the owner saves a repo-scoped GitHub token in this browser only, and the
+  panel commits content.json via api.github.com) or the manual fallback:
+  edit here → Download → paste into the repo file → Commit.
   Step-by-step instructions are on the page itself.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,13 +124,30 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ring);bo
   <div id="editor" hidden>
     <div class="card">
       <h2>How publishing works</h2>
-      <p class="sub">This panel can't write to GitHub directly, so publishing is a quick download-and-paste:</p>
+      <p class="sub">Fastest is the one-click <b>Publish</b> card right below — it commits straight to GitHub once you've saved a token. Or publish by hand with a quick download-and-paste:</p>
       <div class="steps">
         <div class="step"><span class="stepnum">1</span><p><b>Download</b>Make your edits below, then press the big “Download updated content.json” button (bottom of the screen).</p></div>
         <div class="step"><span class="stepnum">2</span><p><b>Open the file in GitHub</b><a href="https://github.com/collinsmwinyi-sys/bridge-human-academics/edit/main/docs/content.json" target="_blank" rel="noopener">Open docs/content.json in the repo →</a><br>Select everything in the editor and paste your downloaded file's contents over it.</p></div>
         <div class="step"><span class="stepnum">3</span><p><b>Commit</b>Press GitHub's green “Commit changes…” button. That's it.</p></div>
       </div>
       <p class="live-note">⏱ <b>Your changes go live about 1 minute after committing</b> — refresh the website to see them. Nothing here changes the live site until you commit.</p>
+    </div>
+
+    <div class="card" id="publishCard">
+      <h2>Publish to the live site — one click</h2>
+      <p class="sub">Save a GitHub token once on this device, then this button commits your edited content.json straight to GitHub — no download, no paste. (The Download button at the bottom of the screen still works as a manual fallback.)</p>
+      <label class="flabel" for="ghToken">GitHub token (fine-grained, this repo only, “Contents: Read and write”)</label>
+      <div style="display:flex;gap:11px;flex-wrap:wrap;align-items:center">
+        <input id="ghToken" type="password" autocomplete="off" placeholder="Paste token here" style="flex:1;min-width:240px;width:auto">
+        <button class="btn btn-outline" id="btnSaveToken" type="button">Save token on this device</button>
+        <button class="btn btn-danger" id="btnRemoveToken" type="button">Remove token</button>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted-fg);margin-top:10px" id="tokenStatus">No token saved.</p>
+      <p style="font-size:13px;color:var(--muted-fg);margin-top:6px">The token is used only to commit <b>docs/content.json</b> to your GitHub repo (collinsmwinyi-sys/bridge-human-academics) via api.github.com. It is stored only in this browser — never in content.json, the preview, or any download — and you can revoke it anytime in GitHub → Settings → Developer settings → Personal access tokens.</p>
+      <div style="margin-top:18px">
+        <button class="btn btn-grad" id="btnPublish" type="button">🚀 Publish changes to live site</button>
+      </div>
+      <div class="status" id="pubStatus" role="status" style="margin:16px 0 0"></div>
     </div>
 
     <div class="layout">
@@ -327,7 +346,7 @@ function renderTheme(){
     c.setAttribute("aria-checked", c.getAttribute("data-theme-id") === cur ? "true" : "false");
   });
   var tc = $("themeCurrent");
-  if (tc) tc.innerHTML = "Current default theme: <b style='color:var(--fg)'>" + themeDef(cur).name + "</b> — saved into content.json when you Download.";
+  if (tc) tc.innerHTML = "Current default theme: <b style='color:var(--fg)'>" + themeDef(cur).name + "</b> — saved into content.json when you Publish or Download.";
 }
 
 /* ---------- list editors (rebuilt whenever structure changes) ---------- */
@@ -481,7 +500,7 @@ function startEditing(data, sourceLabel){
   fillScalars(); buildThemes(); buildLists(); renderPreview();
   $("editor").hidden = false;
   $("btnDownload").disabled = false;
-  status("Loaded " + sourceLabel + ". Edit anything below — the preview updates as you type. The live site does NOT change until you download, paste and commit (steps above).", true);
+  status("Loaded " + sourceLabel + ". Edit anything below — the preview updates as you type. The live site does NOT change until you publish (the Publish card above, or download & commit).", true);
   $("editor").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 function loadFromSite(){
@@ -510,6 +529,123 @@ if (window.fetch) {
     .then(function(data){ startEditing(data, "content.json from the website"); })
     .catch(function(){ /* stay on the loader card; user can pick the file */ });
 }
+
+/* ---------- one-click publish (GitHub) ---------- */
+var GH_OWNER = "collinsmwinyi-sys";
+var GH_REPO = "bridge-human-academics";
+var GH_BRANCH = "main";
+var GH_PATH = "docs/content.json";
+var GH_CONTENTS_URL = "https://api.github.com/repos/" + GH_OWNER + "/" + GH_REPO + "/contents/" + GH_PATH;
+var LIVE_SITE_URL = "https://" + GH_OWNER + ".github.io/" + GH_REPO + "/";
+var TOKEN_KEY = "studyhuman_gh_token";
+var publishing = false;
+
+function getToken(){ try { return window.localStorage.getItem(TOKEN_KEY) || ""; } catch (e) { return ""; } }
+function pubMsg(msg, ok, withSiteLink){
+  var s = $("pubStatus");
+  s.textContent = msg;
+  if (withSiteLink) {
+    s.appendChild(document.createTextNode(" "));
+    var a = document.createElement("a");
+    a.href = LIVE_SITE_URL; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "View the live site →";
+    s.appendChild(a);
+  }
+  s.className = "status show " + (ok ? "ok" : "bad");
+}
+function refreshTokenUi(){
+  var saved = !!getToken();
+  $("tokenStatus").textContent = saved ? "Token saved on this device." : "No token saved.";
+  $("btnRemoveToken").disabled = !saved;
+}
+$("btnSaveToken").addEventListener("click", function(){
+  var val = $("ghToken").value.replace(/^\s+|\s+$/g, "");
+  if (!val) { pubMsg("Paste a token in the box first, then press “Save token on this device”.", false); $("ghToken").focus(); return; }
+  try { window.localStorage.setItem(TOKEN_KEY, val); }
+  catch (e) { pubMsg("This browser refused to store the token (" + e.message + "). The Download route below still works.", false); return; }
+  $("ghToken").value = "";
+  refreshTokenUi();
+  pubMsg("Token saved on this device. You can now publish with one click.", true);
+});
+$("btnRemoveToken").addEventListener("click", function(){
+  try { window.localStorage.removeItem(TOKEN_KEY); } catch (e) { /* nothing to remove */ }
+  $("ghToken").value = "";
+  refreshTokenUi();
+  pubMsg("Token removed from this device.", true);
+});
+function b64EncodeUtf8(str){ return btoa(unescape(encodeURIComponent(str))); }
+function ghHeaders(token){
+  return { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json" };
+}
+function permError(){
+  var e = new Error("GitHub rejected the token (HTTP 401/403).");
+  e.isPerm = true;
+  return e;
+}
+function ghGetSha(token){
+  return fetch(GH_CONTENTS_URL + "?ref=" + GH_BRANCH, { headers: ghHeaders(token) })
+    .then(function(r){
+      if (r.status === 401 || r.status === 403) throw permError();
+      if (!r.ok) throw new Error("GitHub returned HTTP " + r.status + " while reading the current content.json.");
+      return r.json();
+    })
+    .then(function(j){
+      if (!j || !j.sha) throw new Error("GitHub's reply didn't include the current file's sha.");
+      return j.sha;
+    });
+}
+function ghPut(token, payload){
+  var headers = ghHeaders(token);
+  headers["Content-Type"] = "application/json";
+  return fetch(GH_CONTENTS_URL, { method: "PUT", headers: headers, body: JSON.stringify(payload) });
+}
+function publishAttempt(token, payload, isRetry){
+  return ghGetSha(token).then(function(sha){
+    payload.sha = sha;
+    return ghPut(token, payload).then(function(r){
+      if (r.status === 401 || r.status === 403) throw permError();
+      if ((r.status === 409 || r.status === 422) && !isRetry) {
+        return publishAttempt(token, payload, true); /* sha moved under us: refetch once, retry once */
+      }
+      if (!r.ok) throw new Error("GitHub returned HTTP " + r.status + " while publishing.");
+      return r.json().catch(function(){ return {}; });
+    });
+  });
+}
+$("btnPublish").addEventListener("click", function(){
+  if (!D || publishing) return;
+  var token = getToken();
+  if (!token) {
+    pubMsg("No token saved yet. Paste your GitHub token in the box above and press “Save token on this device”, then press Publish again.", false);
+    $("ghToken").focus();
+    return;
+  }
+  publishing = true;
+  $("btnPublish").disabled = true;
+  pubMsg("Publishing… sending your changes to GitHub.", true);
+  var payload = {
+    message: "Update site content from Control Panel",
+    content: b64EncodeUtf8(JSON.stringify(D, null, 2) + "\n"),
+    branch: GH_BRANCH
+  };
+  publishAttempt(token, payload, false)
+    .then(function(res){
+      var short = res && res.commit && res.commit.sha ? String(res.commit.sha).slice(0, 7) : "";
+      pubMsg("Published" + (short ? " (commit " + short + ")" : "") + "! Your changes go live in about a minute.", true, true);
+    })
+    .catch(function(err){
+      if (err && err.isPerm) {
+        pubMsg("GitHub rejected the token (401/403) — it is invalid, expired, or lacks “Contents: Read and write” permission for this repo. Create a fresh fine-grained token for " + GH_OWNER + "/" + GH_REPO + " and save it above.", false);
+      } else {
+        pubMsg("Publishing failed: " + (err && err.message ? err.message : String(err)) + " Nothing was changed on the live site — try again, or use Download instead.", false);
+      }
+    })
+    .then(function(){
+      publishing = false;
+      $("btnPublish").disabled = false;
+    });
+});
+refreshTokenUi();
 
 /* ---------- download ---------- */
 $("btnDownload").addEventListener("click", function(){
