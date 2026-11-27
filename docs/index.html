@@ -6,18 +6,23 @@
 <title>StudyHuman — Human Academic Support for Every Level of Learning</title>
 <meta name="description" content="Connect with real academic experts for tutoring, editing, research guidance, and ethical survey recruitment — from high school to PhD.">
 <!--
-  StudyHuman — static edition for GitHub Pages (modern rebuild).
+  StudyHuman — static edition for GitHub Pages (simplified 5-view rebuild).
+
+  FIVE VIEWS, one page (hash-routed, no reloads):
+    #home      hero, trust+stats, how it works, featured services,
+               why-human + integrity promise, testimonials, FAQ, CTA
+    #services  price calculator v2, all services, pricing tiers
+    #helpers   helper cards, survey recruitment band, join-as-helper form
+    #writing   Writing Check (steps, checks, tiers, submit form)
+    #request   ONE unified request form (survey fields appear in place;
+               Writing Check routes to #writing)
 
   HOW THE SITE IS CONTROLLED ("the backend"):
-  Every piece of editable content — email, banner, hero, services, prices,
-  calculator rates, helpers, FAQs, testimonials — lives in ONE file next to
-  this one:  content.json
-  This page fetches content.json and renders everything from it.
-  To edit the site WITHOUT code, open  admin.html  (the Control Panel):
-  it loads content.json into simple forms, lets you edit, preview, and
-  download an updated content.json to commit back to the repo.
-  If content.json can't be fetched (e.g. this file is opened via file://),
-  an identical embedded copy below is used, so the page never renders empty.
+  Every piece of editable content lives in ONE file next to this one:
+  content.json — this page fetches it and renders everything from it.
+  Edit without code via admin.html (the Control Panel). If content.json
+  can't be fetched (e.g. opened via file://), an identical embedded copy
+  below is used, so the page never renders empty.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +47,9 @@ h1,h2,h3,.display{font-family:'Instrument Serif',Georgia,serif;font-weight:400;l
 a{color:var(--primary)}
 img{max-width:100%}
 .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-section{padding:72px 0;scroll-margin-top:92px}
+section{padding:64px 0}
+.view{display:none}
+.view.on{display:block}
 .eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--primary)}
 .sec-head{max-width:660px;margin-bottom:36px}
 .sec-head h2{font-size:clamp(30px,4.4vw,42px);margin-top:12px}
@@ -71,14 +78,23 @@ header.site{position:sticky;top:0;z-index:50;background:rgba(251,251,254,.78);ba
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg);font-weight:700;font-size:19px;letter-spacing:-.01em}
 .logo-badge{width:38px;height:38px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:20px;flex:none;box-shadow:var(--shadow-lg)}
 nav.main{display:flex;gap:28px}
-nav.main a{color:var(--muted-fg);text-decoration:none;font-size:14.5px;font-weight:500;transition:color .15s}
+nav.main a{color:var(--muted-fg);text-decoration:none;font-size:14.5px;font-weight:500;transition:color .15s;padding:6px 2px;border-bottom:2px solid transparent}
 nav.main a:hover{color:var(--fg)}
+nav.main a.on{color:var(--primary);border-bottom-color:var(--primary)}
 .header-cta{display:flex;gap:8px;align-items:center}
 .header-cta .btn{min-height:42px;padding:9px 20px;font-size:14px}
 #navToggle{display:none;background:rgba(255,255,255,.8);border:1px solid var(--border);border-radius:12px;width:46px;height:46px;font-size:20px;cursor:pointer;color:var(--fg)}
 #mobileNav{display:none;border-top:1px solid var(--border);padding:10px 20px 18px;background:rgba(251,251,254,.96);backdrop-filter:blur(16px)}
 #mobileNav a{display:block;padding:12px 10px;border-radius:10px;color:var(--fg);text-decoration:none;font-weight:500;font-size:15.5px}
 #mobileNav a:hover{background:var(--muted)}
+#mobileNav a.on{background:var(--muted);color:var(--primary)}
+/* mobile bottom tab bar */
+.tabbar{display:none}
+.tabbar a{color:var(--muted-fg)}
+.tabbar a.on{color:var(--primary)}
+/* back to top */
+#toTop{position:fixed;right:18px;bottom:22px;z-index:55;width:48px;height:48px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--primary);font-size:20px;cursor:pointer;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .25s ease}
+#toTop.show{opacity:1;pointer-events:auto}
 /* banner */
 .banner{background:var(--grad);color:#fff}
 .banner-in{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;padding-top:11px;padding-bottom:11px;font-size:14px}
@@ -90,20 +106,19 @@ nav.main a:hover{color:var(--fg)}
 .hero::before{width:480px;height:480px;background:rgba(91,141,239,.35);top:-180px;right:-120px}
 .hero::after{width:380px;height:380px;background:rgba(255,196,86,.30);bottom:-200px;left:-100px}
 .hero .wrap{position:relative;z-index:1}
-.hero-grid{display:grid;gap:44px;align-items:start}
-.hero h1{font-size:clamp(44px,7vw,68px)}
+.hero h1{font-size:clamp(44px,7vw,68px);max-width:820px}
 .hero h1 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--primary)}
-.hero .lede{margin-top:20px;font-size:18.5px;color:var(--muted-fg);max-width:580px}
-.hero-points{display:grid;gap:9px;margin-top:24px;font-size:14px;color:var(--muted-fg)}
+.hero .lede{margin-top:20px;font-size:18.5px;color:var(--muted-fg);max-width:640px}
+.hero-points{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:24px;font-size:14px;color:var(--muted-fg)}
 .hero-points span::before{content:"✓ ";color:var(--success);font-weight:800}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px}
 .hero .pill{background:rgba(255,255,255,.75);border:1px solid var(--border);color:var(--muted-fg);box-shadow:var(--shadow-sm)}
-.calc-card{border-color:rgba(43,74,203,.28);box-shadow:var(--shadow-lg);border-radius:var(--r-lg)}
-.trustbar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 0;background:#fff}
-.trustbar .wrap{display:flex;flex-wrap:wrap;gap:10px 38px;justify-content:center;align-items:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-fg)}
-.trustbar b{color:rgba(20,27,46,.75);font-weight:700}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
-.stat{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow-sm)}
+/* merged trust + stats band */
+.band-merge{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:26px 0 30px}
+.trustline{display:flex;flex-wrap:wrap;gap:10px 38px;justify-content:center;align-items:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-fg)}
+.trustline b{color:rgba(20,27,46,.75);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:24px}
+.stat{display:flex;gap:12px;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:20px}
 .stat .v{font-family:'Instrument Serif',Georgia,serif;font-size:30px;line-height:1}
 .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted-fg);margin-top:5px}
 /* content cards */
@@ -124,12 +139,15 @@ label.flabel{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
 input,select,textarea{width:100%;font:inherit;font-size:15px;color:var(--fg);background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 13px;min-height:50px;transition:border-color .15s,box-shadow .15s}
 textarea{min-height:0;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ring);box-shadow:0 0 0 3px rgba(74,125,212,.22)}
+input[type=range]{border:0;padding:0;min-height:34px;accent-color:var(--primary);cursor:pointer;background:transparent}
+input[type=range]:focus{box-shadow:none}
 .fgrid{display:grid;gap:18px}
 .hint{font-size:12.5px;color:var(--muted-fg);margin-top:5px}
 .check{display:flex;gap:11px;align-items:flex-start;background:rgba(43,74,203,.05);border:1px solid rgba(43,74,203,.08);border-radius:14px;padding:15px;font-size:14px}
 .check input{width:20px;height:20px;min-height:0;flex:none;margin-top:2px;accent-color:var(--primary)}
-.extra{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--border);border-radius:14px;padding:13px;font-size:14px;background:#fff;cursor:pointer;transition:border-color .15s}
+.extra{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--border);border-radius:14px;padding:13px;font-size:14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
 .extra:hover{border-color:rgba(43,74,203,.4)}
+.extra.on{border-color:var(--primary);background:rgba(43,74,203,.05)}
 .extra input{width:20px;height:20px;min-height:0;flex:none;margin-top:2px;accent-color:var(--primary)}
 .est-box{background:linear-gradient(160deg,#f2f4fd,#eceff9);border:1px solid rgba(43,74,203,.12);border-radius:18px;padding:20px;margin-top:20px}
 .est-box .amount{font-family:'Instrument Serif',Georgia,serif;font-size:44px;color:var(--primary);line-height:1.05}
@@ -139,13 +157,29 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ring);bo
 .note{font-size:12.5px;color:var(--muted-fg)}
 .err{display:none;background:#fdecec;border:1px solid #f3b8b8;color:#8c1d1d;border-radius:14px;padding:13px 15px;font-size:14px;margin-bottom:16px}
 .err.show{display:block}
-/* wizard */
-.wiz-steps{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:26px}
-.wiz-steps span{font-size:12px;font-weight:600;border:1px solid var(--border);border-radius:999px;padding:7px 13px;color:var(--muted-fg);background:#fff}
-.wiz-steps span.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:var(--shadow-lg)}
-.wiz-nav{display:flex;gap:11px;margin-top:26px;flex-wrap:wrap}
-.wiz-panel{display:none}.wiz-panel.on{display:block}
 pre.enquiry{white-space:pre-wrap;word-break:break-word;background:var(--muted);border-radius:14px;padding:17px;font:inherit;font-size:14px;text-align:left}
+/* chips + segmented controls (calculator v2, level chips) */
+.chipset{display:flex;flex-wrap:wrap;gap:8px}
+.chipbtn{border:1px solid var(--border);background:#fff;border-radius:999px;padding:10px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;min-height:44px;color:var(--fg);transition:border-color .15s,background .15s,color .15s}
+.chipbtn:hover{border-color:rgba(43,74,203,.45)}
+.chipbtn[aria-pressed="true"]{background:var(--grad);color:#fff;border-color:transparent;box-shadow:var(--shadow-lg)}
+.svc-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:9px}
+.svc-chip{border:1px solid var(--border);background:#fff;border-radius:16px;padding:13px 14px;font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+.svc-chip b{display:block;font-size:14.5px;font-weight:600;line-height:1.3}
+.svc-chip span{font-size:12.5px;color:var(--muted-fg)}
+.svc-chip:hover{border-color:rgba(43,74,203,.45)}
+.svc-chip[aria-pressed="true"]{border-color:var(--primary);background:rgba(43,74,203,.06);box-shadow:0 0 0 1px var(--primary)}
+.seg{display:flex;flex-wrap:wrap;gap:5px;background:var(--muted);padding:5px;border-radius:14px}
+.seg button{flex:1 1 auto;border:0;background:transparent;border-radius:10px;padding:10px 10px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--muted-fg);min-height:44px;transition:background .15s,color .15s}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--fg);box-shadow:var(--shadow-sm)}
+.calc-step{margin-top:26px}
+.calc-step:first-child{margin-top:6px}
+.calc-step-h{display:flex;gap:10px;align-items:center;font-weight:700;font-size:15px;margin-bottom:13px}
+.stepdot{width:26px;height:26px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+.calc-layout{display:grid;gap:22px;align-items:start}
+.calc-card{border-color:rgba(43,74,203,.28);box-shadow:var(--shadow-lg);border-radius:var(--r-lg)}
+.calc-summary{border-radius:var(--r-lg)}
+#c-sumToggle{display:none;width:100%;background:none;border:0;border-top:1px solid var(--border);font:inherit;font-weight:600;font-size:14px;color:var(--primary);padding:12px 0 2px;cursor:pointer}
 /* faq */
 details.faq{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow-sm)}
 details.faq summary{cursor:pointer;font-family:'Instrument Serif',Georgia,serif;font-size:20px;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
@@ -154,6 +188,14 @@ details.faq summary span{transition:transform .25s ease;color:var(--primary)}
 details.faq[open ] summary span{transform:rotate(90deg)}
 details.faq p{margin-top:10px;color:var(--muted-fg);font-size:14.5px}
 .faq-list{display:grid;gap:13px;max-width:820px;margin:0 auto}
+/* integrity policy collapsible */
+details.policy{border:1px solid var(--border);border-radius:18px;background:#fff;padding:6px 22px}
+details.policy summary{cursor:pointer;font-weight:700;font-size:15.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:14px 0}
+details.policy summary::-webkit-details-marker{display:none}
+details.policy summary span{color:var(--primary);transition:transform .25s ease}
+details.policy[open ] summary span{transform:rotate(90deg)}
+details.policy ul{list-style:none;display:grid;gap:10px;padding:6px 0 20px}
+details.policy li{display:flex;gap:9px;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px 13px;font-size:14.5px}
 /* gradient band */
 .band{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:28px;padding:40px 30px;box-shadow:var(--shadow-lg)}
 .band::after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.12);filter:blur(60px);top:-140px;right:-80px;pointer-events:none}
@@ -177,17 +219,32 @@ footer.site .logo{color:#fff}
   .grid-2{grid-template-columns:1fr 1fr}
 }
 @media (min-width:900px){
-  .hero-grid{grid-template-columns:1.08fr 1fr}
   .grid-3{grid-template-columns:repeat(3,1fr)}
   .grid-4{grid-template-columns:repeat(4,1fr)}
   .foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
-  section{padding:88px 0}
+  section{padding:76px 0}
+}
+@media (min-width:960px){
+  .calc-layout{grid-template-columns:1.45fr 1fr}
+  .calc-summary{position:sticky;top:92px}
+}
+@media (max-width:959px){
+  .calc-summary{position:sticky;bottom:86px;z-index:40;box-shadow:var(--shadow-lg)}
+  .calc-summary .calc-breakdown{display:none}
+  .calc-summary.open .calc-breakdown{display:block}
+  #c-sumToggle{display:block}
+  .calc-summary .amount{font-size:34px}
 }
 @media (max-width:819px){
   nav.main,.header-cta{display:none}
   #navToggle{display:block}
   #mobileNav.open{display:block}
-  section{padding:54px 0}
+  section{padding:50px 0}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;text-decoration:none;padding:6px 2px;border-radius:10px}
+  .tabbar a svg{width:22px;height:22px}
+  footer.site{padding-bottom:96px}
+  #toTop{bottom:96px}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
@@ -202,9 +259,10 @@ footer.site .logo{color:#fff}
   <div class="wrap header-in">
     <a class="logo" href="#home"><span class="logo-badge" aria-hidden="true">🎓</span>StudyHuman</a>
     <nav class="main" aria-label="Main navigation">
-      <a href="#home">Home</a><a href="#services">Services</a><a href="#pricing">Pricing</a>
-      <a href="#helpers">Helpers</a><a href="#writing-check">Writing Check</a>
-      <a href="#survey">Survey Participants</a><a href="#become-helper">Become a Helper</a>
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#services" data-nav="services">Services &amp; Pricing</a>
+      <a href="#helpers" data-nav="helpers">Helpers</a>
+      <a href="#writing" data-nav="writing">Writing Check</a>
     </nav>
     <div class="header-cta">
       <a class="btn btn-grad" href="#request">Request Help</a>
@@ -212,10 +270,11 @@ footer.site .logo{color:#fff}
     <button id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav">☰</button>
   </div>
   <nav id="mobileNav" aria-label="Mobile navigation">
-    <a href="#home">Home</a><a href="#services">Services</a><a href="#pricing">Pricing</a>
-    <a href="#calculator">Price Calculator</a><a href="#helpers">Helpers</a>
-    <a href="#writing-check">Writing Check</a><a href="#survey">Survey Participants</a>
-    <a href="#faq">FAQ</a><a href="#become-helper">Become a Helper</a><a href="#request">Request Help</a>
+    <a href="#home" data-nav="home">Home</a>
+    <a href="#services" data-nav="services">Services &amp; Pricing</a>
+    <a href="#helpers" data-nav="helpers">Helpers</a>
+    <a href="#writing" data-nav="writing">Writing Check</a>
+    <a href="#request" data-nav="request">Request Help</a>
   </nav>
 </header>
 
@@ -226,128 +285,217 @@ footer.site .logo{color:#fff}
   <a href="#request">Get started →</a>
 </div></div>
 
-<main id="home">
-  <!-- HERO + CALCULATOR -->
-  <div class="hero"><div class="wrap hero-grid">
-    <div>
-      <span class="pill" id="heroBadge"></span>
-      <h1 style="margin-top:20px" id="heroH1"></h1>
-      <p class="lede" id="heroLede"></p>
-      <div class="hero-ctas" id="heroCtas"></div>
-      <div class="hero-points" id="heroPoints"></div>
-    </div>
-    <div id="calculator">
-      <div class="card calc-card">
-        <p class="eyebrow">Price calculator</p>
-        <h2 style="font-size:28px;margin-top:6px">Estimate Your Support Cost</h2>
-        <p class="note" style="margin-top:4px">No payment required. Get a quick estimate first.</p>
-        <form id="calcForm" style="margin-top:18px">
-          <div class="fgrid">
-            <div><label class="flabel" for="c-service">Service Type</label><select id="c-service"></select></div>
-            <div class="c-nonSurvey"><label class="flabel" for="c-level">Academic Level</label><select id="c-level"></select></div>
-            <div><label class="flabel" for="c-qty" id="c-qtyLabel">Quantity</label><input id="c-qty" type="number" min="1" value="1"><p class="hint" id="c-qtyHint"></p></div>
-            <div><label class="flabel" for="c-deadline">Deadline</label><select id="c-deadline"></select></div>
-            <div class="c-nonSurvey"><label class="flabel" for="c-support">Support Level</label><select id="c-support"></select></div>
-            <div class="c-survey" hidden><label class="flabel" for="c-incentive">Incentive / participant (USD)</label><input id="c-incentive" type="number" min="0" value="0"></div>
-            <div class="c-survey" hidden><label class="flabel" for="c-region">Target Country or Region</label><input id="c-region" type="text" placeholder="e.g. Global, EU, East Africa"></div>
-          </div>
-          <div class="c-nonSurvey" style="margin-top:18px">
-            <p class="flabel">Extra Services</p>
-            <div class="fgrid" id="c-extras"></div>
-          </div>
-          <div class="est-box">
-            <p class="eyebrow" style="color:var(--muted-fg)">Estimated Support Cost</p>
-            <p class="amount" id="c-amount">$0 – $0</p>
-            <dl class="est-lines" id="c-lines"></dl>
-            <p class="note" style="margin-top:10px" id="c-note"></p>
-          </div>
-          <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:18px">
-            <a class="btn btn-grad" href="#request" style="flex:1">Request Human Help</a>
-            <a class="btn btn-outline" id="c-mail" href="#" style="flex:1">Email This Estimate</a>
-          </div>
-        </form>
-      </div>
-    </div>
+<main>
+<!-- ================= VIEW: HOME ================= -->
+<div class="view" id="view-home" data-view="home">
+  <div class="hero"><div class="wrap">
+    <span class="pill" id="heroBadge"></span>
+    <h1 style="margin-top:20px" id="heroH1"></h1>
+    <p class="lede" id="heroLede"></p>
+    <div class="hero-ctas" id="heroCtas"></div>
+    <div class="hero-points" id="heroPoints"></div>
   </div></div>
 
-  <div class="trustbar"><div class="wrap" id="trustList"></div></div>
-
-  <section aria-label="StudyHuman in numbers" style="padding-bottom:8px"><div class="wrap">
+  <!-- trust + stats, one merged band -->
+  <div class="band-merge"><div class="wrap">
+    <div class="trustline" id="trustList"></div>
     <div class="stats" id="statsGrid"></div>
-  </div></section>
+  </div></div>
 
-  <!-- HOW MATCHING WORKS -->
-  <section style="padding-top:36px"><div class="wrap">
+  <!-- HOW IT WORKS (short) -->
+  <section aria-label="How it works"><div class="wrap">
     <div class="sec-head"><p class="eyebrow" id="howEyebrow"></p><h2 id="howHeading"></h2></div>
     <div class="grid grid-4" id="matchSteps"></div>
   </div></section>
 
-  <!-- SERVICES -->
-  <section id="services" style="padding-top:0"><div class="wrap">
+  <!-- FEATURED SERVICES -->
+  <section style="padding-top:0"><div class="wrap">
     <div class="sec-head"><p class="eyebrow" id="svcEyebrow"></p><h2 id="svcHeading"></h2></div>
-    <div class="grid grid-4" id="svcGrid"></div>
+    <div class="grid grid-4" id="featSvcGrid"></div>
+    <p style="text-align:center;margin-top:30px"><a class="btn btn-grad" href="#services">See all services &amp; pricing →</a></p>
   </div></section>
 
-  <!-- HELPERS -->
-  <section id="helpers" style="padding-top:0"><div class="wrap">
-    <div class="sec-head"><p class="eyebrow" id="helpEyebrow"></p><h2 id="helpHeading"></h2></div>
-    <div class="grid grid-3" id="helperGrid"></div>
-    <p style="text-align:center;margin-top:28px"><a class="btn btn-outline" href="#request">Browse verified helpers</a></p>
-  </div></section>
-
-  <!-- WHY HUMAN + LEVELS -->
+  <!-- WHY HUMAN + OUR PROMISE (merged) -->
   <section style="padding-top:0"><div class="wrap">
     <div class="sec-head"><p class="eyebrow" id="whyEyebrow"></p><h2 id="whyHeading"></h2></div>
     <div class="grid grid-2" id="whyGrid"></div>
-    <div class="sec-head" style="margin-top:56px"><p class="eyebrow" id="lvlEyebrow"></p><h2 id="lvlHeading"></h2></div>
-    <div class="grid" id="levelGrid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))"></div>
+    <div class="card" style="margin-top:26px;padding:34px">
+      <p class="eyebrow" id="intEyebrow"></p>
+      <h3 style="font-size:30px;margin-top:10px" id="intHeading"></h3>
+      <p style="color:var(--muted-fg);margin-top:12px;max-width:720px" id="intText"></p>
+      <details class="policy" style="margin-top:20px">
+        <summary>Read our integrity policy <span aria-hidden="true">›</span></summary>
+        <ul id="integrityList"></ul>
+      </details>
+    </div>
   </div></section>
 
-  <!-- SURVEY BAND -->
+  <!-- TESTIMONIALS (compact) -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><p class="eyebrow" id="teEyebrow"></p><h2 id="teHeading"></h2></div>
+    <div class="grid grid-3" id="quoteGrid"></div>
+  </div></section>
+
+  <!-- FAQ -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center"><p class="eyebrow" id="faqEyebrow"></p><h2 id="faqHeading"></h2></div>
+    <div class="faq-list" id="faqList"></div>
+  </div></section>
+
+  <!-- FINAL CTA -->
+  <section style="padding-top:0"><div class="wrap">
+    <div class="card" style="text-align:center;padding:48px 30px;border-radius:28px">
+      <h2 style="font-size:clamp(30px,4.4vw,38px)" id="fcHeading"></h2>
+      <p style="color:var(--muted-fg);margin:14px auto 0;max-width:540px" id="fcText"></p>
+      <div style="display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:26px">
+        <a class="btn btn-grad" href="#services">Estimate Price</a>
+        <a class="btn btn-outline" href="#request">Request Human Help</a>
+        <a class="btn btn-outline" href="#request" data-preset="survey">Find Survey Participants</a>
+        <a class="btn btn-outline" href="#helpers">Become a Helper</a>
+      </div>
+      <p class="note" style="margin-top:20px" id="fcNote"></p>
+    </div>
+  </div></section>
+</div>
+
+<!-- ================= VIEW: SERVICES & PRICING ================= -->
+<div class="view" id="view-services" data-view="services">
+  <section><div class="wrap">
+    <div class="sec-head"><p class="eyebrow" id="prEyebrow"></p><h2 id="prHeading"></h2>
+    <p id="prText"></p></div>
+
+    <!-- CALCULATOR v2 -->
+    <div class="calc-layout" id="calculator">
+      <div class="card calc-card">
+        <p class="eyebrow">Price calculator</p>
+        <h3 style="font-size:28px;margin-top:6px">Estimate Your Support Cost</h3>
+        <p class="note" style="margin-top:4px">No payment required. Build your estimate in three quick steps.</p>
+
+        <div class="calc-step">
+          <p class="calc-step-h"><span class="stepdot" aria-hidden="true">1</span> Choose a service</p>
+          <div class="svc-chips" id="c-svcChips" role="group" aria-label="Service"></div>
+        </div>
+
+        <div class="calc-step">
+          <p class="calc-step-h"><span class="stepdot" aria-hidden="true">2</span> Your details</p>
+          <div style="margin-bottom:18px">
+            <label class="flabel" for="c-qty" id="c-qtyLabel">Quantity</label>
+            <div style="display:flex;gap:14px;align-items:center">
+              <input type="range" id="c-qtyRange" min="1" max="100" value="1" aria-label="Quantity slider" style="flex:1">
+              <input type="number" id="c-qty" min="1" value="1" style="width:110px;flex:none" aria-label="Quantity">
+            </div>
+            <p class="hint" id="c-qtyHint"></p>
+          </div>
+          <div class="c-nonSurvey" style="margin-bottom:18px">
+            <p class="flabel" id="c-levelLabel">Academic level</p>
+            <div class="seg" id="c-levelSeg" role="group" aria-labelledby="c-levelLabel"></div>
+          </div>
+          <div style="margin-bottom:18px">
+            <p class="flabel" id="c-deadlineLabel">Deadline</p>
+            <div class="chipset" id="c-deadlineChips" role="group" aria-labelledby="c-deadlineLabel"></div>
+          </div>
+          <div class="c-nonSurvey">
+            <p class="flabel" id="c-supportLabel">Support level</p>
+            <div class="seg" id="c-supportSeg" role="group" aria-labelledby="c-supportLabel"></div>
+          </div>
+          <div class="c-surveyBox" hidden>
+            <div class="fgrid">
+              <div><label class="flabel" for="c-incentive">Incentive / participant (USD)</label><input id="c-incentive" type="number" min="0" value="0"></div>
+              <div><label class="flabel" for="c-region">Target Country or Region</label><input id="c-region" type="text" placeholder="e.g. Global, EU, East Africa"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-step c-nonSurvey">
+          <p class="calc-step-h"><span class="stepdot" aria-hidden="true">3</span> Extras (optional)</p>
+          <div class="fgrid" id="c-extras"></div>
+        </div>
+      </div>
+
+      <!-- sticky itemized summary -->
+      <div class="card calc-summary" id="calcSummary">
+        <p class="eyebrow" style="color:var(--muted-fg)">Your estimate</p>
+        <p class="amount" id="c-amount" style="font-family:'Instrument Serif',Georgia,serif;font-size:44px;color:var(--primary);line-height:1.05;margin-top:6px">$0 – $0</p>
+        <div class="calc-breakdown">
+          <dl class="est-lines" id="c-lines"></dl>
+          <p class="note" style="margin-top:12px" id="c-note"></p>
+        </div>
+        <button type="button" id="c-sumToggle" aria-expanded="false">See breakdown ▾</button>
+        <div style="display:grid;gap:10px;margin-top:16px">
+          <button class="btn btn-grad btn-block" type="button" id="c-request">Request this exact help</button>
+          <a class="btn btn-outline btn-block" id="c-mail" href="#">Email this estimate</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL SERVICES -->
+    <div class="sec-head" style="margin-top:64px"><p class="eyebrow" id="svcEyebrow2"></p><h2 id="svcHeading2"></h2></div>
+    <div class="grid grid-4" id="svcGrid"></div>
+
+    <!-- PRICING TIERS -->
+    <div class="sec-head" style="margin-top:64px"><p class="eyebrow">Plans</p><h2>Starting prices at a glance</h2></div>
+    <div class="grid grid-3" id="tierGrid"></div>
+    <p style="text-align:center;margin-top:30px;color:var(--muted-fg);font-size:14.5px">Need a custom quote? <a href="#request" style="font-weight:600">Submit a request</a> and we'll respond within hours.</p>
+  </div></section>
+</div>
+
+<!-- ================= VIEW: HELPERS ================= -->
+<div class="view" id="view-helpers" data-view="helpers">
+  <section><div class="wrap">
+    <div class="sec-head"><p class="eyebrow" id="helpEyebrow"></p><h2 id="helpHeading"></h2></div>
+    <div class="grid grid-3" id="helperGrid"></div>
+  </div></section>
+
+  <!-- SURVEY RECRUITMENT -->
   <section style="padding-top:0"><div class="wrap">
     <div class="band"><div class="grid grid-2" style="align-items:center;position:relative;z-index:1">
       <div>
         <p style="font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.82)" id="svBandEyebrow"></p>
         <h2 style="margin-top:10px" id="svBandHeading"></h2>
         <p id="svBandText"></p>
+        <p style="color:rgba(255,255,255,.88);font-size:14.5px" id="svIntro2"></p>
         <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:24px">
-          <a class="btn btn-light" href="#survey">Find Survey Participants</a>
-          <a class="btn" href="#request" style="border-color:rgba(255,255,255,.55);color:#fff">Ethical human academic support</a>
+          <a class="btn btn-light" href="#request" data-preset="survey">Find Survey Participants</a>
+          <a class="btn" href="#services" style="border-color:rgba(255,255,255,.55);color:#fff">See recruitment pricing</a>
         </div>
       </div>
       <div id="surveyStats"></div>
     </div></div>
   </div></section>
 
-  <!-- PRICING -->
-  <section id="pricing" style="padding-top:0"><div class="wrap">
-    <div class="sec-head"><p class="eyebrow" id="prEyebrow"></p><h2 id="prHeading"></h2>
-    <p id="prText"></p></div>
-    <div class="grid grid-3" id="tierGrid"></div>
-    <p style="text-align:center;margin-top:30px;color:var(--muted-fg);font-size:14.5px">Need a custom quote? <a href="#request" style="font-weight:600">Submit a request</a> and we'll respond within hours.</p>
-  </div></section>
-
-  <!-- INTEGRITY -->
+  <!-- JOIN AS A HELPER -->
   <section style="padding-top:0"><div class="wrap">
-    <div class="card" style="padding:38px"><div class="grid grid-2">
-      <div>
-        <p class="eyebrow" id="intEyebrow"></p>
-        <h2 style="font-size:34px;margin-top:10px" id="intHeading"></h2>
-        <p style="color:var(--muted-fg);margin-top:14px" id="intText"></p>
-        <p style="margin-top:16px"><a href="#request" style="font-weight:600;text-decoration:none">Learn How StudyHuman Works →</a></p>
-      </div>
-      <ul style="list-style:none;display:grid;gap:11px" id="integrityList"></ul>
-    </div></div>
+    <div class="sec-head"><p class="eyebrow" id="hpEyebrow"></p><h2 id="hpHeading"></h2>
+    <p id="hpText"></p></div>
+    <div class="card" style="max-width:840px;margin:0 auto">
+      <div class="err" id="hp-err" role="alert"></div>
+      <form id="hpForm" novalidate>
+        <div class="fgrid">
+          <div><label class="flabel" for="hp-name">Full name</label><input id="hp-name" required autocomplete="name"></div>
+          <div><label class="flabel" for="hp-email">Email</label><input id="hp-email" type="email" required autocomplete="email"></div>
+          <div><label class="flabel" for="hp-country">Country</label><input id="hp-country" required autocomplete="country-name"></div>
+          <div><label class="flabel" for="hp-edu">Highest education level</label><select id="hp-edu"></select></div>
+          <div><label class="flabel" for="hp-hourly">Hourly rate (USD)</label><input id="hp-hourly" type="number" min="0" placeholder="e.g. 25"></div>
+          <div><label class="flabel" for="hp-project">Project rate (optional)</label><input id="hp-project" type="number" min="0" placeholder="e.g. 150"></div>
+        </div>
+        <div style="margin-top:18px"><label class="flabel" for="hp-areas">Areas of expertise</label><input id="hp-areas" placeholder="e.g. Statistics, English Literature, Public Health"></div>
+        <div style="margin-top:18px"><label class="flabel" for="hp-exp">Experience</label><textarea id="hp-exp" rows="4" placeholder="Briefly describe your teaching, tutoring, editing, or research experience."></textarea></div>
+        <div style="margin-top:18px"><label class="flabel" for="hp-services">Preferred services</label><input id="hp-services" placeholder="e.g. Tutoring, Editing, Research Guidance"></div>
+        <p class="hint" style="margin-top:14px">CV / resume: attach it in your email app when the application opens there — this static site can't receive uploads.</p>
+        <label class="check" style="margin-top:14px"><input type="checkbox" id="hp-ok"><span id="hpOkText"></span></label>
+        <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:22px">
+          <button class="btn btn-grad" type="submit" style="flex:1">Submit application (opens email)</button>
+          <button class="btn btn-outline" type="button" id="hp-copy" style="flex:1">Copy application text</button>
+        </div>
+        <p class="note" id="hp-done" style="margin-top:10px" aria-live="polite"></p>
+      </form>
+    </div>
   </div></section>
+</div>
 
-  <!-- TESTIMONIALS -->
-  <section style="padding-top:0"><div class="wrap">
-    <div class="sec-head"><p class="eyebrow" id="teEyebrow"></p><h2 id="teHeading"></h2></div>
-    <div class="grid grid-3" id="quoteGrid"></div>
-  </div></section>
-
-  <!-- WRITING CHECK -->
-  <section id="writing-check" style="padding-top:0"><div class="wrap">
+<!-- ================= VIEW: WRITING CHECK ================= -->
+<div class="view" id="view-writing" data-view="writing">
+  <section><div class="wrap">
     <span class="pill" style="background:#fff;border:1px solid var(--border);color:var(--muted-fg)" id="wcBadge"></span>
     <div class="sec-head" style="margin-top:18px"><p class="eyebrow" id="wcEyebrow"></p>
     <h2 id="wcHeading"></h2>
@@ -388,15 +536,48 @@ footer.site .logo{color:#fff}
       </form>
     </div>
   </div></section>
+</div>
 
-  <!-- SURVEY -->
-  <section id="survey" style="padding-top:0"><div class="wrap">
-    <div class="sec-head"><p class="eyebrow" id="svEyebrow"></p><h2 id="svHeading"></h2>
-    <p id="svIntro"></p></div>
+<!-- ================= VIEW: REQUEST (unified form) ================= -->
+<div class="view" id="view-request" data-view="request">
+  <section><div class="wrap">
+    <div class="sec-head"><p class="eyebrow" id="rqEyebrow"></p><h2 id="rqHeading"></h2>
+    <p id="rqText"></p></div>
     <div class="card" style="max-width:840px;margin:0 auto">
-      <div class="check" style="margin-bottom:22px"><span aria-hidden="true">🛡</span><span id="svEthicsNote"></span></div>
-      <div class="err" id="sv-err" role="alert"></div>
-      <form id="svForm" novalidate>
+      <div class="err" id="rq-err" role="alert"></div>
+
+      <div><label class="flabel" for="rq-service">What do you need?</label><select id="rq-service"></select></div>
+
+      <!-- Writing Check chosen: route to its own view -->
+      <div id="rq-wcNote" hidden style="margin-top:18px">
+        <div class="check"><span aria-hidden="true">🛡️</span><span>Writing Check has its own quick submission form — it takes about a minute.</span></div>
+        <a class="btn btn-grad btn-block" href="#writing" style="margin-top:14px">Go to Writing Check →</a>
+      </div>
+
+      <!-- general fields -->
+      <div id="rq-genFields">
+        <div class="fgrid" style="margin-top:18px">
+          <div><label class="flabel" for="rq-helper">Preferred helper (optional)</label><select id="rq-helper"></select></div>
+          <div><label class="flabel" for="rq-subject">Subject</label><input id="rq-subject" placeholder="e.g. Sociology"></div>
+        </div>
+        <div style="margin-top:18px">
+          <p class="flabel" id="rq-levelLabel">Academic level</p>
+          <div class="seg" id="rq-level" role="group" aria-labelledby="rq-levelLabel"></div>
+        </div>
+        <div class="fgrid" style="margin-top:18px">
+          <div><label class="flabel" for="rq-qty" id="rq-qtyLabel">Quantity</label><input id="rq-qty" type="number" min="1" value="1"></div>
+          <div><label class="flabel" for="rq-deadline">Deadline</label><select id="rq-deadline"></select></div>
+          <div><label class="flabel" for="rq-support">Support level</label><select id="rq-support"></select></div>
+          <div><label class="flabel" for="rq-date">Target date (optional)</label><input id="rq-date" type="date"></div>
+        </div>
+        <div style="margin-top:18px"><label class="flabel" for="rq-notes">Instructions</label><textarea id="rq-notes" rows="5" placeholder="Describe what you need help with. Share context, requirements, and goals."></textarea></div>
+        <div style="margin-top:18px"><label class="flabel" for="rq-budget">Budget (USD, optional)</label><input id="rq-budget" type="number" min="0" placeholder="e.g. 50"></div>
+        <p class="hint">Have a file to share? You can attach it in your email app at the final step — this static site can't receive uploads.</p>
+      </div>
+
+      <!-- survey fields (revealed when Survey Participant Recruitment is chosen) -->
+      <div id="rq-surveyFields" hidden>
+        <div class="check" style="margin:18px 0"><span aria-hidden="true">🛡</span><span id="svEthicsNote"></span></div>
         <div><label class="flabel" for="sv-title">Research title</label><input id="sv-title" placeholder="e.g. Mental health and remote learning"></div>
         <div class="fgrid" style="margin-top:18px">
           <div><label class="flabel" for="sv-level">Academic level</label><select id="sv-level"></select></div>
@@ -412,69 +593,26 @@ footer.site .logo{color:#fff}
         <div style="margin-top:18px"><label class="flabel" for="sv-notes">Additional notes</label><textarea id="sv-notes" rows="4" placeholder="Eligibility criteria, exclusions, screening questions, etc."></textarea></div>
         <label class="check" style="margin-top:18px"><input type="checkbox" id="sv-ethics"><span id="svEthicsText"></span></label>
         <label class="check" style="margin-top:12px"><input type="checkbox" id="sv-consent"><span id="svConsentText"></span></label>
-        <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:22px">
-          <button class="btn btn-grad" type="submit" style="flex:1">Launch recruitment (opens email)</button>
-          <button class="btn btn-outline" type="button" id="sv-copy" style="flex:1">Copy request text</button>
-        </div>
-        <p class="note" id="sv-done" style="margin-top:10px" aria-live="polite"></p>
-      </form>
-    </div>
-  </div></section>
-
-  <!-- FAQ -->
-  <section id="faq" style="padding-top:0"><div class="wrap">
-    <div class="sec-head" style="margin-left:auto;margin-right:auto;text-align:center"><p class="eyebrow" id="faqEyebrow"></p><h2 id="faqHeading"></h2></div>
-    <div class="faq-list" id="faqList"></div>
-  </div></section>
-
-  <!-- REQUEST HELP WIZARD -->
-  <section id="request" style="padding-top:0"><div class="wrap">
-    <div class="sec-head"><p class="eyebrow" id="rqEyebrow"></p><h2 id="rqHeading"></h2>
-    <p id="rqText"></p></div>
-    <div class="card" style="max-width:840px;margin:0 auto">
-      <div class="wiz-steps" id="wizSteps" aria-hidden="true"></div>
-      <div class="err" id="rq-err" role="alert"></div>
-
-      <div class="wiz-panel" data-panel="1">
-        <div class="fgrid">
-          <div><label class="flabel" for="rq-service">Choose a service</label><select id="rq-service"></select></div>
-          <div><label class="flabel" for="rq-helper">Preferred helper (optional)</label><select id="rq-helper"></select></div>
-        </div>
       </div>
 
-      <div class="wiz-panel" data-panel="2">
-        <div class="fgrid">
-          <div><label class="flabel" for="rq-level">Academic level</label><select id="rq-level"></select></div>
-          <div><label class="flabel" for="rq-subject">Subject</label><input id="rq-subject" placeholder="e.g. Sociology"></div>
-          <div><label class="flabel" for="rq-qty" id="rq-qtyLabel">Quantity</label><input id="rq-qty" type="number" min="1" value="1"></div>
-          <div><label class="flabel" for="rq-deadline">Deadline</label><select id="rq-deadline"></select></div>
-          <div><label class="flabel" for="rq-support">Support level</label><select id="rq-support"></select></div>
-          <div><label class="flabel" for="rq-date">Target date (optional)</label><input id="rq-date" type="date"></div>
-        </div>
-        <div style="margin-top:18px"><label class="flabel" for="rq-notes">Instructions</label><textarea id="rq-notes" rows="5" placeholder="Describe what you need help with. Share context, requirements, and goals."></textarea></div>
-        <div style="margin-top:18px"><label class="flabel" for="rq-budget">Budget (USD, optional)</label><input id="rq-budget" type="number" min="0" placeholder="e.g. 50"></div>
-        <p class="hint">Have a file to share? You can attach it in your email app at the final step — this static site can't receive uploads.</p>
-      </div>
-
-      <div class="wiz-panel" data-panel="3">
-        <h3 style="font-size:24px">Review your estimate</h3>
-        <div class="est-box">
-          <p class="eyebrow" style="color:var(--muted-fg)">Estimated Support Cost</p>
-          <p class="amount" id="rq-amount">$0 – $0</p>
-          <dl class="est-lines" id="rq-lines"></dl>
-          <p class="note" style="margin-top:10px" id="rq-note"></p>
-        </div>
-      </div>
-
-      <div class="wiz-panel" data-panel="4">
-        <div class="fgrid">
+      <!-- contact + estimate + submit -->
+      <div id="rq-contactFields">
+        <div class="fgrid" style="margin-top:18px">
           <div><label class="flabel" for="rq-name">Your name</label><input id="rq-name" autocomplete="name"></div>
           <div><label class="flabel" for="rq-email">Your email</label><input id="rq-email" type="email" autocomplete="email"></div>
         </div>
-        <label class="check" style="margin-top:18px"><input type="checkbox" id="rq-ok"><span id="rqOkText"></span></label>
+        <label class="check" id="rq-okWrap" style="margin-top:18px"><input type="checkbox" id="rq-ok"><span id="rqOkText"></span></label>
+        <div class="est-box">
+          <p class="eyebrow" style="color:var(--muted-fg)">Estimated Support Cost</p>
+          <p class="amount" id="rq-estAmount">$0 – $0</p>
+          <dl class="est-lines" id="rq-estLines"></dl>
+          <p class="note" style="margin-top:10px" id="rq-estNote"></p>
+        </div>
+        <button class="btn btn-grad btn-block" type="button" id="rq-submit" style="margin-top:22px">Prepare my request →</button>
       </div>
 
-      <div class="wiz-panel" data-panel="5">
+      <!-- confirmation -->
+      <div id="rq-confirm" hidden style="margin-top:26px">
         <h3 style="font-size:24px">✅ Your request is ready to send</h3>
         <p style="color:var(--muted-fg);margin:8px 0 14px;font-size:14.5px">A static website has no inbox of its own, so your request travels by email — the same way the original site prepared enquiries. Open your email app with everything pre-written, or copy the text and send it yourself.</p>
         <pre class="enquiry" id="rq-text"></pre>
@@ -484,57 +622,9 @@ footer.site .logo{color:#fff}
         </div>
         <p class="note" id="rq-done" style="margin-top:10px" aria-live="polite"></p>
       </div>
-
-      <div class="wiz-nav">
-        <button class="btn btn-outline" type="button" id="rq-back">← Back</button>
-        <button class="btn btn-grad" type="button" id="rq-next" style="flex:1">Continue →</button>
-      </div>
     </div>
   </div></section>
-
-  <!-- BECOME A HELPER -->
-  <section id="become-helper" style="padding-top:0"><div class="wrap">
-    <div class="sec-head"><p class="eyebrow" id="hpEyebrow"></p><h2 id="hpHeading"></h2>
-    <p id="hpText"></p></div>
-    <div class="card" style="max-width:840px;margin:0 auto">
-      <div class="err" id="hp-err" role="alert"></div>
-      <form id="hpForm" novalidate>
-        <div class="fgrid">
-          <div><label class="flabel" for="hp-name">Full name</label><input id="hp-name" required autocomplete="name"></div>
-          <div><label class="flabel" for="hp-email">Email</label><input id="hp-email" type="email" required autocomplete="email"></div>
-          <div><label class="flabel" for="hp-country">Country</label><input id="hp-country" required autocomplete="country-name"></div>
-          <div><label class="flabel" for="hp-edu">Highest education level</label><select id="hp-edu"></select></div>
-          <div><label class="flabel" for="hp-hourly">Hourly rate (USD)</label><input id="hp-hourly" type="number" min="0" placeholder="e.g. 25"></div>
-          <div><label class="flabel" for="hp-project">Project rate (optional)</label><input id="hp-project" type="number" min="0" placeholder="e.g. 150"></div>
-        </div>
-        <div style="margin-top:18px"><label class="flabel" for="hp-areas">Areas of expertise</label><input id="hp-areas" placeholder="e.g. Statistics, English Literature, Public Health"></div>
-        <div style="margin-top:18px"><label class="flabel" for="hp-exp">Experience</label><textarea id="hp-exp" rows="4" placeholder="Briefly describe your teaching, tutoring, editing, or research experience."></textarea></div>
-        <div style="margin-top:18px"><label class="flabel" for="hp-services">Preferred services</label><input id="hp-services" placeholder="e.g. Tutoring, Editing, Research Guidance"></div>
-        <p class="hint" style="margin-top:14px">CV / resume: attach it in your email app when the application opens there — this static site can't receive uploads.</p>
-        <label class="check" style="margin-top:14px"><input type="checkbox" id="hp-ok"><span id="hpOkText"></span></label>
-        <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:22px">
-          <button class="btn btn-grad" type="submit" style="flex:1">Submit application (opens email)</button>
-          <button class="btn btn-outline" type="button" id="hp-copy" style="flex:1">Copy application text</button>
-        </div>
-        <p class="note" id="hp-done" style="margin-top:10px" aria-live="polite"></p>
-      </form>
-    </div>
-  </div></section>
-
-  <!-- FINAL CTA -->
-  <section style="padding-top:0"><div class="wrap">
-    <div class="card" style="text-align:center;padding:48px 30px;border-radius:28px">
-      <h2 style="font-size:clamp(30px,4.4vw,38px)" id="fcHeading"></h2>
-      <p style="color:var(--muted-fg);margin:14px auto 0;max-width:540px" id="fcText"></p>
-      <div style="display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:26px">
-        <a class="btn btn-grad" href="#calculator">Estimate Price</a>
-        <a class="btn btn-outline" href="#request">Request Human Help</a>
-        <a class="btn btn-outline" href="#survey">Find Survey Participants</a>
-        <a class="btn btn-outline" href="#become-helper">Become a Helper</a>
-      </div>
-      <p class="note" style="margin-top:20px" id="fcNote"></p>
-    </div>
-  </div></section>
+</div>
 </main>
 
 <footer class="site"><div class="wrap">
@@ -544,23 +634,94 @@ footer.site .logo{color:#fff}
       <p class="foot-blurb" id="footBlurb"></p>
     </div>
     <div><h4>Platform</h4><ul>
-      <li><a href="#home">About StudyHuman</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#become-helper">Become a Helper</a></li>
+      <li><a href="#home">About StudyHuman</a></li><li><a href="#services">Pricing</a></li><li><a href="#helpers">Become a Helper</a></li>
     </ul></div>
     <div><h4>For Students</h4><ul>
-      <li><a href="#services">Services</a></li><li><a href="#survey">Find survey participants</a></li><li><a href="#writing-check">Writing Check</a></li>
+      <li><a href="#services">Services</a></li><li><a href="#request" data-preset="survey">Find survey participants</a></li><li><a href="#writing">Writing Check</a></li>
     </ul></div>
     <div><h4>Support</h4><ul>
-      <li><a id="foot-mail" href="#">Human Support — email us</a></li><li><a href="#faq">FAQ</a></li><li><a href="#request">Contact via request form</a></li>
+      <li><a id="foot-mail" href="#">Human Support — email us</a></li><li><a href="#home">FAQ</a></li><li><a href="#request">Contact via request form</a></li>
     </ul></div>
   </div>
   <div class="foot-base"><span id="footBaseL"></span><span id="footBaseR"></span></div>
 </div></footer>
+
+<!-- mobile bottom tab bar -->
+<nav class="tabbar" aria-label="Quick navigation">
+  <a href="#home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Home</a>
+  <a href="#services" data-nav="services"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Services</a>
+  <a href="#helpers" data-nav="helpers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/><path d="M16 5.2a3.5 3.5 0 0 1 0 5.6M17.8 15.4c2 .6 3.2 2 3.7 4.6"/></svg>Helpers</a>
+  <a href="#writing" data-nav="writing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Writing</a>
+  <a href="#request" data-nav="request"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>Request</a>
+</nav>
+
+<button id="toTop" aria-label="Back to top" title="Back to top">↑</button>
 
 <script>
 /* Embedded fallback copy of content.json — used only if the fetch of
    content.json fails (e.g. this file is opened via file://). It is generated
    from content.json and must stay identical to it. */
 var EMBEDDED_CONTENT = {"bannerText":"Share StudyHuman and earn up to $10 in credits per successful referral.","calc":{"deadlines":{"24-48 Hours":1.5,"3-6 Days":1.2,"7+ Days":1,"Under 24 Hours":2},"extras":[{"cost":5,"label":"Plagiarism and originality review"},{"cost":5,"label":"Citation review"},{"cost":5,"label":"Formatting support"},{"cost":10,"label":"Detailed feedback report"},{"cost":10,"label":"Presentation notes"},{"cost":15,"label":"Data interpretation guidance"}],"levels":{"Diploma":0.9,"High School":0.8,"Master's":1.25,"PhD":1.5,"Undergraduate":1},"minFloor":5,"note":"This is an estimate. Final pricing is confirmed by a human helper after review.","pageHint":"Use 275 words as one page.","rangeFactor":1.35,"services":[{"base":10,"name":"Tutoring support","unit":"hours"},{"base":6,"name":"Editing and Proofreading","unit":"pages"},{"base":12,"name":"Research Guidance","unit":"pages"},{"base":15,"name":"Data Analysis Guidance","unit":"hours"},{"base":5,"name":"Formatting and Citations","unit":"pages"},{"base":8,"name":"Presentation Support","unit":"slides"},{"base":0.75,"name":"Survey Participant Recruitment","survey":true,"unit":"participants"},{"base":6,"name":"Writing Check","unit":"pages"}],"support":{"Advanced":1.25,"Standard":1,"Urgent Review":1.5}},"contactEmail":"cleanwriter@gmail.com","faqSection":{"eyebrow":"FAQ","heading":"Answers to common questions"},"faqs":[{"a":"No. StudyHuman provides guidance, tutoring, editing, and feedback. Students are responsible for their own submissions.","q":"Will you write my essay for me?"},{"a":"Yes. Every helper is verified through credentials and an experience review.","q":"Are helpers real people?"},{"a":"Funds are held securely and released to your helper after the session or deliverable is completed.","q":"How do payments work?"},{"a":"Yes. Our recruitment workflow includes informed consent, privacy controls, and optional ethics approval verification.","q":"Can I get survey participants ethically?"}],"finalCta":{"heading":"Ready to learn with a real human expert?","note":"Human support 24/7 · Verified helpers · Secure payment after scope · No AI-written work","text":"Submit your first request in minutes. Real people. Real academic support."},"footer":{"baseLeft":"© 2026 StudyHuman. All rights reserved.","baseRight":"Made for learners worldwide.","blurb":"Ethical, human academic support for students worldwide — from high school to PhD."},"helperLevels":["Bachelor's","Master's","PhD","Postdoc","Professional"],"helperSection":{"eyebrow":"Apply as a helper","heading":"Share your expertise. Help students learn ethically.","policyCheck":"I agree to StudyHuman's academic integrity and quality policy — I will provide guidance, feedback, and tutoring, never complete assignments on behalf of students.","text":"Tutors, editors, researchers, and academic mentors — join our verified global community."},"helpers":[{"name":"Dr. Amara Okafor","rating":4.9,"role":"PhD · Research Methods","sessions":320,"tags":["Literature Reviews","APA","Qualitative"]},{"name":"Marcus Chen","rating":5.0,"role":"MSc · Statistics & Data","sessions":210,"tags":["SPSS","R","Regression"]},{"name":"Priya Sharma","rating":4.9,"role":"MA · Academic Writing","sessions":480,"tags":["Editing","Structure","Clarity"]}],"helpersSection":{"eyebrow":"Meet the helpers","heading":"Verified humans, not chatbots"},"hero":{"badge":"🛡 Real people. Real guidance. No AI-written shortcuts.","ctas":[{"href":"#calculator","label":"Estimate Price →","style":"grad"},{"href":"#request","label":"Request Human Help","style":"outline"},{"href":"#survey","label":"Find Survey Participants","style":"outline"},{"href":"#become-helper","label":"Become a Helper","style":"outline"}],"headlineEm":"Academic Support","headlineTop":"Get Real Human","lede":"StudyHuman connects students from high school to PhD level with verified human academic helpers for tutoring, editing, proofreading, research guidance, study coaching, data analysis guidance, presentation support, and survey participant recruitment.","points":["Human support available 24/7","Verified helpers","Secure payment after scope confirmation","No AI-written work","80+ countries"]},"howItWorks":{"eyebrow":"How matching works","heading":"From request to real human help in minutes","steps":[{"d":"Share your subject, level, deadline, and the type of support.","n":"01","t":"Tell us what you need"},{"d":"Get a transparent price before you commit.","n":"02","t":"See an instant estimate"},{"d":"We connect you to a real expert who fits your topic.","n":"03","t":"Match with a verified human helper"},{"d":"Approve the plan, then pay securely once scope is set.","n":"04","t":"Confirm scope, deadline, and payment"}]},"integrity":{"eyebrow":"Ethical human academic support","heading":"We coach learners. We never replace them.","items":["No ghost-written assignments","No exam impersonation","No guaranteed grades","No plagiarized content","Constructive feedback only","Clear scope on every request"],"text":"StudyHuman provides ethical human support for tutoring, feedback, editing, research guidance, and survey recruitment. Students remain responsible for their own final submissions."},"levelsInfo":[{"d":"Core subjects, exam prep, study skills.","t":"High School"},{"d":"Coursework guidance, technical concepts, projects.","t":"Diploma"},{"d":"Essays, lab reports, citations, research methods.","t":"Undergraduate"},{"d":"Thesis structure, literature reviews, data analysis.","t":"Master's"},{"d":"Dissertation coaching, methodology, publication support.","t":"PhD"}],"levelsSection":{"eyebrow":"Academic Levels","heading":"Support for every stage of learning"},"pricingSection":{"eyebrow":"Pricing","heading":"Transparent pricing, scoped to your needs","text":"We never sell finished assignments. You pay for human guidance, feedback, and expert time."},"requestSection":{"eyebrow":"Request academic help","heading":"Tell us what you need — we'll match you with a real expert","integrityCheck":"I understand that StudyHuman provides learning support, tutoring, editing, and guidance only. I will not use this service for academic dishonesty.","steps":["1 · Choose service","2 · Add details","3 · Review estimate","4 · Your details","5 · Confirmation"],"text":"Tutoring, editing, research guidance, formatting, data analysis support, and more."},"services":[{"blurb":"1:1 sessions with subject experts to deepen understanding.","icon":"📖","title":"Tutoring & Study Coaching"},{"blurb":"Polish grammar, clarity, structure, and academic tone.","icon":"✒️","title":"Editing & Proofreading"},{"blurb":"Proposals, methodology, literature reviews, frameworks.","icon":"🔬","title":"Research Guidance"},{"blurb":"SPSS, R, Stata, Python — interpret your own results.","icon":"📊","title":"Data Analysis Guidance"},{"blurb":"APA, MLA, Chicago, Harvard — done right, every time.","icon":"📄","title":"Formatting & Citations"},{"blurb":"Slides, narrative, and delivery feedback.","icon":"🖥️","title":"Presentation Support"},{"blurb":"Connect with willing, ethical participants worldwide.","icon":"👥","title":"Survey Participant Recruitment"},{"blurb":"Constructive critique — never written-for-you work.","icon":"🛡️","title":"Integrity-First Feedback"}],"servicesSection":{"eyebrow":"Services","heading":"Everything you need — ethically delivered"},"stats":[{"label":"Active learners this week","value":"2,480+"},{"label":"Verified human helpers online","value":"312"},{"label":"Avg. match time","value":"< 4 min"},{"label":"Average helper rating","value":"4.9 / 5"}],"surveyBand":{"eyebrow":"Survey Participant Recruitment","heading":"Find real participants for your academic research","text":"Ethically recruit students and adults across countries — with informed consent, privacy protection, and clear incentives."},"surveyLevels":["Undergraduate","Master's","PhD","Independent Researcher"],"surveySection":{"consentCheck":"I will provide participants with informed consent, allow withdrawal at any time, and protect their privacy.","ethicsCheck":"My research has ethics approval (or does not require one).","ethicsNote":"All recruitment campaigns follow informed-consent and data-privacy standards. Participants opt in voluntarily and may withdraw at any time.","eyebrow":"Survey participants","heading":"Find Survey Participants","intro":"Need participants for your academic survey? StudyHuman helps students and researchers connect with real human participants for ethical, consent-based survey research. All survey participation must be voluntary, privacy-respecting, and based on clear informed consent."},"surveyStats":[{"k":"Avg. recruitment time","v":"48 hrs"},{"k":"Active participant pool","v":"12,400+"},{"k":"Countries reached","v":"80+"}],"testimonials":[{"a":"Priya, Master's, India","q":"My tutor walked me through statistical analysis step by step. I actually understood it."},{"a":"Marcus, PhD, UK","q":"The editor's feedback transformed my dissertation chapter. Clearer arguments, better flow."},{"a":"Dr. Lin, Researcher","q":"We recruited 200 participants across 4 countries within a week. Smooth experience."}],"testimonialsSection":{"eyebrow":"Testimonials","heading":"What students and researchers say"},"tiers":[{"d":"Live, 1:1 subject coaching across all academic levels.","f":["Verified subject experts","Flexible scheduling","Session recordings on request"],"p":"Starting from $10/hr","t":"Tutoring Support"},{"d":"Polish grammar, clarity, structure, and academic tone.","f":["Track-changes feedback","Style guide compliance","Two revision rounds"],"p":"Custom quote","t":"Editing & Proofreading"},{"badge":"Most popular","d":"Methodology, literature, and framing support.","f":["Topic refinement","Source curation","Outline & structure"],"featured":true,"p":"Custom quote","t":"Research Guidance"},{"d":"Walkthroughs in SPSS, R, Stata, Python.","f":["Test selection guidance","Interpretation coaching","Visualization advice"],"p":"Custom quote","t":"Data Analysis Guidance"},{"d":"Ethical recruitment across regions.","f":["Informed consent flow","Targeted demographics","Quality screening"],"p":"Starting from $50","t":"Survey Participant Recruitment"},{"d":"Fast-tracked matching for tight deadlines.","f":["Priority queue","24/7 helper availability","Senior reviewer"],"p":"Custom quote based on level, deadline, and complexity","t":"Premium Urgent Support"}],"trust":["Oxford","Stanford","Nairobi","Toronto","Delhi","Sydney"],"wcLevels":["High School","Diploma or Certificate","Undergraduate","Master's","PhD"],"whyHuman":{"eyebrow":"Why human support","heading":"Because learning still happens between people","points":[{"d":"Helpers are verified academics, tutors, and researchers — not chatbots.","t":"Real expertise"},{"d":"Feedback shaped to your level, topic, and goals.","t":"Personalized guidance"},{"d":"We coach learning. We do not write or submit work for you.","t":"Ethical by design"},{"d":"Track conversations, deliverables, and milestones transparently.","t":"Accountability"}]},"writingCheck":{"badge":"🛡 Human review, not blind AI detector results.","checks":[{"d":"Sentence rhythms and phrasing that often signal generated text.","icon":"🤖","t":"AI-like writing patterns"},{"d":"Overused stock phrases and recycled structures.","icon":"🔁","t":"Repetitive or generic phrasing"},{"d":"Writing that lacks a clear authorial perspective.","icon":"💬","t":"Weak personal voice"},{"d":"Logic gaps, weak transitions, and unfocused paragraphs.","icon":"🧭","t":"Unclear argument flow"},{"d":"Missing, inconsistent, or incorrectly formatted sources.","icon":"❝","t":"Citation and referencing issues"},{"d":"Text that reads unnaturally smooth or detached.","icon":"✨","t":"Overly polished or robotic tone"},{"d":"Claims that aren't backed by data, examples, or sources.","icon":"❓","t":"Missing evidence"},{"d":"Patterns that may concern instructors or reviewers.","icon":"🛡️","t":"Academic integrity risks"}],"consent":"I understand that StudyHuman does not guarantee 100% AI detection accuracy. This service provides human feedback on writing style, originality concerns, citation quality, structure, and academic integrity.","disclaimer":"AI detection tools can produce false positives and false negatives. StudyHuman does not claim to prove whether a text was written by AI. Instead, our reviewers provide careful human feedback on whether the writing sounds overly generic, robotic, unsupported, poorly cited, or inconsistent with academic expectations.","disclaimerTitle":"⚠ AI Detection Is Not Always Accurate","eyebrow":"Writing Check","headingEm":"Sounds AI-Written","headingTop":"Check If Your Work","intro":"Get a human review of your writing to identify AI-like patterns, weak originality, unclear arguments, citation issues, and areas that need stronger human voice.","reviewTypes":["Quick AI Writing Check","Detailed Human Originality Review","Citation and Source Review","Academic Tone Improvement","Full Writing Feedback"],"steps":[{"d":"Share the text you'd like reviewed — paste it directly or upload a document.","n":"01","t":"Upload or paste your writing"},{"d":"Tell us your level and what kind of human review you want.","n":"02","t":"Choose your academic level and review type"},{"d":"A real academic reviewer reads the writing carefully — no blind AI detector.","n":"03","t":"A verified human reviewer checks the work"},{"d":"Get notes on originality, tone, structure, citations, and improvement areas.","n":"04","t":"Receive structured feedback"}],"stepsEyebrow":"What we check","stepsHeading":"Eight angles, reviewed by a real person","tiers":[{"p":"Starting from $10","t":"Quick AI Writing Check"},{"p":"Custom Quote","t":"Detailed Human Originality Review"},{"p":"Starting from $15","t":"Citation and Source Review"},{"p":"Custom Quote","t":"Full Writing Feedback"}],"tiersEyebrow":"Pricing preview","tiersHeading":"Transparent, scoped to your review","tiersNote":"Pricing depends on document length, academic level, deadline, and review depth."}};
+</script>
+<script>
+/* ---------- router + chrome (works before content loads) ---------- */
+(function(){
+"use strict";
+function $(id){ return document.getElementById(id); }
+var ALIAS = { "": "home", "home": "home", "services": "services", "pricing": "services",
+  "calculator": "services", "helpers": "helpers", "become-helper": "helpers",
+  "writing": "writing", "writing-check": "writing", "request": "request",
+  "survey": "request", "faq": "home" };
+var TITLES = { home: "StudyHuman — Human Academic Support for Every Level of Learning",
+  services: "Services & Pricing — StudyHuman", helpers: "Helpers — StudyHuman",
+  writing: "Writing Check — StudyHuman", request: "Request Help — StudyHuman" };
+function routeName(){
+  var h = (location.hash || "").replace(/^#/, "");
+  return ALIAS[h] || "home";
+}
+function showView(name, skipScroll){
+  Array.prototype.forEach.call(document.querySelectorAll(".view"), function(v){
+    v.classList.toggle("on", v.getAttribute("data-view") === name);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-nav]"), function(a){
+    var on = a.getAttribute("data-nav") === name;
+    a.classList.toggle("on", on);
+    if (a.closest && a.closest(".tabbar")) { if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); }
+  });
+  document.title = TITLES[name] || TITLES.home;
+  if (!skipScroll) window.scrollTo(0, 0);
+  var mn = $("mobileNav");
+  if (mn) { mn.classList.remove("open"); var t = $("navToggle"); if (t) { t.setAttribute("aria-expanded", "false"); t.textContent = "☰"; } }
+}
+window.StudyHumanRouter = { show: showView, current: routeName };
+window.addEventListener("hashchange", function(){
+  var raw = (location.hash || "").replace(/^#/, "");
+  showView(routeName(), false);
+  if (raw === "survey" && window.StudyHumanPreset) window.StudyHumanPreset("survey");
+});
+document.addEventListener("click", function(e){
+  var a = e.target.closest ? e.target.closest("a[data-preset]") : null;
+  if (a && a.getAttribute("data-preset") === "survey") {
+    if ((location.hash || "") === "#request") { if (window.StudyHumanPreset) window.StudyHumanPreset("survey"); }
+    else window.__pendingPreset = "survey";
+  }
+});
+var navToggle = $("navToggle"), mobileNav = $("mobileNav");
+if (navToggle && mobileNav) {
+  navToggle.addEventListener("click", function(){
+    var open = mobileNav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.textContent = open ? "✕" : "☰";
+  });
+}
+var toTop = $("toTop");
+window.addEventListener("scroll", function(){
+  if (toTop) toTop.classList.toggle("show", window.scrollY > 600);
+}, { passive: true });
+if (toTop) toTop.addEventListener("click", function(){ window.scrollTo({ top: 0, behavior: "smooth" }); });
+showView(routeName(), true);
+if ((location.hash || "") === "#survey") window.__pendingPreset = "survey";
+})();
 </script>
 <script>
 (function(){
@@ -575,17 +736,8 @@ function fillSelect(el, names, firstBlank){
 function showErr(id, msg){ var e = $(id); e.textContent = msg; e.classList.add("show"); e.scrollIntoView({behavior:"smooth", block:"center"}); }
 function hideErr(id){ $(id).classList.remove("show"); }
 function validEmail(v){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v || ""); }
-
-/* Nav works even before content loads */
-var navToggle = $("navToggle"), mobileNav = $("mobileNav");
-navToggle.addEventListener("click", function(){
-  var open = mobileNav.classList.toggle("open");
-  navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-  navToggle.textContent = open ? "✕" : "☰";
-});
-mobileNav.addEventListener("click", function(e){
-  if (e.target.tagName === "A") { mobileNav.classList.remove("open"); navToggle.setAttribute("aria-expanded", "false"); navToggle.textContent = "☰"; }
-});
+function sortedKeys(obj){ return Object.keys(obj).sort(function(a,b){ return obj[a] - obj[b]; }); }
+function fmtMult(m){ return "×" + (Math.round(m * 100) / 100); }
 
 /* Reveal-on-scroll (IntersectionObserver; disabled under reduced-motion by CSS) */
 var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function(entries){
@@ -598,11 +750,28 @@ function reveal(scope){
   });
 }
 
+/* Segmented / chip group: builds buttons into el, keeps one pressed. */
+function segGroup(el, values, current, onPick){
+  function render(){
+    el.innerHTML = values.map(function(v){
+      return '<button type="button" aria-pressed="' + (v === current() ? "true" : "false") + '" data-v="' + esc(v) + '">' + esc(v) + "</button>";
+    }).join("");
+  }
+  el.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest("button[data-v]") : null;
+    if (!b) return;
+    onPick(b.getAttribute("data-v")); render();
+  });
+  render();
+  return { refresh: render };
+}
+
 function init(C){
   function svcByName(name){ for (var i=0;i<C.calc.services.length;i++) if (C.calc.services[i].name===name) return C.calc.services[i]; return C.calc.services[0]; }
   function unitLabel(svc){ return { pages:"Number of Pages", hours:"Number of Hours / Sessions", slides:"Number of Slides", participants:"Number of Participants" }[svc.unit] || "Quantity"; }
   /* Estimate formula — identical to the original app's src/lib/pricing.ts,
-     with the flat add-on extras from PriceCalculator.tsx added on top. */
+     with the flat add-on extras from PriceCalculator.tsx added on top.
+     DO NOT CHANGE THE MATH. */
   function calcEstimate(inp){
     var svc = svcByName(inp.service);
     var qty = Math.max(1, Number(inp.quantity) || 1);
@@ -641,7 +810,8 @@ function init(C){
   setHTML("heroH1", esc(C.hero.headlineTop) + "<br><em>" + esc(C.hero.headlineEm) + "</em>");
   setText("heroLede", C.hero.lede);
   setHTML("heroCtas", C.hero.ctas.map(function(a){
-    return '<a class="btn ' + (a.style === "grad" ? "btn-grad" : "btn-outline") + '" href="' + esc(a.href) + '">' + esc(a.label) + "</a>";
+    var extra = a.href === "#survey" ? ' data-preset="survey"' : "";
+    return '<a class="btn ' + (a.style === "grad" ? "btn-grad" : "btn-outline") + '" href="' + esc(a.href) + '"' + extra + ">" + esc(a.label) + "</a>";
   }).join(""));
   setHTML("heroPoints", C.hero.points.map(function(p){ return "<span>" + esc(p) + "</span>"; }).join(""));
   setHTML("trustList", "<span>Trusted by learners at</span>" + C.trust.map(function(t){ return "<b>" + esc(t) + "</b>"; }).join(""));
@@ -652,10 +822,13 @@ function init(C){
   setHTML("matchSteps", C.howItWorks.steps.map(function(s){
     return '<div class="card"><span class="stepnum">' + esc(s.n) + '</span><h3 style="font-size:20px;margin-top:10px">' + esc(s.t) + '</h3><p style="color:var(--muted-fg);font-size:14.5px;margin-top:6px">' + esc(s.d) + "</p></div>";
   }).join(""));
-  setText("svcEyebrow", C.servicesSection.eyebrow); setText("svcHeading", C.servicesSection.heading);
-  setHTML("svcGrid", C.services.map(function(s){
+  function svcCard(s){
     return '<div class="card svc"><div class="svc-ic" aria-hidden="true">' + esc(s.icon) + '</div><h3>' + esc(s.title) + "</h3><p>" + esc(s.blurb) + "</p></div>";
-  }).join(""));
+  }
+  setText("svcEyebrow", C.servicesSection.eyebrow); setText("svcHeading", C.servicesSection.heading);
+  setHTML("featSvcGrid", C.services.slice(0, 4).map(svcCard).join(""));
+  setText("svcEyebrow2", C.servicesSection.eyebrow); setText("svcHeading2", C.servicesSection.heading);
+  setHTML("svcGrid", C.services.map(svcCard).join(""));
   setText("helpEyebrow", C.helpersSection.eyebrow); setText("helpHeading", C.helpersSection.heading);
   setHTML("helperGrid", C.helpers.map(function(h){
     return '<div class="card helper"><div style="display:flex;gap:12px;align-items:center">' +
@@ -670,29 +843,30 @@ function init(C){
   setHTML("whyGrid", C.whyHuman.points.map(function(r){
     return '<div class="card" style="display:flex;gap:14px"><span style="color:var(--success);font-weight:800" aria-hidden="true">✓</span><div><h3 style="font-size:21px">' + esc(r.t) + '</h3><p style="color:var(--muted-fg);font-size:14.5px;margin-top:4px">' + esc(r.d) + "</p></div></div>";
   }).join(""));
-  setText("lvlEyebrow", C.levelsSection.eyebrow); setText("lvlHeading", C.levelsSection.heading);
-  setHTML("levelGrid", C.levelsInfo.map(function(l){
-    return '<div class="card"><h3 style="font-size:20px">' + esc(l.t) + '</h3><p style="color:var(--muted-fg);font-size:14.5px;margin-top:6px">' + esc(l.d) + "</p></div>";
+  setText("intEyebrow", C.integrity.eyebrow); setText("intHeading", C.integrity.heading); setText("intText", C.integrity.text);
+  setHTML("integrityList", C.integrity.items.map(function(x){
+    return '<li><span aria-hidden="true">🛡️</span>' + esc(x) + "</li>";
   }).join(""));
   setText("svBandEyebrow", C.surveyBand.eyebrow); setText("svBandHeading", C.surveyBand.heading); setText("svBandText", C.surveyBand.text);
+  setText("svIntro2", C.surveySection.intro);
   setHTML("surveyStats", C.surveyStats.map(function(s){
     return '<div class="statrow"><span style="color:rgba(255,255,255,.85)">' + esc(s.k) + "</span><b>" + esc(s.v) + "</b></div>";
   }).join(""));
   setText("prEyebrow", C.pricingSection.eyebrow); setText("prHeading", C.pricingSection.heading); setText("prText", C.pricingSection.text);
-  setHTML("tierGrid", C.tiers.map(function(t){
+  var TIER_SVC = ["Tutoring support", "Editing and Proofreading", "Research Guidance", "Data Analysis Guidance", "Survey Participant Recruitment", null];
+  setHTML("tierGrid", C.tiers.map(function(t, i){
+    var svcName = TIER_SVC[i];
+    var btn = svcName
+      ? '<a class="btn btn-grad btn-block" style="margin-top:18px" href="#request" data-tier-svc="' + esc(svcName) + '">Request this service</a>'
+      : '<a class="btn btn-grad btn-block" style="margin-top:18px" href="#request">Request this service</a>';
     return '<div class="card price-card' + (t.featured ? " featured" : "") + '">' +
       (t.badge ? '<span class="pill" style="background:rgba(43,74,203,.10);color:var(--primary);margin-bottom:10px">⚡ ' + esc(t.badge) + "</span>" : "") +
       "<h3>" + esc(t.t) + '</h3><p class="d">' + esc(t.d) + '</p><p class="p">' + esc(t.p) + "</p><ul>" +
-      t.f.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" +
-      '<a class="btn btn-grad btn-block" style="margin-top:18px" href="#request">Request this service</a></div>';
-  }).join(""));
-  setText("intEyebrow", C.integrity.eyebrow); setText("intHeading", C.integrity.heading); setText("intText", C.integrity.text);
-  setHTML("integrityList", C.integrity.items.map(function(x){
-    return '<li style="display:flex;gap:9px;align-items:center;border:1px solid var(--border);border-radius:14px;padding:13px;font-size:14.5px"><span aria-hidden="true">🛡️</span>' + esc(x) + "</li>";
+      t.f.map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" + btn + "</div>";
   }).join(""));
   setText("teEyebrow", C.testimonialsSection.eyebrow); setText("teHeading", C.testimonialsSection.heading);
   setHTML("quoteGrid", C.testimonials.map(function(t){
-    return '<div class="card"><p style="color:var(--accent)" aria-label="5 star rating">★★★★★</p><p style="font-family:\'Instrument Serif\',Georgia,serif;font-size:21px;margin-top:12px">“' + esc(t.q) + '”</p><p style="color:var(--muted-fg);font-size:14px;margin-top:14px">— ' + esc(t.a) + "</p></div>";
+    return '<div class="card"><p style="color:var(--accent)" aria-label="5 star rating">★★★★★</p><p style="font-family:\'Instrument Serif\',Georgia,serif;font-size:20px;margin-top:10px">“' + esc(t.q) + '”</p><p style="color:var(--muted-fg);font-size:14px;margin-top:12px">— ' + esc(t.a) + "</p></div>";
   }).join(""));
   var WC = C.writingCheck;
   setText("wcBadge", WC.badge); setText("wcEyebrow", WC.eyebrow);
@@ -711,8 +885,7 @@ function init(C){
     return '<div class="card price-card"><h3 style="font-size:19px">' + esc(t.t) + '</h3><p class="p" style="font-size:25px">' + esc(t.p) + "</p></div>";
   }).join(""));
   setText("wcConsentText", WC.consent);
-  setText("svEyebrow", C.surveySection.eyebrow); setText("svHeading", C.surveySection.heading);
-  setText("svIntro", C.surveySection.intro); setText("svEthicsNote", C.surveySection.ethicsNote);
+  setText("svEthicsNote", C.surveySection.ethicsNote);
   setText("svEthicsText", C.surveySection.ethicsCheck); setText("svConsentText", C.surveySection.consentCheck);
   setText("faqEyebrow", C.faqSection.eyebrow); setText("faqHeading", C.faqSection.heading);
   setHTML("faqList", C.faqs.map(function(f){
@@ -726,68 +899,144 @@ function init(C){
   setText("footBlurb", C.footer.blurb); setText("footBaseL", C.footer.baseLeft); setText("footBaseR", C.footer.baseRight);
   $("foot-mail").href = "mailto:" + C.contactEmail;
 
-  /* ---------- price calculator ---------- */
-  var cService = $("c-service"), cLevel = $("c-level"), cQty = $("c-qty"), cDeadline = $("c-deadline"),
-      cSupport = $("c-support"), cIncentive = $("c-incentive"), cRegion = $("c-region");
-  fillSelect(cService, C.calc.services.map(function(s){ return s.name; }));
-  if (svcByName("Editing and Proofreading")) cService.value = "Editing and Proofreading";
-  fillSelect(cLevel, Object.keys(C.calc.levels)); if (C.calc.levels["Undergraduate"]) cLevel.value = "Undergraduate";
-  fillSelect(cDeadline, Object.keys(C.calc.deadlines));
-  fillSelect(cSupport, Object.keys(C.calc.support));
+  /* ---------- calculator v2 (same math, itemized breakdown) ---------- */
+  var CS = { service: "Editing and Proofreading", level: "Undergraduate", deadline: "7+ Days",
+             support: "Standard", quantity: 1, incentive: 0, region: "", extras: [] };
+  var QTY_MAX = { hours: 40, pages: 200, slides: 200, participants: 2000 };
+  function buildChips(el, values, current, onPick, labelFn){
+    el.innerHTML = values.map(function(v){
+      return '<button type="button" class="chipbtn" aria-pressed="' + (v === current() ? "true" : "false") + '" data-v="' + esc(v) + '">' + esc(labelFn ? labelFn(v) : v) + "</button>";
+    }).join("");
+    el.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest("button[data-v]") : null;
+      if (!b) return;
+      onPick(b.getAttribute("data-v"));
+      Array.prototype.forEach.call(el.querySelectorAll("button[data-v]"), function(x){
+        x.setAttribute("aria-pressed", x.getAttribute("data-v") === current() ? "true" : "false");
+      });
+    });
+  }
+  /* service chips */
+  var svcChipsEl = $("c-svcChips");
+  svcChipsEl.innerHTML = C.calc.services.map(function(s){
+    return '<button type="button" class="svc-chip" aria-pressed="' + (s.name === CS.service ? "true" : "false") + '" data-v="' + esc(s.name) + '"><b>' + esc(s.name) + "</b><span>" + money(s.base) + " / " + esc(s.unit.replace(/s$/, "")) + "</span></button>";
+  }).join("");
+  svcChipsEl.addEventListener("click", function(e){
+    var b = e.target.closest ? e.target.closest("button[data-v]") : null;
+    if (!b) return;
+    CS.service = b.getAttribute("data-v");
+    Array.prototype.forEach.call(svcChipsEl.querySelectorAll("button[data-v]"), function(x){
+      x.setAttribute("aria-pressed", x.getAttribute("data-v") === CS.service ? "true" : "false");
+    });
+    var svc = svcByName(CS.service);
+    $("c-qtyRange").max = QTY_MAX[svc.unit] || 100;
+    renderCalc();
+  });
+  segGroup($("c-levelSeg"), sortedKeys(C.calc.levels), function(){ return CS.level; }, function(v){ CS.level = v; renderCalc(); });
+  buildChips($("c-deadlineChips"), sortedKeys(C.calc.deadlines).reverse(), function(){ return CS.deadline; }, function(v){ CS.deadline = v; renderCalc(); });
+  segGroup($("c-supportSeg"), sortedKeys(C.calc.support), function(){ return CS.support; }, function(v){ CS.support = v; renderCalc(); });
   $("c-extras").innerHTML = C.calc.extras.map(function(x){
     return '<label class="extra"><input type="checkbox" class="c-extra" value="' + esc(x.label) + '"><span>' + esc(x.label) + ' <span style="color:var(--muted-fg)">(+$' + x.cost + ")</span></span></label>";
   }).join("");
-  function calcState(){
-    return {
-      service: cService.value, level: cLevel.value, quantity: cQty.value, deadline: cDeadline.value,
-      support: cSupport.value, incentive: cIncentive.value,
-      extras: Array.prototype.map.call(document.querySelectorAll(".c-extra:checked"), function(b){ return b.value; })
-    };
+  Array.prototype.forEach.call(document.querySelectorAll(".c-extra"), function(box){
+    box.addEventListener("change", function(){
+      box.closest(".extra").classList.toggle("on", box.checked);
+      CS.extras = Array.prototype.map.call(document.querySelectorAll(".c-extra:checked"), function(b){ return b.value; });
+      renderCalc();
+    });
+  });
+  $("c-qtyRange").addEventListener("input", function(){ CS.quantity = Math.max(1, Number(this.value) || 1); $("c-qty").value = CS.quantity; renderCalc(); });
+  $("c-qty").addEventListener("input", function(){
+    CS.quantity = Math.max(1, Number(this.value) || 1);
+    var r = $("c-qtyRange"); r.value = Math.min(CS.quantity, Number(r.max) || 100);
+    renderCalc();
+  });
+  $("c-incentive").addEventListener("input", function(){ CS.incentive = Number(this.value) || 0; renderCalc(); });
+  $("c-region").addEventListener("input", function(){ CS.region = this.value; renderCalc(); });
+  $("c-sumToggle").addEventListener("click", function(){
+    var s = $("calcSummary"), open = s.classList.toggle("open");
+    this.setAttribute("aria-expanded", open ? "true" : "false");
+    this.textContent = open ? "Hide breakdown ▴" : "See breakdown ▾";
+  });
+  function breakdown(inp){
+    var svc = svcByName(inp.service), qty = Math.max(1, Number(inp.quantity) || 1);
+    var lines = [], run = svc.base * qty;
+    lines.push({ d: svc.name + " — " + money(svc.base) + " × " + qty + " " + svc.unit, v: money(Math.round(run)) });
+    [["level", "Academic level"], ["deadline", "Deadline"], ["support", "Support level"]].forEach(function(pair){
+      var table = pair[0] === "level" ? C.calc.levels : pair[0] === "deadline" ? C.calc.deadlines : C.calc.support;
+      var m = table[inp[pair[0]]] || 1;
+      if (m !== 1) { run *= m; lines.push({ d: pair[1] + " · " + inp[pair[0]] + " " + fmtMult(m), v: money(Math.round(run)) }); }
+    });
+    (inp.extras || []).forEach(function(label){
+      for (var i = 0; i < C.calc.extras.length; i++) if (C.calc.extras[i].label === label)
+        lines.push({ d: "Extra · " + label, v: "+ " + money(C.calc.extras[i].cost) });
+    });
+    if (svc.survey && (Number(inp.incentive) || 0) > 0)
+      lines.push({ d: "Participant incentives — " + money(Number(inp.incentive)) + " × " + qty, v: "+ " + money(Math.round(Number(inp.incentive) * qty)) });
+    if (svc.survey && inp.region && String(inp.region).trim())
+      lines.push({ d: "Target region", v: String(inp.region).trim() });
+    return lines;
   }
   function renderCalc(){
-    var st = calcState(), svc = svcByName(st.service), est = calcEstimate(st);
-    var isSurvey = !!svc.survey;
+    var svc = svcByName(CS.service), isSurvey = !!svc.survey, est = calcEstimate(CS);
     Array.prototype.forEach.call(document.querySelectorAll(".c-nonSurvey"), function(el){ el.hidden = isSurvey; });
-    Array.prototype.forEach.call(document.querySelectorAll(".c-survey"), function(el){ el.hidden = !isSurvey; });
+    document.querySelector(".c-surveyBox").hidden = !isSurvey;
     $("c-qtyLabel").textContent = unitLabel(svc);
     $("c-qtyHint").textContent = svc.unit === "pages" ? (C.calc.pageHint || "") : "";
     $("c-amount").textContent = money(est.min) + " – " + money(est.max);
-    var lines = [["Service", st.service]];
-    if (!isSurvey) lines.push(["Academic Level", st.level]);
-    lines.push([unitLabel(svc).replace("Number of ", ""), String(est.qty)], ["Deadline", st.deadline]);
-    if (!isSurvey) lines.push(["Support Level", st.support]);
-    if (isSurvey && cRegion.value.trim()) lines.push(["Region", cRegion.value.trim()]);
-    if (isSurvey && Number(st.incentive) > 0) lines.push(["Incentive / participant", money(Number(st.incentive))]);
-    if (!isSurvey && st.extras.length) lines.push(["Extra Services", st.extras.join(", ")]);
-    $("c-lines").innerHTML = lines.map(function(l){ return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("");
+    $("c-lines").innerHTML = breakdown(CS).map(function(l){ return "<div><dt>" + esc(l.d) + "</dt><dd>" + esc(l.v) + "</dd></div>"; }).join("");
     $("c-note").textContent = C.calc.note;
-    var body = "StudyHuman price estimate\n\n" + lines.map(function(l){ return l[0] + ": " + l[1]; }).join("\n") +
+    var body = "StudyHuman price estimate\n\n" + breakdown(CS).map(function(l){ return l.d + ": " + l.v; }).join("\n") +
       "\nEstimated cost: " + money(est.min) + " – " + money(est.max) + " USD\n\n" + C.calc.note;
     $("c-mail").href = enquiryMailto("StudyHuman — price estimate", body);
   }
-  ["change", "input"].forEach(function(ev){ $("calcForm").addEventListener(ev, renderCalc); });
+  $("c-qtyRange").max = QTY_MAX[svcByName(CS.service).unit] || 100;
   renderCalc();
 
-  /* ---------- request-help wizard (5 steps, as in the app) ---------- */
-  var wizStep = 1;
-  $("wizSteps").innerHTML = C.requestSection.steps.map(function(s, i){ return '<span data-ws="' + (i + 1) + '">' + esc(s) + "</span>"; }).join("");
-  var rqService = $("rq-service"), rqHelper = $("rq-helper"), rqLevel = $("rq-level"), rqDeadline = $("rq-deadline"), rqSupport = $("rq-support");
+  /* ---------- unified request form ---------- */
+  var rqService = $("rq-service"), rqHelper = $("rq-helper"), rqDeadline = $("rq-deadline"), rqSupport = $("rq-support");
+  var RQ = { level: "Undergraduate" };
   fillSelect(rqService, C.calc.services.map(function(s){ return s.name; }));
   rqHelper.innerHTML = '<option value="">No preference</option>' + C.helpers.map(function(h){ return '<option value="' + esc(h.name) + '">' + esc(h.name) + " — " + esc(h.role) + "</option>"; }).join("");
-  fillSelect(rqLevel, Object.keys(C.calc.levels)); if (C.calc.levels["Undergraduate"]) rqLevel.value = "Undergraduate";
-  fillSelect(rqDeadline, Object.keys(C.calc.deadlines));
+  segGroup($("rq-level"), sortedKeys(C.calc.levels), function(){ return RQ.level; }, function(v){ RQ.level = v; renderRqEst(); });
+  fillSelect(rqDeadline, Object.keys(C.calc.deadlines)); if (C.calc.deadlines["7+ Days"] != null) rqDeadline.value = "7+ Days";
   fillSelect(rqSupport, Object.keys(C.calc.support));
-  document.addEventListener("click", function(e){
-    var a = e.target.closest ? e.target.closest("[data-helper]") : null;
-    if (a) rqHelper.value = a.getAttribute("data-helper");
-  });
-  function rqState(){
-    return { service: rqService.value, helper: rqHelper.value, level: rqLevel.value, subject: $("rq-subject").value.trim(),
+  fillSelect($("sv-level"), C.surveyLevels, true);
+  function rqMode(){
+    if (rqService.value === "Writing Check") return "writing";
+    return svcByName(rqService.value).survey ? "survey" : "general";
+  }
+  function parseMoney(v){ var n = parseFloat(String(v || "").replace(/[^0-9.]/g, "")); return isNaN(n) ? 0 : n; }
+  function rqInput(){
+    var mode = rqMode();
+    if (mode === "survey") return { service: rqService.value, level: "Undergraduate", quantity: $("sv-count").value,
+      deadline: "7+ Days", support: "Standard", incentive: parseMoney($("sv-incentive").value), extras: [] };
+    return { service: rqService.value, level: RQ.level, quantity: $("rq-qty").value,
+      deadline: rqDeadline.value, support: rqSupport.value, incentive: 0, extras: [] };
+  }
+  function renderRqEst(){
+    var inp = rqInput(), est = calcEstimate(inp), svc = svcByName(inp.service);
+    $("rq-estAmount").textContent = money(est.min) + " – " + money(est.max);
+    $("rq-estLines").innerHTML = breakdown(inp).map(function(l){ return "<div><dt>" + esc(l.d) + "</dt><dd>" + esc(l.v) + "</dd></div>"; }).join("");
+    $("rq-estNote").textContent = C.calc.note;
+    $("rq-qtyLabel").textContent = unitLabel(svc);
+  }
+  function rqApplyMode(){
+    var mode = rqMode();
+    $("rq-wcNote").hidden = mode !== "writing";
+    $("rq-genFields").hidden = mode !== "general";
+    $("rq-surveyFields").hidden = mode !== "survey";
+    $("rq-okWrap").hidden = mode === "survey";
+    renderRqEst();
+  }
+  rqService.addEventListener("change", rqApplyMode);
+  ["rq-qty", "sv-count", "sv-incentive"].forEach(function(id){ $(id).addEventListener("input", renderRqEst); });
+  [rqDeadline, rqSupport].forEach(function(el){ el.addEventListener("change", renderRqEst); });
+  function rqGeneralText(){
+    var st = { service: rqService.value, helper: rqHelper.value, level: RQ.level, subject: $("rq-subject").value.trim(),
       quantity: $("rq-qty").value, deadline: rqDeadline.value, support: rqSupport.value, date: $("rq-date").value,
       notes: $("rq-notes").value.trim(), budget: $("rq-budget").value, name: $("rq-name").value.trim(), email: $("rq-email").value.trim() };
-  }
-  function rqText(){
-    var st = rqState(), est = calcEstimate(st);
+    var est = calcEstimate(st);
     var L = ["StudyHuman — Request for academic help", ""];
     L.push("Name: " + st.name, "Email: " + st.email, "", "Service: " + st.service);
     if (st.helper) L.push("Preferred helper: " + st.helper);
@@ -798,41 +1047,77 @@ function init(C){
     L.push("", "Estimate: " + money(est.min) + " – " + money(est.max) + " USD (" + C.calc.note + ")", "", "Instructions:", st.notes || "—");
     return L.join("\n");
   }
-  function showStep(n){
-    wizStep = n;
-    Array.prototype.forEach.call(document.querySelectorAll(".wiz-panel"), function(p){ p.classList.toggle("on", Number(p.getAttribute("data-panel")) === n); });
-    Array.prototype.forEach.call(document.querySelectorAll("#wizSteps span"), function(s){ s.classList.toggle("on", Number(s.getAttribute("data-ws")) === n); });
-    $("rq-back").style.visibility = n === 1 ? "hidden" : "visible";
-    $("rq-next").style.display = n === 5 ? "none" : "";
-    $("rq-next").textContent = n === 4 ? "Review & prepare my request →" : "Continue →";
-    if (n === 3) {
-      var st = rqState(), est = calcEstimate(st);
-      $("rq-amount").textContent = money(est.min) + " – " + money(est.max);
-      $("rq-note").textContent = C.calc.note;
-      $("rq-lines").innerHTML = [["Service", st.service], ["Academic Level", st.level], [unitLabel(svcByName(st.service)).replace("Number of ", ""), String(est.qty)], ["Deadline", st.deadline], ["Support Level", st.support]]
-        .map(function(l){ return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("");
-    }
-    if (n === 5) {
-      $("rq-text").textContent = rqText();
-      $("rq-mail").href = enquiryMailto("StudyHuman — Request: " + rqState().service, rqText());
-    }
-    $("request").scrollIntoView({ behavior: "smooth", block: "start" });
+  function rqSurveyText(){
+    var L = ["StudyHuman — Survey participant recruitment request", "",
+      "Name: " + $("rq-name").value.trim(), "Email: " + $("rq-email").value.trim(), "",
+      "Research title: " + ($("sv-title").value.trim() || "—"), "Academic level: " + ($("sv-level").value || "—"),
+      "Institution: " + ($("sv-inst").value.trim() || "—"), "Target participants: " + ($("sv-target").value.trim() || "—"),
+      "Country / region: " + ($("sv-region").value.trim() || "—"), "Participants needed: " + ($("sv-count").value || "—"),
+      "Estimated completion time: " + ($("sv-time").value.trim() || "—"), "Incentive per participant: " + ($("sv-incentive").value.trim() || "—"),
+      "Deadline: " + ($("sv-deadline").value || "—"), "Survey link: " + ($("sv-link").value.trim() || "—"),
+      "", "Additional notes:", $("sv-notes").value.trim() || "—"];
+    return L.join("\n");
   }
-  $("rq-service").addEventListener("change", function(){ $("rq-qtyLabel").textContent = unitLabel(svcByName(rqService.value)); });
-  $("rq-back").addEventListener("click", function(){ hideErr("rq-err"); if (wizStep > 1) showStep(wizStep - 1); });
-  $("rq-next").addEventListener("click", function(){
+  var lastRqText = "";
+  $("rq-submit").addEventListener("click", function(){
     hideErr("rq-err");
-    if (wizStep === 2 && !$("rq-subject").value.trim() && !$("rq-notes").value.trim())
-      return showErr("rq-err", "Please add a subject or a few words about what you need help with.");
-    if (wizStep === 4) {
-      if (!$("rq-name").value.trim()) return showErr("rq-err", "Please add your name so a helper knows how to address you.");
-      if (!validEmail($("rq-email").value)) return showErr("rq-err", "Please add a valid email address — your helper replies there.");
+    var mode = rqMode();
+    if (mode === "writing") { if (window.StudyHumanRouter) window.StudyHumanRouter.show("writing", false); location.hash = "#writing"; return; }
+    if (!$("rq-name").value.trim()) return showErr("rq-err", "Please add your name so a helper knows how to address you.");
+    if (!validEmail($("rq-email").value)) return showErr("rq-err", "Please add a valid email address — your helper replies there.");
+    if (mode === "survey") {
+      if (!$("sv-ethics").checked) return showErr("rq-err", "Please confirm the ethics statement.");
+      if (!$("sv-consent").checked) return showErr("rq-err", "Please confirm the consent statement.");
+      lastRqText = rqSurveyText();
+    } else {
+      if (!$("rq-subject").value.trim() && !$("rq-notes").value.trim())
+        return showErr("rq-err", "Please add a subject or a few words about what you need help with.");
       if (!$("rq-ok").checked) return showErr("rq-err", "Please confirm the integrity statement.");
+      lastRqText = rqGeneralText();
     }
-    if (wizStep < 5) showStep(wizStep + 1);
+    $("rq-text").textContent = lastRqText;
+    $("rq-mail").href = enquiryMailto("StudyHuman — Request: " + rqService.value, lastRqText);
+    $("rq-confirm").hidden = false;
+    $("rq-confirm").scrollIntoView({ behavior: "smooth", block: "center" });
   });
-  $("rq-copy").addEventListener("click", function(){ copyText(rqText(), $("rq-done")); });
-  showStep(1);
+  $("rq-copy").addEventListener("click", function(){ copyText(lastRqText, $("rq-done")); });
+
+  /* calculator -> request prefill, helper/tier picks, presets */
+  function gotoRequest(serviceName){
+    if (serviceName) { rqService.value = serviceName; rqApplyMode(); }
+    if ((location.hash || "") === "#request") { if (window.StudyHumanRouter) window.StudyHumanRouter.show("request", false); }
+    else location.hash = "#request";
+  }
+  $("c-request").addEventListener("click", function(){
+    gotoRequest(CS.service);
+    if (rqMode() === "general") {
+      RQ.level = CS.level;
+      $("rq-qty").value = CS.quantity; rqDeadline.value = CS.deadline; rqSupport.value = CS.support;
+    }
+    if (rqMode() === "survey") { $("sv-count").value = CS.quantity; if (CS.incentive) $("sv-incentive").value = CS.incentive; if (CS.region) $("sv-region").value = CS.region; }
+    var est = calcEstimate(CS);
+    var line = "Calculator estimate: " + money(est.min) + " – " + money(est.max) + " — " + CS.service + ", " + CS.level + ", " +
+      CS.quantity + " " + svcByName(CS.service).unit + ", " + CS.deadline + ", " + CS.support +
+      (CS.extras.length ? ", extras: " + CS.extras.join(", ") : "") + ".";
+    var notes = $("rq-notes");
+    if (rqMode() === "general" && notes.value.indexOf("Calculator estimate:") !== 0) notes.value = line + (notes.value ? "\n\n" + notes.value : "");
+    renderRqEst();
+    /* refresh level segmented control to match prefilled level */
+    Array.prototype.forEach.call($("rq-level").querySelectorAll("button[data-v]"), function(b){
+      b.setAttribute("aria-pressed", b.getAttribute("data-v") === RQ.level ? "true" : "false");
+    });
+  });
+  document.addEventListener("click", function(e){
+    var t = e.target.closest ? e.target.closest("[data-helper],[data-tier-svc]") : null;
+    if (!t) return;
+    if (t.getAttribute("data-helper")) { gotoRequest(); rqHelper.value = t.getAttribute("data-helper"); }
+    if (t.getAttribute("data-tier-svc")) gotoRequest(t.getAttribute("data-tier-svc"));
+  });
+  window.StudyHumanPreset = function(name){
+    if (name === "survey") gotoRequest("Survey Participant Recruitment");
+  };
+  if (window.__pendingPreset === "survey") { window.__pendingPreset = null; window.StudyHumanPreset("survey"); }
+  rqApplyMode();
 
   /* ---------- writing check form ---------- */
   fillSelect($("wc-level"), C.wcLevels); if (C.wcLevels.indexOf("Undergraduate") >= 0) $("wc-level").value = "Undergraduate";
@@ -854,26 +1139,6 @@ function init(C){
     $("wc-done").textContent = "Your email app should now open with the submission pre-written — just press send there.";
   });
   $("wc-copy").addEventListener("click", function(){ copyText(wcText(), $("wc-done")); });
-
-  /* ---------- survey form ---------- */
-  fillSelect($("sv-level"), C.surveyLevels, true);
-  function svText(){
-    var L = ["StudyHuman — Survey participant recruitment request", "",
-      "Research title: " + ($("sv-title").value.trim() || "—"), "Academic level: " + ($("sv-level").value || "—"),
-      "Institution: " + ($("sv-inst").value.trim() || "—"), "Target participants: " + ($("sv-target").value.trim() || "—"),
-      "Country / region: " + ($("sv-region").value.trim() || "—"), "Participants needed: " + ($("sv-count").value || "—"),
-      "Estimated completion time: " + ($("sv-time").value.trim() || "—"), "Incentive per participant: " + ($("sv-incentive").value.trim() || "—"),
-      "Deadline: " + ($("sv-deadline").value || "—"), "Survey link: " + ($("sv-link").value.trim() || "—"),
-      "", "Additional notes:", $("sv-notes").value.trim() || "—"];
-    return L.join("\n");
-  }
-  $("svForm").addEventListener("submit", function(e){
-    e.preventDefault(); hideErr("sv-err");
-    if (!$("sv-consent").checked) return showErr("sv-err", "Please confirm the consent statement.");
-    window.location.href = enquiryMailto("StudyHuman — Survey recruitment request", svText());
-    $("sv-done").textContent = "Your email app should now open with the request pre-written — just press send there.";
-  });
-  $("sv-copy").addEventListener("click", function(){ copyText(svText(), $("sv-done")); });
 
   /* ---------- become-a-helper form ---------- */
   fillSelect($("hp-edu"), C.helperLevels, true);
