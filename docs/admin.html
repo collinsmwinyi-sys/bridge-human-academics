@@ -76,7 +76,24 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ring);bo
 .dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(251,251,254,.9);backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:14px 0}
 .dock .wrap{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .dock .note{font-size:13px;color:var(--muted-fg);flex:1;min-width:220px}
-@media (min-width:640px){ .fgrid{grid-template-columns:1fr 1fr} .steps{grid-template-columns:repeat(3,1fr)} }
+/* theme picker */
+.theme-grid{display:grid;gap:12px}
+.theme-card{display:flex;gap:13px;align-items:center;width:100%;text-align:left;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:13px 14px;font:inherit;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.theme-card:hover{border-color:#b9c2d8}
+.theme-card[aria-checked="true"]{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
+.theme-card .mini{flex:none;width:66px;height:46px;border-radius:10px;border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column}
+.theme-card .mini .bar{height:11px;flex:none}
+.theme-card .mini .body{flex:1;padding:6px}
+.theme-card .mini .btn{display:block;height:9px;width:55%;border-radius:99px}
+.theme-card .dots{display:flex;margin-top:6px}
+.theme-card .dots i{width:13px;height:13px;border-radius:50%;border:2px solid #fff;margin-left:-5px}
+.theme-card .dots i:first-child{margin-left:0}
+.theme-card b{font-size:14.5px;display:block}
+.theme-card .desc{font-size:12.5px;color:var(--muted-fg);display:block;margin-top:2px}
+.theme-card .tick{margin-left:auto;color:var(--primary);font-weight:800;font-size:18px;visibility:hidden;flex:none}
+.theme-card[aria-checked="true"] .tick{visibility:visible}
+.theme-current{font-size:13.5px;color:var(--muted-fg);margin-top:14px}
+@media (min-width:640px){ .fgrid{grid-template-columns:1fr 1fr} .steps{grid-template-columns:repeat(3,1fr)} .theme-grid{grid-template-columns:1fr 1fr} }
 @media (min-width:980px){ .layout{grid-template-columns:1.55fr 1fr} }
 </style>
 </head>
@@ -123,6 +140,13 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ring);bo
             <div><label class="flabel" for="f-email">Contact email (all enquiries go here)</label><input id="f-email" type="email" data-bind="contactEmail"></div>
             <div><label class="flabel" for="f-banner">Banner text</label><input id="f-banner" data-bind="bannerText"></div>
           </div>
+        </div>
+
+        <div class="card">
+          <h2>Theme &amp; Look</h2>
+          <p class="sub">The colour theme every visitor sees by default. Pick one here, then Download and commit as usual — the site picks it up from content.json. (Visitors can also switch themes themselves with the palette button in the site's header; that only affects their own browser.)</p>
+          <div class="theme-grid" id="themeGrid"></div>
+          <p class="theme-current" id="themeCurrent"></p>
         </div>
 
         <div class="card">
@@ -238,6 +262,72 @@ function grid(){ return el("div", "fgrid"); }
 function wire(input, get, set){
   input.addEventListener("input", function(){ set(input); renderPreview(); });
   return input;
+}
+
+/* ---------- theme & look ---------- */
+var THEME_DEFS = [
+  { id: "scholar", name: "Scholar Blue", desc: "Deep royal blue — the polished new default.",
+    dots: ["#1e40c9", "#6d9bf5", "#f2a93b"], bg: "#f6f7fc", surface: "#ffffff",
+    grad: "linear-gradient(120deg,#1e40c9 0%,#2f5fe0 55%,#6d9bf5 100%)",
+    heroGrad: "linear-gradient(160deg,#e3e9fc,#f4f6ff 48%,#fdeed3 135%)", primaryUi: "#1e40c9" },
+  { id: "emerald", name: "Emerald", desc: "Fresh green — calm, credible, academic.",
+    dots: ["#047857", "#34c79a", "#f2a93b"], bg: "#f4f9f6", surface: "#ffffff",
+    grad: "linear-gradient(120deg,#047857 0%,#0a9d74 55%,#34c79a 100%)",
+    heroGrad: "linear-gradient(160deg,#dcf2e6,#f2faf5 48%,#fdeed3 135%)", primaryUi: "#047857" },
+  { id: "purple", name: "Royal Purple", desc: "Rich violet — creative and premium.",
+    dots: ["#6d28d9", "#a78bfa", "#f59e0b"], bg: "#f7f5fc", surface: "#ffffff",
+    grad: "linear-gradient(120deg,#6d28d9 0%,#7c3aed 55%,#a78bfa 100%)",
+    heroGrad: "linear-gradient(160deg,#ece4fb,#f7f4ff 48%,#fdeeda 135%)", primaryUi: "#6d28d9" },
+  { id: "sunset", name: "Sunset", desc: "Warm orange and amber — friendly and energetic.",
+    dots: ["#c2410c", "#e85d1f", "#f59e0b"], bg: "#fdf7f1", surface: "#ffffff",
+    grad: "linear-gradient(120deg,#c2410c 0%,#e85d1f 52%,#f59e0b 100%)",
+    heroGrad: "linear-gradient(160deg,#fde3cf,#fff4e8 52%,#ffe9a8 140%)", primaryUi: "#c2410c" },
+  { id: "midnight", name: "Midnight", desc: "Dark navy — a true dark mode, easy on the eyes.",
+    dots: ["#2f5fd0", "#8fb0ff", "#f5b04c"], bg: "#0d1120", surface: "#161d31",
+    grad: "linear-gradient(120deg,#2f5fd0 0%,#4373e8 55%,#6f9bf7 100%)",
+    heroGrad: "linear-gradient(160deg,#141b31,#0d1120 55%,#191207 140%)", primaryUi: "#4373e8" }
+];
+function themeDef(id){
+  for (var i = 0; i < THEME_DEFS.length; i++) if (THEME_DEFS[i].id === id) return THEME_DEFS[i];
+  return THEME_DEFS[0];
+}
+function buildThemes(){
+  var host = $("themeGrid"); if (!host || !D) return;
+  if (!D.theme) D.theme = "scholar";
+  host.innerHTML = "";
+  THEME_DEFS.forEach(function(t){
+    var card = el("button", "theme-card"); card.type = "button";
+    card.setAttribute("role", "radio");
+    card.setAttribute("data-theme-id", t.id);
+    var mini = el("span", "mini");
+    var bar = el("i", "bar"); bar.style.background = t.grad; mini.appendChild(bar);
+    var body = el("span", "body"); body.style.background = t.bg;
+    var btn = el("i", "btn"); btn.style.background = t.grad; body.appendChild(btn);
+    mini.appendChild(body); card.appendChild(mini);
+    var mid = el("span");
+    var b = el("b", null, t.name); mid.appendChild(b);
+    var dots = el("span", "dots");
+    t.dots.forEach(function(c){ var d = el("i"); d.style.background = c; dots.appendChild(d); });
+    mid.appendChild(dots);
+    var desc = el("span", "desc", t.desc); mid.appendChild(desc);
+    card.appendChild(mid);
+    card.appendChild(el("span", "tick", "✓"));
+    card.addEventListener("click", function(){
+      D.theme = t.id;
+      renderTheme(); renderPreview();
+    });
+    host.appendChild(card);
+  });
+  renderTheme();
+}
+function renderTheme(){
+  if (!D) return;
+  var cur = themeDef(D.theme).id;
+  Array.prototype.forEach.call(document.querySelectorAll(".theme-card"), function(c){
+    c.setAttribute("aria-checked", c.getAttribute("data-theme-id") === cur ? "true" : "false");
+  });
+  var tc = $("themeCurrent");
+  if (tc) tc.innerHTML = "Current default theme: <b style='color:var(--fg)'>" + themeDef(cur).name + "</b> — saved into content.json when you Download.";
 }
 
 /* ---------- list editors (rebuilt whenever structure changes) ---------- */
@@ -362,6 +452,11 @@ function fillScalars(){
 }
 function renderPreview(){
   if (!D) return;
+  var td = themeDef(D.theme || "scholar");
+  $("pvBanner").style.background = td.grad;
+  document.querySelector(".pv-hero").style.background = td.heroGrad;
+  $("pvEm").style.color = td.primaryUi;
+  $("pvSvcPrice").style.color = td.primaryUi;
   $("pvBanner").textContent = "🎁 " + (D.bannerText || "");
   $("pvBadge").textContent = D.hero.badge || "";
   $("pvTop").textContent = D.hero.headlineTop || "";
@@ -382,7 +477,8 @@ function startEditing(data, sourceLabel){
     return;
   }
   D = data;
-  fillScalars(); buildLists(); renderPreview();
+  if (!D.theme) D.theme = "scholar";
+  fillScalars(); buildThemes(); buildLists(); renderPreview();
   $("editor").hidden = false;
   $("btnDownload").disabled = false;
   status("Loaded " + sourceLabel + ". Edit anything below — the preview updates as you type. The live site does NOT change until you download, paste and commit (steps above).", true);
